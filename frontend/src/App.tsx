@@ -11,7 +11,7 @@ function App() {
   const [messages, setMessages] = useState<string[]>([]);
   const [socketID, setSocketID] = useState<string>('');
   const [recieverID, setRecieverID] = useState<string>('');
-
+  const [room, setRoom] = useState<string>('');
   //Message to all
   const handleClick = () => {
     socket.emit('message', socketID+": "+message);
@@ -30,6 +30,19 @@ function App() {
     setMessage('');
     setRecieverID('');
   }
+
+  //Join Room
+   const handleRoomJoin = () => {
+    socket.emit('join-room', room);
+    // setRoom('');
+  }
+
+  //Message to Room
+  const handleRoomMessage = () => {
+    socket.emit('room-message', {roomID:room, message: socketID+": "+message});
+    setMessage('');
+  }
+
 
 
   useEffect(()=>{
@@ -57,7 +70,7 @@ function App() {
           placeholder='Type a message...'
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          style={{ height: 40, marginRight: 10, width: "100%"}}
+          style={{  borderRadius:10,height: 40, marginRight: 10, width: "100%"}}
         />
         
       </div>
@@ -66,7 +79,12 @@ function App() {
         </button>
       <button onClick={handleBroadcast}>
           Send to all except sender
-        </button>
+      </button>
+      <br/>
+      <button style={{margin:10}} onClick={handleRoomMessage}>
+          Send message in Room
+      </button>
+
 
       <div className="card">
         <input
@@ -74,10 +92,24 @@ function App() {
           placeholder='Reciever ID'
           value={recieverID}
           onChange={(e) => setRecieverID(e.target.value)}
-          style={{ height: 40, marginRight: 10}}
+          style={{ borderRadius:10,height: 40, marginRight: 10}}
         />
         <button onClick={handlePrivate}>
           Send Private
+        </button>
+      </div>
+
+
+      <div className="card">
+        <input
+          type="text"
+          placeholder='Enter Room name'
+          value={room}
+          onChange={(e) => setRoom(e.target.value)}
+          style={{ borderRadius:10, height: 40, marginRight: 10}}
+        />
+        <button onClick={handleRoomJoin}>
+          Join Room
         </button>
       </div>
 

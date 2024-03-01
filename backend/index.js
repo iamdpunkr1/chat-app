@@ -39,7 +39,23 @@ io.on("connection", (socket) => {
         io.to(msg.recieverID).emit("recieve-message", msg.message);
     });
 
+    //join room
+    socket.on("join-room", (roomID) => {
+        socket.join(roomID);
+        console.log("User joined room", roomID);
+    });
 
+    //leave room
+    socket.on("leave-room", (roomID) => {
+        socket.leave(roomID);
+        console.log("User left room", roomID);
+    });
+
+    //message to room
+    socket.on("room-message", (msg) => {
+        console.log(msg);
+        io.to(msg.roomID).emit("recieve-message", msg.message);
+    });
 
     //disconnect event
     socket.on("disconnect", () => {
