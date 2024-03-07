@@ -164,7 +164,7 @@ app.use(express.json());
 
 app.get("/", async (req, res) => {
    await redis.set("mykey3", "value"); // Returns a promise which resolves to "OK" when the command succeeds.
-   console.log("Running ")
+   console.log("Running NNN")
 // ioredis supports the node.js callback style
     const result = await redis.get("mykey3", (err, result) => {
             if (err) {
