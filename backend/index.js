@@ -1,68 +1,69 @@
-import express from "express";
-import cors from "cors";
-import { Server } from "socket.io";
-import { createServer } from "http";
-const app = express();
-app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true
-}));
 
-const server = createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: "http://localhost:5173",
-        methods: ["GET", "POST"],
-        credentials: true
-    }
-});
+// const session = require('express-session');
+// const redis = require('redis');
+// const connectRedis = require('connect-redis');
 
-io.on("connection", (socket) => {
-    //auto connect
-    console.log("User connected", socket.id);
+// const RedisStore =  connectRedis(session)
+// //Configure redis client
+// const redisClient = redis.createClient({
+//     url: 'redis://127.0.0.1:6379',
+//     legacyMode: true
+// })
 
-    //Message to all
-    socket.on("message", (msg) => {
-        console.log(msg);
-        io.emit("recieve-message", msg);
-    });
+// // redisClient.connect().catch(console.error)
+// //Below we have selected the DB 1 of Redis
+// redisClient.select(5, function(err,res){
+//    if(err)
+//     console.log("Unable to select Redis DB");
+// });
 
-    //Message to all except sender
-    socket.on("broadcast-message", (msg) => {
-        console.log(msg);
-        socket.broadcast.emit("recieve-message", msg);
-    });
+// redisClient.on('error', function (err) {
+//     console.log('Could not establish a connection with redis. ' + err);
+// });
+// redisClient.on('connect', function (err) {
+//     console.log('Connected to redis successfully');
+// });
 
-    //meassage to specific user
-    socket.on("private-message", (msg) => {
-        console.log(msg);
-        io.to(msg.recieverID).emit("recieve-message", msg.message);
-    });
 
-    //join room
-    socket.on("join-room", (roomID) => {
-        socket.join(roomID);
-        console.log("User joined room", roomID);
-    });
 
-    //leave room
-    socket.on("leave-room", (roomID) => {
-        socket.leave(roomID);
-        console.log("User left room", roomID);
-    });
 
-    //message to room
-    socket.on("room-message", (msg) => {
-        console.log(msg);
-        io.to(msg.roomID).emit("recieve-message", msg.message);
-    });
 
-    //disconnect event
-    socket.on("disconnect", () => {
-        console.log("User disconnected", socket.id);
-    });
-});
 
-server.listen(5000, () => {
-    console.log("Server is running on port 5000");
-});
+// const express = require('express');
+// const redis = require('redis');
+// const app = express();
+// // const client = redis.createClient();
+// // Simulated database query function
+// function fetchFromDatabase() {
+//   return 'Data from the database';
+// }
+
+
+
+// //using redis.createClient() method
+
+// // let client = redis.createClient(6379);
+
+// // Create a client and connect to Redis server
+// let client = redis.createClient();
+
+// // Handle connection errors
+// client.on('error', (err) => {
+//   console.log('Error occurred while connecting to Redis server:', err);
+// });
+
+// // Use the client here
+// // ...
+
+// // Close the client when you're done
+// // Make sure not to use the client after this point
+// client.quit((err, response) => {
+//   if (err) {
+//     console.log('Error occurred while closing the client:', err);
+//   } else {
+//     console.log('Client closed successfully:', response);
+//   }
+// });
+// app.listen(3000, () => {
+//   console.log('Server is running on port 3000');
+// });
