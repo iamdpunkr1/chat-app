@@ -164,7 +164,7 @@ app.use(express.json());
 
 app.get("/", async (req, res) => {
    await redis.set("mykey3", "value"); // Returns a promise which resolves to "OK" when the command succeeds.
-
+   console.log("Running NNN")
 // ioredis supports the node.js callback style
     const result = await redis.get("mykey3", (err, result) => {
             if (err) {
@@ -229,8 +229,8 @@ io.on("connection", (socket: Socket) => {
   });
 });
 
-server.listen(5000, () => {
-  console.log("Server is running on port 5000");
+server.listen(5001, () => {
+  console.log("Server is running on port 5001");
 });
 
 // // import Redis from 'ioredis';
