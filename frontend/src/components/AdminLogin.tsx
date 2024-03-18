@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 type AdminLoginProps = {
   setAuth: (auth: boolean) => void
 }
@@ -19,10 +21,9 @@ const AdminLogin = ({setAuth}: AdminLoginProps) => {
                 </label>
                 <input placeholder="******" type='password' className="mb-3 input input-bordered" />
                 <button className="btn btn-primary mb-3" onClick={()=>setAuth(true)}>Login</button>
-                
-                {/* <Link to="/forgot" className='text-indigo-700 text-center font-semibold text-sm'>Forgot password?</Link>
-                <p className='text-center font-semibold text-sm'>Don't have a account? <Link className='text-indigo-700' to="/signup">Sign Up</Link></p> */}
-                
+
+                <p className='text-center font-semibold text-sm'>Looking for user login? <Link className='text-indigo-700' to="/">click here</Link></p> 
+
               </div>
         </div>
   )

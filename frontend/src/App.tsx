@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import './App.css'
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 import User from './pages/User';
 import Admin from './pages/Admin';
 import { BsChatRightText } from "react-icons/bs";
@@ -37,7 +37,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<User/>}/>
-          <Route path="/admin" element={<Admin/>}/>
+          <Route path="/admin/:roomId" element={<Admin/>}/>
         </Routes>
       </Router>
 
