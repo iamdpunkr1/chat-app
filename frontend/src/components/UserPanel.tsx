@@ -12,6 +12,7 @@ const UserPanel = () => {
     const [socketID, setSocketID] = useState<string>("");
     const  [username, setUsername] = useState<string>("");
     const [roomID, setRoomID] = useState<string>("");
+    const [queueStatus, setQueueStatus] = useState<string>("");
 
     const sendMessage = (message:string) => {
         console.log("Sending Message");
@@ -35,6 +36,10 @@ const UserPanel = () => {
         })
         
         socket.emit("user-connect", "newUser");
+
+        socket.on("queue-status", (status: string) => {
+            setQueueStatus(status);
+        })
 
         socket.on("recieve-message", (message: string) => {
             setChatMessages((prevMessages) => [...prevMessages, message])
@@ -76,6 +81,7 @@ const UserPanel = () => {
                 <h1 className="text-2xl font-semibold mb-4 underline">User Panel</h1>
                 <button className="btn btn-outline btn-sm">Logout</button>
             </div>
+            {queueStatus && <p className="text-lg font-semibold">{queueStatus}</p>} 
             <ChatArea chats={chatMessages} sendMessage={sendMessage} handleKeyPress={handleKeyPress} username={username} agent={true}/>
     </div>
   )

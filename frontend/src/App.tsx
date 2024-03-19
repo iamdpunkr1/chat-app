@@ -37,7 +37,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<User/>}/>
-          <Route path="/admin/:roomId" element={<Admin/>}/>
+          <Route path="/admin/:roomIds" element={<Admin/>}/>
         </Routes>
       </Router>
 

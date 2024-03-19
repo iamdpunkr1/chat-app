@@ -63,8 +63,21 @@ const agentInRoom = (roomID: string) => {
   return false;
 }
 
+// Queue to hold users waiting to be connected with an agent
+let userQueue: string[] = [];
+
 
 io.on("connection", (socket: Socket) => {
+
+    
+    // Function to update queue status and inform user about their position in the queue
+  const updateQueueStatus = () => {
+      // Recalculate position in queue for all users
+      userQueue.forEach((userID, index) => {
+        const positionInQueue = index + 1;
+        io.to(userID).emit("queue-status", `You are at position ${positionInQueue} in the queue. An agent will join you soon.`);
+      });
+    };
 
 
   socket.on("connect", () => {
@@ -80,6 +93,12 @@ io.on("connection", (socket: Socket) => {
     
     console.log("Rooms: ", rooms);
     socket.emit("room-id", roomName);
+    // socket.emit("queue-status", `You are at ${rooms.length} position in queue, An agent will join you soon.`);
+    
+    // Add user to the queue
+    userQueue.push(socket.id);
+    // Update queue status for all users
+    updateQueueStatus();
     socket.broadcast.emit("notifyAgent");
     socket.broadcast.emit("fetch-users", rooms);
   });
@@ -118,7 +137,15 @@ io.on("connection", (socket: Socket) => {
         room.agentID = socket.id;
         socket.join(roomID);
         socket.broadcast.to(roomID).emit("agent-joined", `Agent-${socket.id.substring(0,4)} joined the room`);
-        console.log("Admin joined room", roomID);
+        console.log("Admin joined room", rooms);
+        socket.broadcast.to(roomID).emit("queue-status", "");
+
+         io.emit("fetch-users", rooms);
+        // Remove user from the queue
+        userQueue = userQueue.filter((userID) => userID !== room.userID);
+
+        // Update queue status for all users
+        updateQueueStatus();
       }else{
         socket.emit("room-full", "User is already taken by another agent");
       }
@@ -148,7 +175,11 @@ io.on("connection", (socket: Socket) => {
   //disconnect event
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
+    // Remove user from the queue
+    userQueue = userQueue.filter((userID) => userID !== socket.id);
 
+    // Update queue status for all users
+    updateQueueStatus();
     rooms = rooms.filter((room) => room.userID !== socket.id);
     console.log("Rooms: ", rooms);
     socket.broadcast.emit("fetch-users", rooms);
