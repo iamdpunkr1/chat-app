@@ -48,7 +48,7 @@ const AdmiPanel = () => {
 
   const handleDisonnect = () => { 
     socket.emit("leave-room", {roomID:roomId, type: "Agent"});
-        setRoomId("");
+    setRoomId("");
   }
 
   useEffect(() => {
@@ -125,7 +125,7 @@ const AdmiPanel = () => {
     <div className="flex  justify-between w-full">
         <h1 className="text-2xl font-semibold mb-4 underline">Admin Panel</h1>
         <div className="flex gap-4">
-          <button className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
+          <button disabled={roomId ===""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
           <button className="btn btn-outline btn-sm">Logout</button>
         </div>        
     </div>

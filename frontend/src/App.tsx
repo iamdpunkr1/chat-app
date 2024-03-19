@@ -1,31 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'
 import './App.css'
 // import { io } from 'socket.io-client';
 import User from './pages/User';
 import Admin from './pages/Admin';
 import { BsChatRightText } from "react-icons/bs";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import NotFound from './pages/NotFound';
 
 function App() {
-  // const socket = useMemo(() => io('http://localhost:5000', {
-  //   withCredentials: true,
-  // }), []);
 
 
-  useEffect(() => {
-    // socket.on("connect", () => {
-    //   console.log("Connected to server with id: ", socket.id)
-    //   // setSocketID(socket?.id?.substring(0, 5) as string)
-    // })
-
-    // socket.on("recieve-message", (message: string) => {
-    //   // setMessages((prevMessages) => [...prevMessages, message])
-    // })
-
-    // return () => {
-    //   socket.disconnect()
-    // }
-  }, [])
 
   return (
     <main className='max-w-[1000px] mx-auto px-2'>
@@ -38,6 +21,7 @@ function App() {
         <Routes>
           <Route path="/" element={<User/>}/>
           <Route path="/admin" element={<Admin/>}/>
+          <Route path="*" element={<NotFound/>}/>
         </Routes>
       </Router>
 

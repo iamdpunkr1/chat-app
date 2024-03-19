@@ -170,9 +170,7 @@ io.on("connection", (socket: Socket) => {
       }
     }
 
-    if(room.agentID === "" && room.userID === ""){
-      rooms = rooms.filter((room) => room.roomID !== roomID);
-    }
+  
     console.log("Rooms: ", rooms);
     socket.broadcast.to(roomID).emit("user-left", {roomID, message: `${type} left the room`});
     io.emit("fetch-users", rooms);

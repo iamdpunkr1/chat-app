@@ -14,6 +14,7 @@ const UserPanel = () => {
     const [username, setUsername] = useState<string>("");
     const [roomID, setRoomID] = useState<string>("");
     const [queueStatus, setQueueStatus] = useState<string>("");
+    const [connectToQueue, setConnectToQueue] = useState<boolean>(false);
 
     const sendMessage = (message:string) => {
         console.log("Sending Message");
@@ -35,6 +36,7 @@ const UserPanel = () => {
         console.log("Disconnecting")
         socket.emit("leave-room", {roomID, type: "User"});
         setRoomID("");
+        setConnectToQueue(false);
     }
 
     useEffect(() => {
@@ -44,7 +46,7 @@ const UserPanel = () => {
           setSocketID(socket?.id?.substring(0, 5) as string)
         })
         
-        socket.emit("user-connect", "newUser");
+        
 
         socket.on("queue-status", (status: string) => {
             setQueueStatus(status);
@@ -91,6 +93,17 @@ const UserPanel = () => {
             }
         },[]);
     
+  if(!connectToQueue){
+     return (
+        <div>
+            <h1 className="text-2xl font-semibold mb-4 underline">User Panel</h1>
+            <button className="btn btn-primary" onClick={() => {
+              socket.emit("user-connect", "newUser");
+              setConnectToQueue(true);
+            }}>Connect to an Agent</button>
+        </div>  )
+  }
+
   return (
     <div>
             <div className="flex  justify-between w-full">
