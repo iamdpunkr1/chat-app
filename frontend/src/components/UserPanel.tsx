@@ -8,6 +8,7 @@ const UserPanel = () => {
         withCredentials: true,
       }), []);
 
+    const [message, setMessage] = useState<string>("");
     const [chatMessages, setChatMessages] = useState<string[]>([]);
     const [socketID, setSocketID] = useState<string>("");
     const [username, setUsername] = useState<string>("");
@@ -16,13 +17,14 @@ const UserPanel = () => {
 
     const sendMessage = (message:string) => {
         console.log("Sending Message");
-        socket.emit("room-message", {roomID: roomID, message: `[User-${socket?.id?.substring(0, 2)}]: `+message})
+        socket.emit("room-message", {roomID: roomID, message: `${socket?.id}: `+message})
       }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if(e.key === 'Enter'){
             sendMessage(e.currentTarget.value)
-            e.currentTarget.value = ""
+            // e.currentTarget.value = ""
+            setMessage("");
         }else{
            socket.emit("typing", {room: roomID, username: "User"+socket?.id?.substring(0, 4)})
         }
@@ -42,10 +44,17 @@ const UserPanel = () => {
         })
 
         socket.on("recieve-message", (msg: { roomID: string; message: string }) => {
-            setChatMessages((prevMessages) => [...prevMessages, msg?.message])
+          const newMessage = msg.message.split(":");
+          // console.log(newMessage[0] === socket?.id, newMessage[0], socket?.id)
+          if(newMessage[0] === socket?.id){
+            newMessage[0] = "You"
+          }else{
+            newMessage[0] = "Agent"
+          }  
+          setChatMessages((prevMessages) => [...prevMessages, `[${newMessage[0]}]: ${newMessage[1]}`])
             // setMessages((prevMessages) => [...prevMessages, message])
           })
-
+ 
         socket.on("room-id", (roomID: string) => {
             console.log("Room ID: ", roomID)
             setRoomID(roomID);
@@ -82,7 +91,7 @@ const UserPanel = () => {
                 <button className="btn btn-outline btn-sm">Logout</button>
             </div>
             {queueStatus && <p className="text-lg font-semibold">{queueStatus}</p>} 
-            <ChatArea chats={chatMessages} sendMessage={sendMessage} handleKeyPress={handleKeyPress} username={username} agent={true}/>
+            <ChatArea  message={message} setMessage={setMessage}  chats={chatMessages} sendMessage={sendMessage} handleKeyPress={handleKeyPress} username={username} agent={true}/>
     </div>
   )
 }

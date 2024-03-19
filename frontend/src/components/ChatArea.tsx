@@ -1,5 +1,7 @@
 import  { useState } from 'react';
 type ChatAreaProps = {
+    message: string,
+    setMessage: (message:string) => void,
     chats: string[],
     sendMessage: (message:string) => void,
     handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void,
@@ -7,9 +9,9 @@ type ChatAreaProps = {
     agent:boolean
 }
 
-const ChatArea = ({chats,sendMessage, handleKeyPress, username, agent}: ChatAreaProps) => {
+const ChatArea = ({message,setMessage,chats,sendMessage, handleKeyPress, username, agent}: ChatAreaProps) => {
 
-  const [message, setMessage] = useState<string>("");
+  
 
   return (
     <section className="">

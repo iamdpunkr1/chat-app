@@ -24,20 +24,23 @@ const AdmiPanel = () => {
 
   const sound = new Audio(messageSound);
   const [chatMessages, setChatMessages] = useState<UserMessages>({});
+  const [message, setMessage] = useState<string>("");
   const [users, setUsers] = useState<RoomType[]>([]);
   const [roomId, setRoomId] = useState<string>("");
   const [username, setUsername] = useState<UsernameType>({});
   const [socketID, setSocketID] = useState<string>("");
+  
 
   const sendMessage = (message: string) => {
     console.log("Sending Message");
-    socket.emit("room-message", {roomID: roomId, message: `[agent-${socket?.id?.substring(0, 2)}]: `+message})
+    socket.emit("room-message", {roomID: roomId, message: `${socket?.id}: `+message})
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
-        e.currentTarget.value = ""
+        // e.currentTarget.value = ""
+        setMessage("");
     }else{
        socket.emit("typing", {room: roomId, username: "User "+socket?.id?.substring(0, 4)})
     }
@@ -49,7 +52,7 @@ const AdmiPanel = () => {
 
   useEffect(() => {
     socket.on("connect", () => {
-      console.log("Admin Connected to server with id: ", socket.id)
+    console.log("Admin Connected to server with id: ", socket.id)
       setSocketID(socket?.id as string);
     })
 
@@ -64,7 +67,13 @@ const AdmiPanel = () => {
         if (!newMessages[data.roomID]) {
           newMessages[data.roomID] = [];
         }
-        newMessages[data.roomID].push(data.message);
+        const newMessage = data.message.split(":");
+        if(newMessage[0] === socket?.id){
+          newMessage[0] = "You"
+        }else{
+          newMessage[0] = "User"
+        }
+        newMessages[data.roomID].push(`[${newMessage[0]}]: ${newMessage[1]}`);
         return newMessages;
       });
     });
@@ -123,7 +132,7 @@ const AdmiPanel = () => {
 
     </div>
     <div className="w-9/12">
-    <ChatArea chats={chatMessages[roomId] || []} sendMessage={sendMessage}  handleKeyPress={handleKeyPress} username={username[roomId] || ""} agent={false}/>
+    <ChatArea message={message} setMessage={setMessage} chats={chatMessages[roomId] || []} sendMessage={sendMessage}  handleKeyPress={handleKeyPress} username={username[roomId] || ""} agent={false}/>
     </div>
     </div>
     </>
