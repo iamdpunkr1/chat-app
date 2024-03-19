@@ -120,11 +120,11 @@ const AdmiPanel = () => {
            {users.map((user, index) => {
               if(user.agentID==="" || user.agentID===socketID){
                return(
-                <span key={index} className="flex justify-between border-2 rounded-md p-2 bg-base-200 relative">
+                <button key={index} className={`flex justify-between border-2 rounded-md p-2 bg-base-200 relative ${roomId===user.roomID && "border-green-500"}`}
+                        onClick={()=>{if(socketID===user.agentID) setRoomId(user.roomID)}}>
                    <h2 className="text-sm ">{"User-"+ user.userID.substring(0,4)}</h2>
-                   <button disabled={roomId===user.roomID} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user.roomID)}>{socketID===user.agentID? "connected": "Take"}</button>
-                    <span className={`absolute top-0 right-0 w-2 h-2 rounded-full bg-green-500 ${user.roomID===roomId? "animate-ping" : "hidden"}`}> </span>
-                </span>)
+                   <button disabled={socketID===user.agentID} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user.roomID)}>{socketID===user.agentID? "connected": "Take"}</button>
+                </button>)
               }
             })} 
 
