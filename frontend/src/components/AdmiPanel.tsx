@@ -1,8 +1,7 @@
-import ChatArea from "./ChatArea"
+import ChatArea from "./ChatArea";
 import { useEffect, useMemo, useState} from "react";
 import { io } from 'socket.io-client';
 import messageSound from "../assets/sound/message.mp3";
-// import { useParams, useNavigate } from "react-router-dom";
 
 type RoomType = {
   roomID: string,
@@ -10,64 +9,45 @@ type RoomType = {
   agentID: string
 }
 
-const AdmiPanel = () => {
-  // const  {roomIds}  = useParams();
-  // const navigate = useNavigate();
-  // console.log("Room ID: ", roomIds);
+type UserMessages = {
+  [userID: string]: string[];
+}
 
+type UsernameType = {
+  [roomID: string]: string;
+}
+
+const AdmiPanel = () => {
   const socket = useMemo(() => io('http://localhost:5001', {
     withCredentials: true,
   }), []);
 
   const sound = new Audio(messageSound);
-  const [chatMessages, setChatMessages] = useState<string[]>([]);
+  const [chatMessages, setChatMessages] = useState<UserMessages>({});
   const [users, setUsers] = useState<RoomType[]>([]);
   const [roomId, setRoomId] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState<UsernameType>({});
   const [socketID, setSocketID] = useState<string>("");
 
-  // const openAdminPanelInNewTab = (roomID:string) => {
-  //   const newTab = window.open('', '_blank');
-  //   if (newTab) {
-  //       newTab.location.href = `/admin/${roomID}`;
-  //       newTab.focus();
-  //   } else {
-  //       alert('Your browser is blocking pop-ups. Please allow pop-ups for this site to open the admin panel in a new tab.');
-  //   }
-  // };
-  
-  const handleJoinRoom = (roomID:string) => {
-    //  if(roomId===""){
-     socket.emit("join-room", roomID);
-     setRoomId(roomID);
-    //  navigate(`/admin/${roomID}`);
-    // }else if(roomId!==roomID){
-    //   openAdminPanelInNewTab(roomID);
-    // }
-  }
-
-  const sendMessage = (message:string) => {
+  const sendMessage = (message: string) => {
     console.log("Sending Message");
     socket.emit("room-message", {roomID: roomId, message: `[agent-${socket?.id?.substring(0, 2)}]: `+message})
   }
-
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
         e.currentTarget.value = ""
     }else{
-       socket.emit("typing", {room: roomId, username: "User"+socket?.id?.substring(0, 4)})
+       socket.emit("typing", {room: roomId, username: "User "+socket?.id?.substring(0, 4)})
     }
   }
 
   const handleDisonnect = () => { 
     socket.emit("leave-room", roomId);
-    // setRoomId("");
   }
 
   useEffect(() => {
-
     socket.on("connect", () => {
       console.log("Admin Connected to server with id: ", socket.id)
       setSocketID(socket?.id as string);
@@ -78,32 +58,45 @@ const AdmiPanel = () => {
       sound.play();
     })
 
-
-
-    socket.on("recieve-message", (message: string) => {
-      setChatMessages((prevMessages) => [...prevMessages, message])
-      
-    })
+    socket.on("recieve-message", (data: { roomID: string, message: string }) => {
+      setChatMessages(prevMessages => {
+        const newMessages = { ...prevMessages };
+        if (!newMessages[data.roomID]) {
+          newMessages[data.roomID] = [];
+        }
+        newMessages[data.roomID].push(data.message);
+        return newMessages;
+      });
+    });
 
     socket.on("fetch-users", (users: RoomType[]) => {
       console.log("Users in the room: ", users)
       setUsers(users);
-
     })
 
-
-    socket.on("user-typing", (username: string) => {
-      setUsername(username);
-      const timeoutId = setTimeout(() => setUsername(""), 2000);
-      // Returning a cleanup function to clear the timeout
+    socket.on("user-typing", (data: { room: string, username: string }) => {
+      setUsername(prevUsernames => {
+        return { ...prevUsernames, [data.room]: data.username };
+      });
+      const timeoutId = setTimeout(() => {
+        setUsername(prevUsernames => {
+          const newUsername = { ...prevUsernames };
+          delete newUsername[data.room];
+          return newUsername;
+        });
+      }, 2000);
       return () => clearTimeout(timeoutId);
-  })
+    });
 
     return () => {
       socket.disconnect()
-      }
-    },[]);
+    }
+  }, []);
 
+  const handleJoinRoom = (roomID:string) => {
+    socket.emit("join-room", roomID);
+    setRoomId(roomID);
+  }
 
   return (
     <>
@@ -130,7 +123,7 @@ const AdmiPanel = () => {
 
     </div>
     <div className="w-9/12">
-    <ChatArea chats={chatMessages} sendMessage={sendMessage}  handleKeyPress={handleKeyPress} username={username} agent={false}/>
+    <ChatArea chats={chatMessages[roomId] || []} sendMessage={sendMessage}  handleKeyPress={handleKeyPress} username={username[roomId] || ""} agent={false}/>
     </div>
     </div>
     </>

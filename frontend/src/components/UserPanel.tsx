@@ -10,7 +10,7 @@ const UserPanel = () => {
 
     const [chatMessages, setChatMessages] = useState<string[]>([]);
     const [socketID, setSocketID] = useState<string>("");
-    const  [username, setUsername] = useState<string>("");
+    const [username, setUsername] = useState<string>("");
     const [roomID, setRoomID] = useState<string>("");
     const [queueStatus, setQueueStatus] = useState<string>("");
 
@@ -41,8 +41,8 @@ const UserPanel = () => {
             setQueueStatus(status);
         })
 
-        socket.on("recieve-message", (message: string) => {
-            setChatMessages((prevMessages) => [...prevMessages, message])
+        socket.on("recieve-message", (msg: { roomID: string; message: string }) => {
+            setChatMessages((prevMessages) => [...prevMessages, msg?.message])
             // setMessages((prevMessages) => [...prevMessages, message])
           })
 
@@ -52,8 +52,8 @@ const UserPanel = () => {
         })
 
         
-        socket.on("user-typing", (username: string) => {
-            setUsername(username);
+        socket.on("user-typing", (data:{room:string, username:string}) => {
+            setUsername(data.username);
             const timeoutId = setTimeout(() => setUsername(""), 2000);
             // Returning a cleanup function to clear the timeout
             return () => clearTimeout(timeoutId);

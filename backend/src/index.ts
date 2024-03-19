@@ -108,7 +108,7 @@ io.on("connection", (socket: Socket) => {
 
   //sending typing event to connect user/admin 
   socket.on("typing", (data) => {
-    socket.broadcast.to(data.room).emit("user-typing", data.username);
+    socket.broadcast.to(data.room).emit("user-typing", data);
   });
 
   //Message to all
@@ -168,7 +168,7 @@ io.on("connection", (socket: Socket) => {
   socket.on("room-message", (msg: { roomID: string; message: string }) => {
     // console.log(msg);
     if(agentInRoom(msg.roomID) || msg.message.includes("Agent")){
-      io.to(msg.roomID).emit("recieve-message", msg.message);
+      io.to(msg.roomID).emit("recieve-message",msg);
     }
   });
 
