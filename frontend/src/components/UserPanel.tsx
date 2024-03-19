@@ -2,12 +2,22 @@ import { useEffect, useMemo, useState} from "react";
 import { io } from 'socket.io-client';
 import ChatArea from "../components/ChatArea";
 
-const UserPanel = () => {
+type UserType = {
+  emailId: string
+}
+type UserPanelProps = {
+  emailId: string;
+  setAuth: React.Dispatch<React.SetStateAction<UserType | null>>;
+
+}
+
+const UserPanel = ({ emailId, setAuth }: UserPanelProps) => {
 
     const socket = useMemo(() => io('http://localhost:5001', {
         withCredentials: true,
       }), []);
-
+    
+    const [name, setName] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [chatMessages, setChatMessages] = useState<string[]>([]);
     const [socketID, setSocketID] = useState<string>("");
@@ -18,7 +28,7 @@ const UserPanel = () => {
 
     const sendMessage = (message:string) => {
         console.log("Sending Message");
-        socket.emit("room-message", {roomID: roomID, message: `${socket?.id}: `+message})
+        socket.emit("room-message", {roomID: roomID, message: `${socket?.id}: `+message, name})
       }
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -27,19 +37,24 @@ const UserPanel = () => {
             // e.currentTarget.value = ""
             setMessage("");
         }else{
-           socket.emit("typing", {room: roomID, username: "User"+socket?.id?.substring(0, 4)})
+           socket.emit("typing", {room: roomID, username: name})
         }
     }
 
 
     const handleDisonnect = () => {
         console.log("Disconnecting")
-        socket.emit("leave-room", {roomID, type: "User"});
+        socket.emit("leave-room", {roomID, type: "User", name });
         setRoomID("");
         setConnectToQueue(false);
     }
 
     useEffect(() => {
+
+        if(emailId) {
+          const getname = emailId.split("@")[0];
+          setName(getname);
+        }
 
         socket.on("connect", () => {
           console.log("User Connected to server with id: ", socket.id)
@@ -52,13 +67,13 @@ const UserPanel = () => {
             setQueueStatus(status);
         })
 
-        socket.on("recieve-message", (msg: { roomID: string; message: string }) => {
+        socket.on("recieve-message", (msg: { roomID: string; message: string, name:string }) => {
           const newMessage = msg.message.split(":");
           // console.log(newMessage[0] === socket?.id, newMessage[0], socket?.id)
           if(newMessage[0] === socket?.id){
             newMessage[0] = "You"
           }else{
-            newMessage[0] = "Agent"
+            newMessage[0] = msg.name || "Agent"
           }  
           setChatMessages((prevMessages) => [...prevMessages, `[${newMessage[0]}]: ${newMessage[1]}`])
             // setMessages((prevMessages) => [...prevMessages, message])
@@ -96,9 +111,10 @@ const UserPanel = () => {
   if(!connectToQueue){
      return (
         <div>
-            <h1 className="text-2xl font-semibold mb-4 underline">User Panel</h1>
+            <h1 className="text-2xl font-semibold mb-4 underline"> Welcome, {name}</h1>
+            <p className="text-lg font-semibold pb-8">Connect to an Agent to get started</p>
             <button className="btn btn-primary" onClick={() => {
-              socket.emit("user-connect", "newUser");
+              socket.emit("user-connect", name);
               setConnectToQueue(true);
             }}>Connect to an Agent</button>
         </div>  )
@@ -107,13 +123,15 @@ const UserPanel = () => {
   return (
     <div>
             <div className="flex  justify-between w-full">
-                <h1 className="text-2xl font-semibold mb-4 underline">User Panel</h1>
+              
+                <h1 className="text-2xl font-semibold mb-4 underline">User Panel: [{name}]</h1>
+              
                 <div className="flex gap-4">
                   <button className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
                   <button className="btn btn-outline btn-sm">Logout</button>
                 </div>  
             </div>
-            {queueStatus && <p className="text-lg font-semibold">{queueStatus}</p>} 
+            {queueStatus && <p className="text-left py-4">{queueStatus}</p>} 
             <ChatArea  message={message} setMessage={setMessage}  chats={chatMessages} sendMessage={sendMessage} handleKeyPress={handleKeyPress} username={username} agent={true}/>
     </div>
   )

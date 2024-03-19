@@ -2,15 +2,18 @@ import UserLogin from "../components/UserLogin"
 import { useState } from "react";
 import UserPanel from "../components/UserPanel";
 
+type UserType = {
+  emailId: string
+}
 
 const User = () => {
-  const [auth, setAuth] = useState(false);
+  const [auth, setAuth] = useState<UserType | null>(null);
 
 
   return (
     <>
      {auth? 
-    <UserPanel  /> : <UserLogin setAuth={setAuth}/> }
+    <UserPanel emailId={auth?.emailId} setAuth={setAuth} /> : <UserLogin setAuth={setAuth}/> }
     </>
   )
 }

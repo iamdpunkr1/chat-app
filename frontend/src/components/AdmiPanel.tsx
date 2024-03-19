@@ -6,7 +6,8 @@ import messageSound from "../assets/sound/message.mp3";
 type RoomType = {
   roomID: string,
   userID: string,
-  agentID: string
+  agentID: string,
+  userName: string
 }
 
 type UserMessages = {
@@ -33,7 +34,7 @@ const AdmiPanel = () => {
 
   const sendMessage = (message: string) => {
     console.log("Sending Message");
-    socket.emit("room-message", {roomID: roomId, message: `${socket?.id}: `+message})
+    socket.emit("room-message", {roomID: roomId, message: `${socket?.id}: `+message, name:"Jay"})
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -42,12 +43,12 @@ const AdmiPanel = () => {
         // e.currentTarget.value = ""
         setMessage("");
     }else{
-       socket.emit("typing", {room: roomId, username: "User "+socket?.id?.substring(0, 4)})
+       socket.emit("typing", {room: roomId, username: "Jay"})
     }
   }
 
   const handleDisonnect = () => { 
-    socket.emit("leave-room", {roomID:roomId, type: "Agent"});
+    socket.emit("leave-room", {roomID:roomId, type: "Agent", name:"Jay"});
     setRoomId("");
   }
 
@@ -62,7 +63,7 @@ const AdmiPanel = () => {
       sound.play();
     })
 
-    socket.on("recieve-message", (data: { roomID: string, message: string }) => {
+    socket.on("recieve-message", (data: { roomID: string, message: string, name:string }) => {
       setChatMessages(prevMessages => {
         const newMessages = { ...prevMessages };
         if (!newMessages[data.roomID]) {
@@ -72,7 +73,7 @@ const AdmiPanel = () => {
         if(newMessage[0] === socket?.id){
           newMessage[0] = "You"
         }else{
-          newMessage[0] = "User"
+          newMessage[0] = data.name || "User";
         }
         newMessages[data.roomID].push(`[${newMessage[0]}]: ${newMessage[1]}`);
         return newMessages;
@@ -116,7 +117,7 @@ const AdmiPanel = () => {
   }, []);
 
   const handleJoinRoom = (roomID:string) => {
-    socket.emit("join-room", roomID);
+    socket.emit("join-room", {roomID, agentName:"Jay"});
     setRoomId(roomID);
   }
 
@@ -137,7 +138,7 @@ const AdmiPanel = () => {
                return(
                 <button key={index} className={`flex justify-between border-2 rounded-md p-2 bg-base-200 relative ${roomId===user.roomID && "border-green-500"}`}
                         onClick={()=>{if(socketID===user.agentID) setRoomId(user.roomID)}}>
-                   <h2 className="text-sm ">{"User-"+ user.userID.substring(0,4)}</h2>
+                   <h2 className="text-sm ">{"User-"+ user?.userName}</h2>
                    <button disabled={socketID===user.agentID} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user.roomID)}>{socketID===user.agentID? "connected": "Take"}</button>
                 </button>)
               }

@@ -50,7 +50,9 @@ const io: SocketIOServer = new SocketIOServer(server, {
 type RoomType = {
   roomID: string,
   userID: string,
-  agentID: string
+  agentID: string,
+  userName: string,
+  agentName:string
 }
 
 let rooms:RoomType[] = [];
@@ -85,10 +87,10 @@ io.on("connection", (socket: Socket) => {
   });
 
   //user connect event & adding user to rooms
-  socket.on("user-connect", (userID: string) => {
+  socket.on("user-connect", (userName: string) => {
 
     const roomName = generateRandomRoomName(10);
-    rooms.push({roomID: roomName, userID: socket.id, agentID: ""});
+    rooms.push({roomID: roomName, userID: socket.id, userName, agentID: "", agentName:""});
     socket.join(roomName);
     
     console.log("Rooms: ", rooms);
@@ -130,13 +132,15 @@ io.on("connection", (socket: Socket) => {
   // });
 
   //join room by admin
-  socket.on("join-room", (roomID: string) => {
+  socket.on("join-room", (data:{roomID:string, agentName:string}) => {
+    const {roomID, agentName} = data;
     const room = rooms.find((room) => room.roomID === roomID);
     if(room){
       if(room.agentID === "" || room.agentID === socket.id){
         room.agentID = socket.id;
+        room.agentName = agentName;
         socket.join(roomID);
-        socket.broadcast.to(roomID).emit("agent-joined", `Agent-${socket.id.substring(0,4)} joined the room`);
+        socket.broadcast.to(roomID).emit("agent-joined", `${agentName} has joined the chat`);
         console.log("Admin joined room", rooms);
         socket.broadcast.to(roomID).emit("queue-status", "");
 
@@ -157,13 +161,14 @@ io.on("connection", (socket: Socket) => {
   
 
   //Agent leave room
-  socket.on("leave-room", ( data:{roomID:string, type:string }) => {
-    const {roomID, type} = data;
+  socket.on("leave-room", ( data:{roomID:string, type:string, name:string }) => {
+    const {roomID, type, name} = data;
     socket.leave(roomID);
     const room = rooms.find((room) => room.roomID === roomID);
     if(room){
       if(type === "Agent"){
         room.agentID = "";
+        room.agentName = "";
       }else{
         room.userID = "";
         rooms = rooms.filter((room) => room.roomID !== roomID);
@@ -172,14 +177,14 @@ io.on("connection", (socket: Socket) => {
 
   
     console.log("Rooms: ", rooms);
-    socket.broadcast.to(roomID).emit("user-left", {roomID, message: `${type} left the room`});
+    socket.broadcast.to(roomID).emit("user-left", {roomID, message: `${name} has left the chat`});
     io.emit("fetch-users", rooms);
   });
 
   //message to room
   socket.on("room-message", (msg: { roomID: string; message: string }) => {
     // console.log(msg);
-    if(agentInRoom(msg.roomID) || msg.message.includes("Agent")){
+    if(agentInRoom(msg.roomID)){
       io.to(msg.roomID).emit("recieve-message",msg);
     }
   });

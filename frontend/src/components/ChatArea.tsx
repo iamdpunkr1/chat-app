@@ -25,7 +25,7 @@ const ChatArea = ({message,setMessage,chats,sendMessage, handleKeyPress, usernam
             })
           }
           {username && 
-          <p className="p-2  italic">{ `${agent?"Agent":"User"} is Typing`}</p>
+          <p className="p-2  italic">{ `${username} is Typing`}</p>
         }
         </div>
 
