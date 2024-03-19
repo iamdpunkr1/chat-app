@@ -47,7 +47,8 @@ const AdmiPanel = () => {
   }
 
   const handleDisonnect = () => { 
-    socket.emit("leave-room", roomId);
+    socket.emit("leave-room", {roomID:roomId, type: "Agent"});
+        setRoomId("");
   }
 
   useEffect(() => {
@@ -96,6 +97,18 @@ const AdmiPanel = () => {
       }, 2000);
       return () => clearTimeout(timeoutId);
     });
+
+    socket.on("user-left", (data:{roomID:string, message:string }) => {
+      setChatMessages(prevMessages => {
+        const newMessages = { ...prevMessages };
+        if (!newMessages[data.roomID]) {
+          newMessages[data.roomID] = [];
+        }
+        newMessages[data.roomID].push(data.message);
+        return newMessages;
+      });
+      // setChatMessages((prevMessages) => [...prevMessages, data.message])
+  });
 
     return () => {
       socket.disconnect()

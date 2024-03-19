@@ -157,11 +157,25 @@ io.on("connection", (socket: Socket) => {
   
 
   //Agent leave room
-  socket.on("leave-room", (roomID: string) => {
+  socket.on("leave-room", ( data:{roomID:string, type:string }) => {
+    const {roomID, type} = data;
     socket.leave(roomID);
-    // console.log("User left room", roomID);
-    socket.broadcast.to(roomID).emit("agent-left", `Agent-${socket.id.substring(0,4)} left the room`);
-    
+    const room = rooms.find((room) => room.roomID === roomID);
+    if(room){
+      if(type === "Agent"){
+        room.agentID = "";
+      }else{
+        room.userID = "";
+        rooms = rooms.filter((room) => room.roomID !== roomID);
+      }
+    }
+
+    if(room.agentID === "" && room.userID === ""){
+      rooms = rooms.filter((room) => room.roomID !== roomID);
+    }
+    console.log("Rooms: ", rooms);
+    socket.broadcast.to(roomID).emit("user-left", {roomID, message: `${type} left the room`});
+    io.emit("fetch-users", rooms);
   });
 
   //message to room

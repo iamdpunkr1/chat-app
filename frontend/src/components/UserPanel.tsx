@@ -30,6 +30,13 @@ const UserPanel = () => {
         }
     }
 
+
+    const handleDisonnect = () => {
+        console.log("Disconnecting")
+        socket.emit("leave-room", {roomID, type: "User"});
+        setRoomID("");
+    }
+
     useEffect(() => {
 
         socket.on("connect", () => {
@@ -74,9 +81,9 @@ const UserPanel = () => {
             setChatMessages((prevMessages) => [...prevMessages, msg])
         });
 
-        socket.on("agent-left", (msg: string) => {
+        socket.on("user-left", (data:{roomID:string, message:string }) => {
             // console.log("Agent left room: ", roomID)
-            setChatMessages((prevMessages) => [...prevMessages, msg])
+            setChatMessages((prevMessages) => [...prevMessages, data.message])
         });
 
         return () => {
@@ -88,7 +95,10 @@ const UserPanel = () => {
     <div>
             <div className="flex  justify-between w-full">
                 <h1 className="text-2xl font-semibold mb-4 underline">User Panel</h1>
-                <button className="btn btn-outline btn-sm">Logout</button>
+                <div className="flex gap-4">
+                  <button className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
+                  <button className="btn btn-outline btn-sm">Logout</button>
+                </div>  
             </div>
             {queueStatus && <p className="text-lg font-semibold">{queueStatus}</p>} 
             <ChatArea  message={message} setMessage={setMessage}  chats={chatMessages} sendMessage={sendMessage} handleKeyPress={handleKeyPress} username={username} agent={true}/>
