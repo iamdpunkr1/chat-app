@@ -7,8 +7,8 @@ type RoomType = {
   roomID: string,
   userID: string,
   agentID: string,
-  userName: string,
-  agentName: string
+  userEmailId: string,
+  agentEmailId: string
 }
 
 type UserMessages = {
@@ -19,23 +19,26 @@ type UsernameType = {
   [roomID: string]: string;
 }
 
-const AdmiPanel = ({adminUsername}:{adminUsername:string}) => {
+const AdmiPanel = ({emailId}:{emailId:string}) => {
   const socket = useMemo(() => io('http://localhost:5001', {
     withCredentials: true,
   }), []);
 
   const sound = new Audio(messageSound);
-  const [chatMessages, setChatMessages] = useState<UserMessages>({});
+  const [chatMessages, setChatMessages] = useState<UserMessages>({}); //use array instead of object
   const [message, setMessage] = useState<string>("");
   const [users, setUsers] = useState<RoomType[]>([]);
   const [roomId, setRoomId] = useState<string>("");
   const [username, setUsername] = useState<UsernameType>({});
   const [socketID, setSocketID] = useState<string>("");
+  const adminUserName= emailId.split("@")[0];
   
 
   const sendMessage = (message: string) => {
     console.log("Sending Message");
-    socket.emit("room-message", {roomID: roomId, message: `${adminUsername}: `+message, name:adminUsername})
+    if(message.length>0){
+    socket.emit("room-message", {roomID: roomId, message: `${emailId}: `+message, name:adminUserName})
+    }
   }
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -44,16 +47,18 @@ const AdmiPanel = ({adminUsername}:{adminUsername:string}) => {
         // e.currentTarget.value = ""
         setMessage("");
     }else{
-       socket.emit("typing", {room: roomId, username: adminUsername})
+       socket.emit("typing", {room: roomId, username: adminUserName})
     }
   }
 
   const handleDisonnect = () => { 
-    socket.emit("leave-room", {roomID:roomId, type: "Agent", name:adminUsername});
+    socket.emit("leave-room", {roomID:roomId, type: "Agent", name:emailId});
     setRoomId("");
   }
 
   useEffect(() => {
+    console.log("Admin Panel: ", emailId)
+
     socket.on("connect", () => {
     console.log("Admin Connected to server with id: ", socket.id)
       setSocketID(socket?.id as string);
@@ -64,14 +69,16 @@ const AdmiPanel = ({adminUsername}:{adminUsername:string}) => {
       sound.play();
     })
 
+    //user array to store all messages instead of object
     socket.on("recieve-message", (data: { roomID: string, message: string, name:string }) => {
+      console.log("Recieved Message: ")
       setChatMessages(prevMessages => {
         const newMessages = { ...prevMessages };
         if (!newMessages[data.roomID]) {
           newMessages[data.roomID] = [];
         }
         const newMessage = data.message.split(":");
-        const senderName = newMessage[0] === adminUsername ? "You" : data.name || "User";
+        const senderName = newMessage[0] === emailId ? "You" : data.name || "User";
         newMessages[data.roomID] = [
           ...newMessages[data.roomID],
           `[${senderName}]: ${newMessage[1]}`
@@ -96,6 +103,7 @@ const AdmiPanel = ({adminUsername}:{adminUsername:string}) => {
           return newUsername;
         });
       }, 2000);
+      
       return () => clearTimeout(timeoutId);
     });
 
@@ -111,15 +119,19 @@ const AdmiPanel = ({adminUsername}:{adminUsername:string}) => {
       
   });
 
+  if(roomId!=="" && emailId){
+    socket.emit("join-room", {roomID:roomId, agentEmailId:emailId});
+  }
+
     return () => {
       console.log("Admin Disconnected")
-      socket.emit("leave-room", {roomID:roomId, type: "Agent", name:adminUsername});
+      // socket.emit("leave-room", {roomID:roomId, type: "Agent", name:emailId});
       socket.disconnect()
     }
   }, []);
 
   const handleJoinRoom = (roomID:string) => {
-    socket.emit("join-room", {roomID, agentName:adminUsername});
+    socket.emit("join-room", {roomID, agentEmailId:emailId});
     setRoomId(roomID);
   }
 
@@ -136,12 +148,12 @@ const AdmiPanel = ({adminUsername}:{adminUsername:string}) => {
     <div className="flex gap-x-4">
     <div className="flex flex-col gap-4  my-4 w-3/12 ">
            {users.map((user, index) => {
-              if(user.agentName==="" || user.agentName===adminUsername){
+              if(user.agentEmailId==="" || user.agentEmailId===emailId){
                return(
                 <button key={index} className={`flex justify-between border-2 rounded-md p-2 bg-base-200 relative ${roomId===user.roomID && "border-green-500"}`}
-                        onClick={()=>{if(adminUsername===user.agentName) setRoomId(user.roomID)}}>
-                   <h2 className="text-sm ">{"User-"+ user?.userName}</h2>
-                   <button disabled={adminUsername===user.agentName} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user.roomID)}>{adminUsername===user.agentName? "connected": "Take"}</button>
+                        onClick={()=>{if(emailId===user.agentEmailId) setRoomId(user.roomID)}}>
+                   <h2 className="text-sm ">{"User-"+ user?.userEmailId}</h2>
+                   <button disabled={emailId===user.agentEmailId} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user.roomID)}>{emailId===user.agentEmailId? "connected": "Take"}</button>
                 </button>)
               }
             })} 

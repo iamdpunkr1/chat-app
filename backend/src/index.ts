@@ -3,7 +3,7 @@ import cors from "cors";
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { createServer, Server as HTTPServer } from "http";
 import Redis from 'ioredis';
-
+import { findUser } from "./userdetails";
 
 const redis = new Redis()
 
@@ -18,10 +18,15 @@ app.use(
 app.use(express.json());
 
 app.post("/api/user/login",async (req, res) => {
-  const { email } = req.body;
-  if (email === ""){
-    return res.status(400).json({ message: "Email is required" });
+  const { email, password } = req.body;
+  if (email === "" || password === "") {
+    return res.status(400).json({ message: "All fields are required" });
   }
+
+  if (!findUser(email, password, "user")) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+
   const chatHistory = await redis.get(email);
   
   if(chatHistory){
@@ -30,6 +35,28 @@ app.post("/api/user/login",async (req, res) => {
 
   await redis.set(email, "you joined the chat");
   return res.status(200).json({ message: "User Logged in successfully", chatHistory: "" });
+}
+);
+
+
+app.post("/api/admin/login",async (req, res) => {
+  const { email, password } = req.body;
+  if (email === "" || password === "") {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  if (!findUser(email, password, "admin")) {
+    return res.status(401).json({ message: "Invalid credentials" });
+  }
+  
+  // const chatHistory = await redis.get(email);
+  
+  // if(chatHistory){
+  //   return res.status(200).json({ message: "User Logged in successfully", chatHistory });
+  // }
+
+  // await redis.set(email, "you joined the chat");
+  return res.status(200).json({ message: "Admin Logged in successfully" });
 }
 );
 // app.get("/", async (req, res) => {
@@ -66,8 +93,8 @@ type RoomType = {
   roomID: string,
   userID: string,
   agentID: string,
-  userName: string,
-  agentName:string
+  userEmailId: string,
+  agentEmailId:string
 }
 
 let rooms:RoomType[] = [];
@@ -113,10 +140,10 @@ io.on("connection", (socket: Socket) => {
   });
 
   //user connect event & adding user to rooms
-  socket.on("user-connect", (userName: string) => {
+  socket.on("user-connect", (userEmailId: string) => {
 
     const roomName = generateRandomRoomName(10);
-    rooms.push({roomID: roomName, userID: socket.id, userName, agentID: "", agentName:""});
+    rooms.push({roomID: roomName, userID: socket.id, userEmailId, agentID: "", agentEmailId:""});
     socket.join(roomName);
     
     console.log("Rooms: ", rooms);
@@ -158,14 +185,15 @@ io.on("connection", (socket: Socket) => {
   // });
 
   //join room by admin
-  socket.on("join-room", (data:{roomID:string, agentName:string}) => {
-    const {roomID, agentName} = data;
+  socket.on("join-room", (data:{roomID:string, agentEmailId:string}) => {
+    const {roomID, agentEmailId} = data;
     const room = rooms.find((room) => room.roomID === roomID);
     if(room){
-      if(room.agentID === "" || room.agentID === socket.id){
+      if(room.agentID === "" || room.agentEmailId === agentEmailId){
         room.agentID = socket.id;
-        room.agentName = agentName;
+        room.agentEmailId = agentEmailId;
         socket.join(roomID);
+        const agentName = agentEmailId.split("@")[0];
         socket.broadcast.to(roomID).emit("agent-joined", `${agentName} has joined the chat`);
         console.log("Admin joined room", rooms);
         socket.broadcast.to(roomID).emit("queue-status", "");
@@ -194,7 +222,7 @@ io.on("connection", (socket: Socket) => {
     if(room){
       if(type === "Agent"){
         room.agentID = "";
-        room.agentName = "";
+        room.agentEmailId = "";
       }else{
         room.userID = "";
         rooms = rooms.filter((room) => room.roomID !== roomID);
@@ -208,9 +236,10 @@ io.on("connection", (socket: Socket) => {
   });
 
   //message to room
-  socket.on("room-message", (msg: { roomID: string; message: string }) => {
+  socket.on("room-message", (msg: { roomID: string; message: string, name:string }) => {
     // console.log(msg);
     if(agentInRoom(msg.roomID)){
+      console.log("Message: ", msg);
       io.to(msg.roomID).emit("recieve-message",msg);
     }
   });

@@ -16,14 +16,14 @@ const ChatArea = ({ message, setMessage, chats, sendMessage, handleKeyPress, use
   useEffect(() => {
     // Scroll to the end of the chat area when chats change
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-    console.log("Chat Area: ", chats)
+    // console.log("Chat Area: ", chats)
   }, [chats]);
 
   return (
     <section className="">
       <div></div>
       <div className="overflow-y-auto flex flex-col border-[2px] border-gray-300 w-full h-[600px] rounded-md">
-        {
+        {chats &&
           chats.map((chat, index) => {
             if (chat.includes("has joined the chat") || chat.includes("has left the chat")) {
               return <p key={index} className="p-4 text-gray-500 rounded-lg m-2 bg-gray-100 self-center text-center">{chat}</p>

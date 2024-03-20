@@ -30,7 +30,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
 
     const sendMessage = (message:string) => {
         console.log("Sending Message");
-        socket.emit("room-message", {roomID: roomID, message: `${socket?.id}: `+message, name})
+        socket.emit("room-message", {roomID: roomID, message: `${emailId}: `+message, name})
        
       }
 
@@ -62,10 +62,13 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
     }
     useEffect(() => {
 
+        
         if(emailId) {
           const getname = emailId.split("@")[0];
           setName(getname);
+          if(chatHistory){
           setChatMessages(chatHistory.split("#\n#"))
+          }
         }
 
         socket.on("connect", () => {
@@ -82,7 +85,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
         socket.on("recieve-message", (msg: { roomID: string; message: string, name:string }) => {
           const newMessage = msg.message.split(":");
           // console.log(newMessage[0] === socket?.id, newMessage[0], socket?.id)
-          if(newMessage[0] === socket?.id){
+          if(newMessage[0] === emailId){
             newMessage[0] = "You"
           }else{
             newMessage[0] = msg.name || "Agent"
@@ -130,7 +133,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
             <h1 className="text-2xl font-semibold mb-4 underline"> Welcome, {name}</h1>
             <p className="text-lg font-semibold pb-8">Connect to an Agent to get started</p>
             <button className="btn btn-primary" onClick={() => {
-              socket.emit("user-connect", name);
+              socket.emit("user-connect", emailId);
               setConnectToQueue(true);
             }}>Connect to an Agent</button>
         </div>  )

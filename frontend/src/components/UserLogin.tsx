@@ -6,8 +6,9 @@ type UserLoginProps = {
 }
 
 const UserLogin = ({ setAuth }: UserLoginProps) => {
-    const [email, setEmail] = useState(''); // State to store email value
-    const [emailError, setEmailError] = useState(''); // State to store email validation error
+    const [email, setEmail] = useState<string>(''); // State to store email value
+    const [password, setPassword] = useState<string>("");
+    const [error, setError] = useState<string>(''); // State to store email validation error
     const emailInputRef = useRef<HTMLInputElement>(null); // Ref to store reference of email input element
 
     useEffect(() => {
@@ -19,25 +20,25 @@ const UserLogin = ({ setAuth }: UserLoginProps) => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setEmailError('');
+        setError('');
         if (validateEmail(email)) {
             const response = await fetch('http://localhost:5001/api/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email })
+                body: JSON.stringify({ email, password })
             });
             const data = await response.json();
             console.log(data);
             if (response.ok) {
                 setAuth({ emailId: email, chatHistory: data.chatHistory });
             } else {
-                setEmailError('Please enter a valid email address.');
+                setError('Invalid credentials.');
             }
-            // setAuth({ emailId: email });
+            
         } else {
-            setEmailError('Please enter a valid email address.');
+            setError('Please enter a valid email address.');
         }
     }
 
@@ -72,11 +73,24 @@ const UserLogin = ({ setAuth }: UserLoginProps) => {
                         onChange={handleEmailChange} // Call handleEmailChange on input change
                         required
                     />
-                    {emailError && <p className="text-red-500">{emailError}</p>} {/* Display email error message */}
+                     <label className="label mt-2 pb-0">
+                      <span className="label-text">Password</span>
+                    </label>
+                    <input
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="******"
+                    type="password"
+                    className="mb-3 input input-bordered"
+                    required
+                    />
+
+                      {error && <p className="text-red-600">{error}</p>}
+{/* Display email error message */}
                     <button type="submit" className="btn btn-primary mb-3" >Login</button>
                     <p className='text-center font-semibold text-sm'>
                         Looking for admin login?
-                        <Link className='text-indigo-700' to="/admin">click here</Link>
+                        <Link className='text-indigo-700 hover:underline' to="/admin"> click here</Link>
                     </p>
                 </form>
             </div>

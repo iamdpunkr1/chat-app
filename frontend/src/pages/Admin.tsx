@@ -3,14 +3,14 @@ import AdmiPanel from "../components/AdmiPanel";
 import { useState } from "react";
 
 export type AdminType = {
-  adminUsername: string
+  emailId: string,
 }
 
 const Admin = () => {
 
   const [auth, setAuth] = useState<AdminType | null>(null);
   return (
-    auth ? <AdmiPanel adminUsername={auth?.adminUsername} /> : <AdminLogin setAuth={setAuth}/>
+    auth ? <AdmiPanel emailId={auth?.emailId} /> : <AdminLogin setAuth={setAuth}/>
 
   )
 }

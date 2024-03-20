@@ -17,15 +17,35 @@ const AdminLogin = ({ setAuth }: AdminLoginProps) => {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // Function to validate email using regex
+  const validateEmail = (email: string) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     // Replace these with your actual authentication logic
-    if (email === "jay@gmail.com" && password === "password") {
-      setAuth({ adminUsername: "jay" });
-    } else {
-      setError("Invalid credentials");
-    }
+    if (validateEmail(email)) {
+      const response = await fetch('http://localhost:5001/api/admin/login', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email, password })
+      });
+      const data = await response.json();
+      console.log(data);
+      if (response.ok) {
+          setAuth({ emailId: email });
+      } else {
+          setError('Invalid credentials.');
+      }
+      
+  } else {
+      setError('Please enter a valid email address.');
+  }
   };
 
   return (
