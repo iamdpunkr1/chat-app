@@ -55,8 +55,10 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
 
 
     const handleLogout = () => {
-       socket.emit("leave-room", {roomID, type: "User", name });
-       socket.emit("save-message", {emailId, message: "You left the chat"})
+      if(connectToQueue){
+          socket.emit("leave-room", {roomID, type: "User", name });
+          socket.emit("save-message", {emailId, message: "You left the chat"})
+        }
        socket.disconnect();
        setAuth(null);
     }
@@ -134,10 +136,11 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
         <div>
             <h1 className="text-2xl font-semibold mb-4 underline"> Welcome, {name}</h1>
             <p className="text-lg font-semibold pb-8">Connect to an Agent to get started</p>
-            <button className="btn btn-primary" onClick={() => {
+            <button className="btn btn-outline btn-primary btn-sm" onClick={() => {
               socket.emit("user-connect", emailId);
               setConnectToQueue(true);
             }}>Connect to an Agent</button>
+            <button className="btn btn-outline btn-sm ml-2" onClick={handleLogout}>Logout</button>
         </div>  )
   }
 

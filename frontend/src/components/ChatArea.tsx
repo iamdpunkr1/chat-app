@@ -25,7 +25,7 @@ const ChatArea = ({ message, setMessage, chats, sendMessage, handleKeyPress, use
       <div className="overflow-y-auto flex flex-col border-[2px] border-gray-300 w-full h-[600px] rounded-md">
         {chats &&
           chats.map((chat, index) => {
-            if (chat.includes("has joined the chat") || chat.includes("has left the chat")) {
+            if (chat.includes("has joined the chat") || chat.includes("left the chat") ) {
               return <p key={index} className="p-4 text-gray-500 rounded-lg m-2 bg-gray-100 self-center text-center">{chat}</p>
             } else if (chat.includes("You")) {
               return <p key={index} className="p-4 text-gray-700 rounded-lg m-2 bg-green-100 self-end">{chat}</p>

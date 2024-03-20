@@ -131,6 +131,7 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("save-message", async (data:{emailId:string, message:string}) => {
     const {emailId, message} = data;
+    console.log("Message: ", data)
     const chatHistory = await redis.get(emailId);
     if(chatHistory){
       await redis.set(emailId, chatHistory + "#\n#" + message);
