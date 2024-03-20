@@ -3,7 +3,8 @@ import { useState } from "react";
 import UserPanel from "../components/UserPanel";
 
 type UserType = {
-  emailId: string
+  emailId: string,
+  chatHistory: string
 }
 
 const User = () => {
@@ -13,7 +14,7 @@ const User = () => {
   return (
     <>
      {auth? 
-    <UserPanel emailId={auth?.emailId} setAuth={setAuth} /> : <UserLogin setAuth={setAuth}/> }
+    <UserPanel chatHistory={auth?.chatHistory} emailId={auth?.emailId} setAuth={setAuth} /> : <UserLogin setAuth={setAuth}/> }
     </>
   )
 }

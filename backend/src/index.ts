@@ -5,7 +5,7 @@ import { createServer, Server as HTTPServer } from "http";
 import Redis from 'ioredis';
 
 
-// const redis = new Redis()
+const redis = new Redis()
 
 const app: Application = express();
 app.use(
@@ -17,6 +17,21 @@ app.use(
 
 app.use(express.json());
 
+app.post("/api/user/login",async (req, res) => {
+  const { email } = req.body;
+  if (email === ""){
+    return res.status(400).json({ message: "Email is required" });
+  }
+  const chatHistory = await redis.get(email);
+  
+  if(chatHistory){
+    return res.status(200).json({ message: "User Logged in successfully", chatHistory });
+  }
+
+  await redis.set(email, "you joined the chat");
+  return res.status(200).json({ message: "User Logged in successfully", chatHistory: "" });
+}
+);
 // app.get("/", async (req, res) => {
 //   //  await redis.set("mykey3", "value"); // Returns a promise which resolves to "OK" when the command succeeds.
 //    console.log("Running NNN")
@@ -84,6 +99,17 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("connect", () => {
     console.log("User connected", socket.id);
+  });
+
+
+  socket.on("save-message", async (data:{emailId:string, message:string}) => {
+    const {emailId, message} = data;
+    const chatHistory = await redis.get(emailId);
+    if(chatHistory){
+      await redis.set(emailId, chatHistory + "#\n#" + message);
+    }else{
+      await redis.set(emailId, message);
+    }
   });
 
   //user connect event & adding user to rooms

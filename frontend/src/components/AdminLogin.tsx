@@ -1,32 +1,78 @@
 import { Link } from "react-router-dom";
+import { AdminType } from "../pages/Admin";
+import { useState, useRef, useEffect } from "react";
 
 type AdminLoginProps = {
-  setAuth: (auth: boolean) => void
-}
+  setAuth: (auth: AdminType | null) => void;
+};
 
+const AdminLogin = ({ setAuth }: AdminLoginProps) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const emailInputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    if(emailInputRef.current){
+      emailInputRef.current.focus();
+    }
+  }, []);
 
-const AdminLogin = ({setAuth}: AdminLoginProps) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    // Replace these with your actual authentication logic
+    if (email === "jay@gmail.com" && password === "password") {
+      setAuth({ adminUsername: "jay" });
+    } else {
+      setError("Invalid credentials");
+    }
+  };
+
   return (
-    <div className='mx-auto w-[420px] card bg-base-200 p-5'>
-              <h2 className='text-center font-bold text-2xl pt-3'>Admin Login</h2>
-              
-              <div className="card-body">
-                <label className="label  pb-0">
-                  <span className="label-text">Email</span>
-                </label>
-                <input placeholder="abc@gmail.com" type='email' className="input input-bordered" />
-               
-                <label className="label mt-2 pb-0">
-                  <span className="label-text">Password</span>
-                </label>
-                <input placeholder="******" type='password' className="mb-3 input input-bordered" />
-                <button className="btn btn-primary mb-3" onClick={()=>setAuth(true)}>Login</button>
+    <div className="mx-auto w-[420px] card bg-base-200 p-5">
+      <h2 className="text-center font-bold text-2xl pt-3">Admin Login</h2>
 
-                <p className='text-center font-semibold text-sm'>Looking for user login? <Link className='text-indigo-700' to="/">click here</Link></p> 
+      <form className="card-body" onSubmit={handleSubmit}>
+        <label className="label pb-0">
+          <span className="label-text">Email</span>
+        </label>
+        <input
+          ref={emailInputRef}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="abc@gmail.com"
+          type="email"
+          className="input input-bordered"
+          required
+        />
 
-              </div>
-        </div>
-  )
-}
+        <label className="label mt-2 pb-0">
+          <span className="label-text">Password</span>
+        </label>
+        <input
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="******"
+          type="password"
+          className="mb-3 input input-bordered"
+          required
+        />
+
+        {error && <p className="text-red-600">{error}</p>}
+
+        <button type="submit" className="btn btn-primary mb-3">
+          Login
+        </button>
+
+        <p className="text-center font-semibold text-sm">
+          Looking for user login?{" "}
+          <Link className="text-indigo-700" to="/">
+            click here
+          </Link>
+        </p>
+      </form>
+    </div>
+  );
+};
 
 export default AdminLogin;
