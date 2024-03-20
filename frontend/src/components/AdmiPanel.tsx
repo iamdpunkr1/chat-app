@@ -52,7 +52,7 @@ const AdmiPanel = ({emailId}:{emailId:string}) => {
   }
 
   const handleDisonnect = () => { 
-    socket.emit("leave-room", {roomID:roomId, type: "Agent", name:emailId});
+    socket.emit("leave-room", {roomID:roomId, type: "Agent", name:adminUserName});
     setRoomId("");
   }
 

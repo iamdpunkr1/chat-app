@@ -122,6 +122,8 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
             setChatMessages((prevMessages) => [...prevMessages, data.message])
         });
 
+        if(connectToQueue) socket.emit("user-connect", emailId);
+
         return () => {
              socket.disconnect()
             }
