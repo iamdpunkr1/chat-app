@@ -5,12 +5,14 @@ import { createServer, Server as HTTPServer } from "http";
 import Redis from 'ioredis';
 import { findUser } from "./userdetails";
 
+const PORT="http://localhost:5173"   //"https://www.alegralabs.com"
+
 const redis = new Redis()
 
 const app: Application = express();
 app.use(
   cors({
-    origin: "https://www.alegralabs.com",
+    origin: PORT,
     credentials: true
   })
 );
@@ -87,7 +89,7 @@ function generateRandomRoomName(length:number) {
 const server: HTTPServer = createServer(app);
 const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
-    origin: "https://www.alegralabs.com",
+    origin: PORT,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -267,7 +269,7 @@ io.on("connection", (socket: Socket) => {
 
 
 
-server.listen(5001, () => {
+server.listen(5003, () => {
   console.log("Server is running on port 5001");
 });
 

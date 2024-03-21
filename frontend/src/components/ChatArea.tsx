@@ -7,7 +7,7 @@ type ChatAreaProps = {
     sendMessage: (message: string) => void,
     handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void,
     username: string,
-
+    
 }
 
 const ChatArea = ({ message, setMessage, chats, sendMessage, handleKeyPress, username }: ChatAreaProps) => {
@@ -20,7 +20,7 @@ const ChatArea = ({ message, setMessage, chats, sendMessage, handleKeyPress, use
   }, [chats]);
 
   return (
-    <section className="">
+    <section className="relative ">
       <div></div>
       <div className="overflow-y-auto flex flex-col border-[2px] border-gray-300 w-full h-[600px] rounded-md">
         {chats &&
@@ -36,11 +36,16 @@ const ChatArea = ({ message, setMessage, chats, sendMessage, handleKeyPress, use
         }
         
         {/* Dummy element to keep the chat scrolled to the bottom */}
-        <div ref={chatEndRef}></div>
-      </div>
-      {username &&
-          <p className="p-2 font-semibold text-left  italic">{`${username} is Typing`}</p>
+      
+        <div ref={chatEndRef} className='aboslute bottom-2 ' style={{height:"40px",minHeight: "40px"}}>
+        {username &&
+          <p className=" text-left text-gray-500 italic pl-4" style={{height:"30px",minHeight: "30px"}}>{`${username} is Typing`}</p>
         }
+        </div>
+        
+        
+      </div>
+      
       <div className="flex w-full mt-4 gap-4 items-center">
         <input type="text" value={message} onKeyDown={handleKeyPress} onChange={(e) => setMessage(e.target.value)} placeholder="Type here" className="input input-lg input-bordered w-full " />
         <button className="btn btn-outline  px-8 " onClick={() => { if (message.length > 0) sendMessage(message); setMessage(""); }}>Send</button>

@@ -106,7 +106,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
         
         socket.on("user-typing", (data:{room:string, username:string}) => {
             setUsername(data.username);
-            const timeoutId = setTimeout(() => setUsername(""), 2000);
+            const timeoutId = setTimeout(() => setUsername(""), 900);
             // Returning a cleanup function to clear the timeout
             return () => clearTimeout(timeoutId);
         })

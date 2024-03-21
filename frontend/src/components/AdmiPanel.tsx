@@ -107,7 +107,7 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
           delete newUsername[data.room];
           return newUsername;
         });
-      }, 2000);
+      }, 900);
       
       return () => clearTimeout(timeoutId);
     });
