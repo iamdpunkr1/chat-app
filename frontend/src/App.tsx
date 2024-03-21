@@ -5,6 +5,7 @@ import Admin from './pages/Admin';
 import { BsChatRightText } from "react-icons/bs";
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NotFound from './pages/NotFound';
+import ChatBox from './components/ChatBox';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<User/>}/>
           <Route path="/admin" element={<Admin/>}/>
+          <Route path="/chatbox" element={<ChatBox/>}/>{/* ChatBox is a standalone component */}
           <Route path="*" element={<NotFound/>}/>
         </Routes>
       </Router>

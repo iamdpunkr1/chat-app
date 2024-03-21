@@ -17,6 +17,10 @@ app.use(
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  return res.status(200).json({ message: "Welcome to Chat-App server" });
+});
+
 app.post("/api/user/login",async (req, res) => {
   const { email, password } = req.body;
   if (email === "" || password === "") {
