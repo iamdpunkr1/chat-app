@@ -90,7 +90,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
           if(newMessage[0] === emailId){
             newMessage[0] = "You"
           }else{
-            newMessage[0] = msg.name || "Agent"
+            newMessage[0] =  msg.name || "Agent"
           }
 
           socket.emit("save-message", {emailId, message: `[${newMessage[0]}]: ${newMessage[1]}`})  
@@ -114,13 +114,13 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
 
         socket.on("agent-joined", (msg: string) => {
             // console.log("Agent joined room: ", roomID)
-            socket.emit("save-message", {emailId, message: msg})
+            // socket.emit("save-message", {emailId, message: msg})
             setChatMessages((prevMessages) => [...prevMessages, msg])
         });
 
         socket.on("user-left", (data:{roomID:string, message:string }) => {
             // console.log("Agent left room: ", roomID)
-            socket.emit("save-message", {emailId, message: data.message})
+            // socket.emit("save-message", {emailId, message: data.message})
             setChatMessages((prevMessages) => [...prevMessages, data.message])
         });
 

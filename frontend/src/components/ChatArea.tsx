@@ -12,9 +12,8 @@ type ChatAreaProps = {
 type ChatMessageProps = {
   message: string;
   isUser?: boolean;
-  isSystem?: boolean;
 };
-const ChatMessage = ({ message, isUser, isSystem }:ChatMessageProps) => {
+const ChatMessage = ({ message, isUser }:ChatMessageProps) => {
   const [username, chatText] = message.split(':');
 
   return (
@@ -22,18 +21,12 @@ const ChatMessage = ({ message, isUser, isSystem }:ChatMessageProps) => {
       className={`p-4 text-gray-700 rounded-lg m-2 ${
         isUser
           ? 'bg-green-100 self-end'
-          : isSystem
-          ? 'bg-gray-100 self-center text-center'
           : 'bg-gray-100 self-start'
       }`}
     >
-      {isSystem ? (
-        chatText
-      ) : (
-        <>
+
           <span className="font-semibold">{username}</span>:{chatText}
-        </>
-      )}
+
     </p>
   );
 };
@@ -59,7 +52,7 @@ const ChatArea = ({
         {chats &&
           chats.map((chat, index) => {
             if (chat.includes('joined the chat') || chat.includes('left the chat')) {
-              return <ChatMessage key={index} message={chat} isSystem />;
+              return <p key={index} className="p-4 text-gray-500 rounded-lg m-2 bg-gray-100 self-center text-center">{chat}</p>;
             } else if (chat.includes('You')) {
               return <ChatMessage key={index} message={chat} isUser />;
             } else {
