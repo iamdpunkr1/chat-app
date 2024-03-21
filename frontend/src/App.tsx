@@ -18,7 +18,7 @@ function App() {
         <h1 className='text-3xl text-center font-semibold my-4'>Realtime Chat App</h1>
       </div>
 
-      <Router>
+      <Router basename='/dipankar/frontend/chatbot/'>
         <Routes>
           <Route path="/" element={<User/>}/>
           <Route path="/admin" element={<Admin/>}/>

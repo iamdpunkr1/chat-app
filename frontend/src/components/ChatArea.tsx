@@ -7,10 +7,10 @@ type ChatAreaProps = {
     sendMessage: (message: string) => void,
     handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void,
     username: string,
-    agent: boolean
+
 }
 
-const ChatArea = ({ message, setMessage, chats, sendMessage, handleKeyPress, username, agent }: ChatAreaProps) => {
+const ChatArea = ({ message, setMessage, chats, sendMessage, handleKeyPress, username }: ChatAreaProps) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

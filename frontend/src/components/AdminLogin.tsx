@@ -28,7 +28,7 @@ const AdminLogin = ({ setAuth }: AdminLoginProps) => {
     setError("");
     // Replace these with your actual authentication logic
     if (validateEmail(email)) {
-      const response = await fetch('http://localhost:5001/api/admin/login', {
+      const response = await fetch(import.meta.env.VITE_SERVER_URL+'/api/admin/login', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'

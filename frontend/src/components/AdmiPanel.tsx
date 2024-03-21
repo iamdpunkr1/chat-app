@@ -25,7 +25,7 @@ type AdmiPanelProps = {
 }
 
 const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
-  const socket = useMemo(() => io('http://localhost:5001', {
+  const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
     withCredentials: true,
   }), []);
 
@@ -173,7 +173,7 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
 
     </div>
     <div className="w-9/12">
-    <ChatArea message={message} setMessage={setMessage} chats={chatMessages[roomId] || []} sendMessage={sendMessage}  handleKeyPress={handleKeyPress} username={username[roomId] || ""} agent={false}/>
+    <ChatArea message={message} setMessage={setMessage} chats={chatMessages[roomId] || []} sendMessage={sendMessage}  handleKeyPress={handleKeyPress} username={username[roomId] || ""}/>
     </div>
     </div>
     </>

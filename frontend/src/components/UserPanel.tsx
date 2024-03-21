@@ -15,7 +15,7 @@ type UserPanelProps = {
 
 const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
 
-    const socket = useMemo(() => io('http://localhost:5001', {
+    const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
         withCredentials: true,
       }), []);
     
@@ -156,7 +156,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
                 </div>  
             </div>
             {queueStatus && <p className="text-left py-4">{queueStatus}</p>} 
-            <ChatArea  message={message} setMessage={setMessage}  chats={chatMessages} sendMessage={sendMessage} handleKeyPress={handleKeyPress} username={username} agent={true}/>
+            <ChatArea  message={message} setMessage={setMessage}  chats={chatMessages} sendMessage={sendMessage} handleKeyPress={handleKeyPress} username={username}/>
     </div>
   )
 }

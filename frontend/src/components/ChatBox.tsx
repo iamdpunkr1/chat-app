@@ -8,6 +8,7 @@ interface Message {
 const ChatBox: React.FC = () => {
   const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(true);
   const [messages, setMessages] = useState<Message[]>([]);
+  const [inputText, setInputText] = useState<string>('');
   const chatboxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -22,26 +23,24 @@ const ChatBox: React.FC = () => {
   };
 
   const addUserMessage = (message: string) => {
-    setMessages([...messages, { type: 'user', text: message }]);
+    setMessages( prevMessages=>[...prevMessages, { type: 'user', text: message }]);
   };
 
   const addBotMessage = (message: string) => {
-    setMessages([...messages, { type: 'bot', text: message }]);
+    setMessages(prevMessages=>[...prevMessages, { type: 'bot', text: message }]);
   };
 
-  const respondToUser = (userMessage: string) => {
-    // Replace this with your chatbot logic
+  const respondToUser = () => {
     setTimeout(() => {
       addBotMessage('This is a response from the chatbot.');
     }, 500);
   };
 
   const handleSendMessage = () => {
-    const userMessage = inputRef.current?.value.trim();
-    if (userMessage !== '') {
-      addUserMessage(userMessage as string);
-      respondToUser(userMessage as string);
-      inputRef.current!.value = '';
+    if (inputText.trim() !== '') {
+      addUserMessage(inputText);
+      respondToUser();
+      setInputText('');
     }
   };
 
@@ -130,6 +129,8 @@ const ChatBox: React.FC = () => {
               <input
                 id="user-input"
                 type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
                 placeholder="Type a message"
                 className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 ref={inputRef}
