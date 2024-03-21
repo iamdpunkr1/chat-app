@@ -138,7 +138,7 @@ const AdmiPanel = ({emailId}:{emailId:string}) => {
   return (
     <>
     <div className="flex  justify-between w-full">
-        <h1 className="text-2xl font-semibold mb-4 underline">Admin Panel</h1>
+        <h1 className="text-2xl font-semibold mb-4 underline">Admin Panel [{adminUserName}]</h1>
         <div className="flex gap-4">
           <button disabled={roomId ===""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
           <button className="btn btn-outline btn-sm">Logout</button>
@@ -152,7 +152,7 @@ const AdmiPanel = ({emailId}:{emailId:string}) => {
                return(
                 <button key={index} className={`flex justify-between border-2 rounded-md p-2 bg-base-200 relative ${roomId===user.roomID && "border-green-500"}`}
                         onClick={()=>{if(emailId===user.agentEmailId) setRoomId(user.roomID)}}>
-                   <h2 className="text-sm ">{"User-"+ user?.userEmailId}</h2>
+                   <h2 className="text-sm ">{"User-"+1+"-"+ user?.userEmailId?.split("@")[0]}</h2>
                    <button disabled={emailId===user.agentEmailId} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user.roomID)}>{emailId===user.agentEmailId? "connected": "Take"}</button>
                 </button>)
               }
