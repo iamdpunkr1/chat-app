@@ -19,7 +19,12 @@ type UsernameType = {
   [roomID: string]: string;
 }
 
-const AdmiPanel = ({emailId}:{emailId:string}) => {
+type AdmiPanelProps = {
+  emailId: string,
+  setAuth: React.Dispatch<React.SetStateAction<any>>;
+}
+
+const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
   const socket = useMemo(() => io('http://localhost:5001', {
     withCredentials: true,
   }), []);
@@ -30,7 +35,7 @@ const AdmiPanel = ({emailId}:{emailId:string}) => {
   const [users, setUsers] = useState<RoomType[]>([]);
   const [roomId, setRoomId] = useState<string>("");
   const [username, setUsername] = useState<UsernameType>({});
-  const [socketID, setSocketID] = useState<string>("");
+  // const [socketID, setSocketID] = useState<string>("");
   const adminUserName= emailId.split("@")[0];
   
 
@@ -61,7 +66,7 @@ const AdmiPanel = ({emailId}:{emailId:string}) => {
 
     socket.on("connect", () => {
     console.log("Admin Connected to server with id: ", socket.id)
-      setSocketID(socket?.id as string);
+      // setSocketID(socket?.id as string);
     })
 
     socket.on("notifyAgent", () => {
@@ -135,13 +140,21 @@ const AdmiPanel = ({emailId}:{emailId:string}) => {
     setRoomId(roomID);
   }
 
+  const handleLogout = () => {
+    if(roomId !==""){
+      socket.emit("leave-room", {roomID:roomId, type: "Agent", name:adminUserName});
+      }
+     socket.disconnect();
+     setAuth(null);
+  }
+
   return (
     <>
     <div className="flex  justify-between w-full">
         <h1 className="text-2xl font-semibold mb-4 underline">Admin Panel [{adminUserName}]</h1>
         <div className="flex gap-4">
           <button disabled={roomId ===""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
-          <button className="btn btn-outline btn-sm">Logout</button>
+          <button className="btn btn-outline btn-sm" onClick={handleLogout}>Logout</button>
         </div>        
     </div>
     

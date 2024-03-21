@@ -10,7 +10,7 @@ const Admin = () => {
 
   const [auth, setAuth] = useState<AdminType | null>(null);
   return (
-    auth ? <AdmiPanel emailId={auth?.emailId} /> : <AdminLogin setAuth={setAuth}/>
+    auth ? <AdmiPanel emailId={auth?.emailId}  setAuth={setAuth}/> : <AdminLogin setAuth={setAuth}/>
 
   )
 }

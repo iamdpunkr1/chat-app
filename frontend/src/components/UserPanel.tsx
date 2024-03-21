@@ -22,7 +22,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
     const [name, setName] = useState<string>("");
     const [message, setMessage] = useState<string>("");
     const [chatMessages, setChatMessages] = useState<string[]>([]);
-    const [socketID, setSocketID] = useState<string>("");
+    // const [socketID, setSocketID] = useState<string>("");
     const [username, setUsername] = useState<string>("");
     const [roomID, setRoomID] = useState<string>("");
     const [queueStatus, setQueueStatus] = useState<string>("");
@@ -75,7 +75,7 @@ const UserPanel = ({ emailId, chatHistory, setAuth }: UserPanelProps) => {
 
         socket.on("connect", () => {
           console.log("User Connected to server with id: ", socket.id)
-          setSocketID(socket?.id?.substring(0, 5) as string)
+          // setSocketID(socket?.id?.substring(0, 5) as string)
         })
         
         
