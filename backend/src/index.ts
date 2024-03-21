@@ -10,7 +10,7 @@ const redis = new Redis()
 const app: Application = express();
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://www.alegralabs.com",
     credentials: true
   })
 );
@@ -87,7 +87,7 @@ function generateRandomRoomName(length:number) {
 const server: HTTPServer = createServer(app);
 const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://www.alegralabs.com",
     methods: ["GET", "POST"],
     credentials: true
   }
