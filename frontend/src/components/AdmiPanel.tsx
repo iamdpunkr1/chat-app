@@ -110,6 +110,27 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
     
   };
 
+  const sendTranscript = async () => {
+    console.log("Sending Transcript")
+    try{
+    const res = await fetch(import.meta.env.VITE_SERVER_URL+"/api/send-transcript", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({emailId, transcript:chatMessages[roomId]})
+    });
+    const data = await res.json();
+    console.log("Transcript sent: ",data);
+    if(data.success){
+      alert("Transcript sent successfully");
+    }
+  }catch(err){
+    console.log("Error while sending transcript: ",err);
+  }
+    
+  }
+
   const handleDisonnect = () => { 
     socket.emit("leave-room", {roomId, type: "Agent", name:adminUserName});
     setRoomId("");
@@ -234,6 +255,7 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
     <div className="flex  justify-between w-full">
         <h1 className="text-2xl font-semibold mb-4 underline">Admin Panel [{adminUserName}]</h1>
         <div className="flex gap-4">
+          <button disabled={roomId ==="" } className="btn btn-outline btn-primary btn-sm" onClick={()=>{ if(chatMessages[roomId].length>0) sendTranscript()}}>Send Transcript</button>
           <button disabled={roomId ===""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
           <button className="btn btn-outline btn-sm" onClick={handleLogout}>Logout</button>
         </div>        

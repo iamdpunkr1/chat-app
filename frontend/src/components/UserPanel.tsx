@@ -223,7 +223,7 @@ const UserPanel = ({ emailId,  setAuth }: UserPanelProps) => {
                 <h1 className="text-2xl font-semibold mb-4 underline">User Panel: [{name}]</h1>
               
                 <div className="flex gap-4">
-                  <button disabled={roomID ===""} className="btn btn-outline btn-primary btn-sm" onClick={sendTranscript}>Send Transcript</button>
+                  <button disabled={roomID ===""} className="btn btn-outline btn-primary btn-sm" onClick={()=> {if(chatMessages.length>0) sendTranscript()}}>Send Transcript</button>
                   <button  disabled={roomID ===""}  className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
                   <button className="btn btn-outline btn-sm" onClick={handleLogout}>Logout</button>
                 </div>  

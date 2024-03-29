@@ -78,13 +78,26 @@ app.post("/api/send-transcript", async (req, res) => {
 
   console.log("Transcript: ", process.env.EMAIL_ID, process.env.EMAIL_PASSWORD)
 
-    // Prepare email content
-    const mailOptions = {
-      from: process.env.EMAIL_ID,
-      to: emailId,
-      subject: 'Chat Transcript',
-      text: transcript.join('\n'),
-  };
+     // Prepare email content
+      const formattedTranscript = transcript.map((message:{sender:string, type:string, message:string, time:string}, index:number) => {
+        switch(message.type){
+          case "text": 
+          return `(${message.time}.) ${message.sender} :  ${message.message}\n`;
+          case "notify":
+            return `(${message.time}.) *** ${message.message} ***\n`;
+          default:
+            return `(${message.time}.) ${message.sender} :  Uploaded a file ${message.message}\n`;
+            
+        }
+
+      }).join('\n');
+
+      const mailOptions = {
+        from: process.env.EMAIL_ID,
+        to: emailId,
+        subject: 'Chat Transcript',
+        text: formattedTranscript,
+      };
 
   // Send email using a secure transport
   const transporter = nodemailer.createTransport({
