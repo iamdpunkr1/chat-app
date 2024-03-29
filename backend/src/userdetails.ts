@@ -12,6 +12,9 @@ interface User {
     "dan@gmail.com": {
       password: "password",
     },
+    "iamdpunkr@gmail.com": {
+      password: "password",
+    },
   };
   
   const admins: Record<string, User> = {
@@ -21,6 +24,7 @@ interface User {
     "syed@gmail.com": {
       password: "password",
     },
+   
   };
   
   export const findUser = (email: string, password: string, userType: 'user' | 'admin'): boolean => {
