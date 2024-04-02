@@ -8,6 +8,7 @@ import { configDotenv } from 'dotenv';
 import nodemailer from 'nodemailer';
 import { upload } from "./middleware/multerMiddleware";
 import fs from 'fs';
+import { loginUser, register } from "./controllers/userController";
 configDotenv({
     path: "./.env"
 });
@@ -58,21 +59,22 @@ app.post("/api/user/login",async (req, res) => {
 }
 );
 
+app.post("/api/admin/login", loginUser);
+app.post("/api/admin/register", register);
+// app.post("/api/admin/login",async (req, res) => {
+//   const { email, password } = req.body;
+//   if (email === "" || password === "") {
+//     return res.status(400).json({ message: "All fields are required" });
+//   }
 
-app.post("/api/admin/login",async (req, res) => {
-  const { email, password } = req.body;
-  if (email === "" || password === "") {
-    return res.status(400).json({ message: "All fields are required" });
-  }
-
-  if (!findUser(email, password, "admin")) {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
+//   if (!findUser(email, password, "admin")) {
+//     return res.status(401).json({ message: "Invalid credentials" });
+//   }
   
 
-  return res.status(200).json({ message: "Admin Logged in successfully" });
-}
-);
+//   return res.status(200).json({ message: "Admin Logged in successfully" });
+// }
+// );
 
 app.post("/api/send-transcript", async (req, res) => {
   const { emailId, transcript } = req.body;
