@@ -1,54 +1,25 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import ChatboxLogin from './ChatboxLogin';
+import { chatIcon, chatTitle } from '../config';
+import { UserType } from '../types';
+import ChatboxChatArea from './ChatboxChatArea';
 
-interface Message {
-  type: 'user' | 'bot';
-  text: string;
-}
+
+
 
 const ChatBox: React.FC = () => {
-  const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(true);
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [inputText, setInputText] = useState<string>('');
-  const chatboxRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const [auth, setAuth] = useState<UserType | null>(null);
+  const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (chatboxRef.current) {
-      chatboxRef.current.scrollTop = chatboxRef.current.scrollHeight;
-    }
-  }, [messages]);
 
   const toggleChatbox = () => {
+    if(isChatboxOpen && auth){
+      setAuth(null);
+    } 
     setIsChatboxOpen(!isChatboxOpen);
   };
 
-  const addUserMessage = (message: string) => {
-    setMessages( prevMessages=>[...prevMessages, { type: 'user', text: message }]);
-  };
 
-  const addBotMessage = (message: string) => {
-    setMessages(prevMessages=>[...prevMessages, { type: 'bot', text: message }]);
-  };
-
-  const respondToUser = () => {
-    setTimeout(() => {
-      addBotMessage('This is a response from the chatbot.');
-    }, 500);
-  };
-
-  const handleSendMessage = () => {
-    if (inputText.trim() !== '') {
-      addUserMessage(inputText);
-      respondToUser();
-      setInputText('');
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
-  };
 
   return (
     <div>
@@ -72,14 +43,17 @@ const ChatBox: React.FC = () => {
               d="M12 6v6m0 0v6m0-6h6m-6 0H6"
             ></path>
           </svg>
-          Chat with Admin Bot
+          Chat with an Agent
         </button>
       </div>
       {isChatboxOpen && (
         <div id="chat-container" className="fixed bottom-16 right-4 w-96">
           <div className="bg-white shadow-md rounded-lg max-w-lg w-full">
             <div className="p-4 border-b bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
-              <p className="text-lg font-semibold">Admin Bot</p>
+              <div className='flex gap-2 items-center'>
+              {chatIcon(25)}
+               <p className="text-lg font-semibold pb-1">{chatTitle}</p>
+              </div>
               <button
                 id="close-chat"
                 className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
@@ -101,49 +75,14 @@ const ChatBox: React.FC = () => {
                 </svg>
               </button>
             </div>
-            <div
-              id="chatbox"
-              className="p-4 h-80 overflow-y-auto"
-              ref={chatboxRef}
-            >
-              {messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`mb-2 ${
-                    message.type === 'user' ? 'text-right' : ''
-                  }`}
-                >
-                  <p
-                    className={`rounded-lg py-2 px-4 inline-block ${
-                      message.type === 'user'
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-200 text-gray-700'
-                    }`}
-                  >
-                    {message.text}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <div className="p-4 border-t flex">
-              <input
-                id="user-input"
-                type="text"
-                value={inputText}
-                onChange={(e) => setInputText(e.target.value)}
-                placeholder="Type a message"
-                className="w-full px-3 py-2 border rounded-l-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                ref={inputRef}
-                onKeyPress={handleKeyPress}
-              />
-              <button
-                id="send-button"
-                className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition duration-300"
-                onClick={handleSendMessage}
-              >
-                Send
-              </button>
-            </div>
+            {
+              auth ? (
+                 <ChatboxChatArea auth={auth} setAuth={setAuth}/>
+              ) : (
+                <ChatboxLogin setAuth={setAuth} />
+              )
+            }
+
           </div>
         </div>
       )}

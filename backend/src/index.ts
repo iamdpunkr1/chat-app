@@ -12,8 +12,13 @@ configDotenv({
     path: "./.env"
 });
 
+import mongo from "./db/index";
 
-
+mongo.init().then(() => {
+    console.log('MongoDB connected');
+}).catch((error) => {
+    console.log('MongoDB connection error:', error);
+});
 const PORT="http://localhost:5173"   //"https://www.alegralabs.com"
 
 const redis = new Redis()
@@ -321,14 +326,10 @@ io.on("connection", (socket: Socket) => {
     const {roomId, type, name} = data;
     socket.leave(roomId);
     const room = rooms.get(roomId);
-    if(room){
-      if(type === "Agent"){
-        rooms.set(roomId, {...room, agentName: "", agentEmailId: ""});
-      }else{
-        rooms.delete(roomId);
-      }
-    }
 
+    if(room) rooms.delete(roomId);
+    
+    console.log("user left room",data)
     socket.broadcast.to(roomId).emit("user-left", {roomId, message: `${name} has left the chat`, sender:name, type:'notify'});
     io.emit("fetch-users", Array.from(rooms.values()));
   });

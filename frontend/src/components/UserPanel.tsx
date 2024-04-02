@@ -151,9 +151,6 @@ const UserPanel = ({ emailId,  setAuth }: UserPanelProps) => {
         if(emailId) {
           const getname = emailId.split("@")[0];
           setName(getname);
-          // if(chatHistory){
-          // setChatMessages(chatHistory.split("#\n#"))
-          // }
         }
 
         socket.on("connect", () => {
