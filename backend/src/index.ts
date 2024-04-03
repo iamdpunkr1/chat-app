@@ -1,19 +1,22 @@
 import express, { Application } from "express";
 import cors from "cors";
+import jwt from "jsonwebtoken";
 import { Server as SocketIOServer, Socket } from "socket.io";
-import { createServer, Server as HTTPServer } from "http";
+import { createServer, get, Server as HTTPServer } from "http";
 import Redis from 'ioredis';
 import { findUser } from "./userdetails";
 import { configDotenv } from 'dotenv';
 import nodemailer from 'nodemailer';
 import { upload } from "./middleware/multerMiddleware";
 import fs from 'fs';
-import { loginUser, register } from "./controllers/userController";
+import { loginAdmin, register, loginUser } from "./controllers/userController";
 configDotenv({
     path: "./.env"
 });
 
 import mongo from "./db/index";
+import { ObjectId } from "mongodb";
+
 
 mongo.init().then(() => {
     console.log('MongoDB connected');
@@ -35,47 +38,16 @@ app.use(
 app.use(express.json());
 app.use(express.static("public"))
 app.get("/", (req, res) => {
+  const ipAddress = req.header('x-forwarded-for') || req.socket.remoteAddress || req.ip;
+
+  console.log("IP Address: ", ipAddress)
   return res.status(200).json({ message: "Welcome to Chat-App server" });
 });
 
-app.post("/api/user/login",async (req, res) => {
-  const { email, password } = req.body;
-  if (email === "" || password === "") {
-    return res.status(400).json({ message: "All fields are required" });
-  }
+app.post("/api/user/login", loginUser);
 
-  if (!findUser(email, password, "user")) {
-    return res.status(401).json({ message: "Invalid credentials" });
-  }
-
-  const chatHistory = await redis.get(email);
-  
-  if(chatHistory){
-    return res.status(200).json({ message: "User Logged in successfully", chatHistory });
-  }
-
-  await redis.set(email, "you joined the chat");
-  return res.status(200).json({ message: "User Logged in successfully", chatHistory: "" });
-}
-);
-
-app.post("/api/admin/login", loginUser);
+app.post("/api/admin/login", loginAdmin);
 app.post("/api/admin/register", register);
-// app.post("/api/admin/login",async (req, res) => {
-//   const { email, password } = req.body;
-//   if (email === "" || password === "") {
-//     return res.status(400).json({ message: "All fields are required" });
-//   }
-
-//   if (!findUser(email, password, "admin")) {
-//     return res.status(401).json({ message: "Invalid credentials" });
-//   }
-  
-
-//   return res.status(200).json({ message: "Admin Logged in successfully" });
-// }
-// );
-
 app.post("/api/send-transcript", async (req, res) => {
   const { emailId, transcript } = req.body;
   if (emailId === "" || transcript === "") {
@@ -88,7 +60,7 @@ app.post("/api/send-transcript", async (req, res) => {
      // Prepare email content
       const formattedTranscript = transcript.map((message:{sender:string, type:string, message:string, time:string}, index:number) => {
         switch(message.type){
-          case "text": 
+          case "text":  
           return `(${message.time}.) ${message.sender} :  ${message.message}\n`;
           case "notify":
             return `(${message.time}.) *** ${message.message} ***\n`;
@@ -185,10 +157,49 @@ const agentInRoom = (roomId: string) => {
 // Queue to hold users waiting to be connected with an agent
 let userQueue: string[] = [];
 
+io.use(async(socket, next) => {
+  // console.log("Socket Auth: ", socket.handshake.auth);
+  const {token, code} = socket.handshake.auth;
 
-io.on("connection", (socket: Socket) => {
+  if(!token || !code){
+    return next(new Error("Authentication error"));
+  }
 
+  if(code === process.env.SOCKET_AUTH_CODE){
+    try{
+      const decodedToken:any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      
+      const {Users} = mongo;
+        const user = await Users.findOne({email:decodedToken.email});
+        
+        if (!user) {
+          return next(new Error("Authentication error"));
+        }
+
+        return next();
+    }catch(err){
+      return next(new Error("Authentication error"));
+    }
     
+  }else {
+    try{
+      const decodedToken:any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+      console.log("Decoded Token: ", decodedToken);
+      const {email, username} = decodedToken;
+      const key = "user:"+email+username;
+      const getToken = await redis.get(key);
+      if(getToken === token){
+        return next();
+      }
+
+    }catch(err){
+      return next(new Error("Authentication error"));
+    }
+  }
+  return next(new Error("Authentication error"));
+});
+
+io.on("connection", (socket: Socket) => {    
     // Function to update queue status and inform user about their position in the queue
   const updateQueueStatus = () => {
       // Recalculate position in queue for all users
@@ -213,7 +224,6 @@ io.on("connection", (socket: Socket) => {
         io.to(roomId).emit("recieve-file", {file, name});
       }
     });
-    // console.log("File: ", file);
     
   });
 
@@ -330,6 +340,12 @@ io.on("connection", (socket: Socket) => {
     const room = rooms.get(roomId);
 
     if(room) rooms.delete(roomId);
+    if(type === "User"){
+      userQueue = userQueue.filter((room) => roomId !== room);
+      updateQueueStatus();
+
+    }
+
     
     console.log("user left room",data)
     socket.broadcast.to(roomId).emit("user-left", {roomId, message: `${name} has left the chat`, sender:name, type:'notify'});

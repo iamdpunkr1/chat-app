@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AdminType } from "../pages/Admin";
+import { AdminType } from "../types";
 import { useState, useRef, useEffect } from "react";
 
 type AdminLoginProps = {
@@ -28,7 +28,8 @@ const AdminLogin = ({ setAuth }: AdminLoginProps) => {
     setError("");
     // Replace these with your actual authentication logic
     if (validateEmail(email)) {
-      const response = await fetch(import.meta.env.VITE_SERVER_URL+'/api/admin/login', {
+      try{
+      const response = await fetch('http://localhost:5003/api/admin/login', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -38,10 +39,14 @@ const AdminLogin = ({ setAuth }: AdminLoginProps) => {
       const data = await response.json();
       console.log(data);
       if (response.ok) {
-          setAuth({ emailId: email });
+          const { email, name, accessToken } = data;
+          setAuth({ emailId: email, name, accessToken});
       } else {
           setError('Invalid credentials.');
       }
+    }catch(err){
+      console.log("Error while logging in: ", err);
+    }
       
   } else {
       setError('Please enter a valid email address.');

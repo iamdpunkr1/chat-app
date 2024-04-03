@@ -19,9 +19,12 @@ import { send_Transcript } from "../config";
 
 const ChatboxChatArea = ({auth, setAuth}:UserChatBoxProps) => {
 
-  const { emailId, username:name }  = auth;
+  const { emailId, username:name, accessToken }  = auth;
   const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
-    withCredentials: true,
+    auth: {
+      token: accessToken,
+      code:'7811'
+    }
   }), []);
 
   const { sendTranscript } = useSendTranscript();
@@ -32,7 +35,7 @@ const [username, setUsername] = useState<string>("");
 const [roomID, setRoomID] = useState<string>("");
 const [queueStatus, setQueueStatus] = useState<string>("");
 const [connectToQueue, setConnectToQueue] = useState<boolean>(false);
-
+const [error, setError] = useState<string>("");
 // Create a ref to store the roomID
 const roomIdRef = useRef<string>("");
 
@@ -126,6 +129,19 @@ useEffect(() => {
     
     socket.emit("user-connect", emailId, name);
 
+    socket.on('connect_error', (error) => {
+      console.log('Connection error:', error.message);
+      if(error.message === "Authentication error"){
+        setError("Authentication Error. Please login again");
+        setTimeout(() => {
+          setAuth(null);
+        }, 2000);
+      }
+    });
+
+    socket.on('error', (error) => {
+      console.log('Socket error:', error);
+    });
     socket.on("queue-status", (status: string) => {
         setQueueStatus(status);
     })
@@ -176,7 +192,7 @@ useEffect(() => {
 
   return (
     <div>
-
+            {error && <p className="text-left py-4 px-4 text-red-500 text-md">{error}</p>}
             {queueStatus && <p className="text-left py-4 px-4 text-gray-500 text-md">{queueStatus}</p>} 
             <ChatArea  message={message}
                        setMessage={setMessage}

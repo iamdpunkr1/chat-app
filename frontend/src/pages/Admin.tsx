@@ -1,16 +1,13 @@
 import AdminLogin from "../components/AdminLogin";
 import AdmiPanel from "../components/AdmiPanel";
 import { useState } from "react";
-
-export type AdminType = {
-  emailId: string,
-}
+import { AdminType } from "../types";
 
 const Admin = () => {
 
   const [auth, setAuth] = useState<AdminType | null>(null);
   return (
-    auth ? <AdmiPanel emailId={auth?.emailId}  setAuth={setAuth}/> : <AdminLogin setAuth={setAuth}/>
+    auth ? <AdmiPanel auth={auth}  setAuth={setAuth}/> : <AdminLogin setAuth={setAuth}/>
 
   )
 }

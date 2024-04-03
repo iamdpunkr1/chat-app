@@ -8,15 +8,24 @@ export type messageTypes ={
 
 export type UserType = {
     emailId: string,
-    username: string
+    username: string,
+    message?:string,
+    accessToken: string,
   }
 
  export type UserLoginProps = {
-    setAuth: (auth: {emailId:string, username:string}) => void
+    setAuth: (auth: UserType) => void
 }
 
 export type UserChatBoxProps = {
     auth: UserType;
     setAuth: React.Dispatch<React.SetStateAction<UserType | null>>;
    
+  }
+
+
+export type AdminType = {
+    emailId: string,
+    name: string,
+    accessToken: string,
   }

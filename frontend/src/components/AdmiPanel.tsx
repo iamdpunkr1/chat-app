@@ -3,8 +3,8 @@ import { useEffect, useMemo, useRef, useState} from "react";
 import { io } from 'socket.io-client';
 // import messageSound from "../assets/sound/message.mp3";
 import notifySound from "../assets/sound/notify.wav";
-import ringSound from "../assets/sound/ring.mp3";
-import { messageTypes } from "../types";
+// import ringSound from "../assets/sound/ring.mp3";
+import { AdminType, messageTypes } from "../types";
 import axios from 'axios';
 // import useSound from 'use-sound';
 // @ts-ignore
@@ -29,7 +29,7 @@ type UsernameType = {
 }
 
 type AdmiPanelProps = {
-  emailId: string,
+  auth: AdminType,
   setAuth: React.Dispatch<React.SetStateAction<any>>;
 }
 
@@ -44,9 +44,13 @@ type AdmiPanelProps = {
   return { date: ISTDate, time: ISTTime };
 };
 
-const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
+const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
+  const { emailId, name:adminUserName, accessToken } = auth;
   const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
-    withCredentials: true,
+    auth: {
+      token: accessToken,
+      code:"7812"
+    }
   }), []);
 
 
@@ -54,6 +58,7 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
   const [message, setMessage] = useState<string>("");
   const [users, setUsers] = useState<Room[]>([]);
   const [roomId, setRoomId] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<UsernameType>({});
   const [isAgentJoined, setIsAgentJoined] = useState(false);
   const notificationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -61,7 +66,7 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
   // const soundIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   // const [soundTimeout, setSoundTimeout] = useState<typeof setTimeout | null>(null);
   // const [socketID, setSocketID] = useState<string>("");
-  const adminUserName= emailId.split("@")[0];
+  // const adminUserName= emailId.split("@")[0];
   
 
   const sendMessage = (message: string) => {
@@ -146,9 +151,25 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
   useEffect(() => {
     console.log("Admin Panel: ", emailId)
     notificationAudioRef.current = new Audio(notifySound);
+   
     socket.on("connect", () => {
-    console.log("Admin Connected to server with id: ", socket.id)
+     console.log("Admin Connected to server with id: ", socket.id)
     })
+
+
+    socket.on('connect_error', (error) => {
+      console.log('Connection error:', error.message);
+      if(error.message === "Authentication error"){
+        setError("Authentication Error. Please login again");
+        // setTimeout(() => {
+        //   setAuth(null);
+        // }, 2000);
+      }
+    });
+
+    socket.on('error', (error) => {
+      console.log('Socket error:', error);
+    });
 
     socket.on("notifyAgent", () => {
       setIsAgentJoined(false);
@@ -297,6 +318,7 @@ const AdmiPanel = ({emailId, setAuth}:AdmiPanelProps) => {
 
     </div>
     <div className="w-9/12">
+    {error && <p className="text-left py-4 px-4 text-red-500 text-md">{error}</p>}
     <ChatArea message={message}
               setMessage={setMessage}
               chats={chatMessages[roomId] || []}

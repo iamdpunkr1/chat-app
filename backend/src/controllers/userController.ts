@@ -4,6 +4,11 @@ import asyncHandler from "../utils/asyncHandler";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { ApiError } from "../utils/ApiError";
+import Redis from 'ioredis';
+import { getUniversalDateTime, convertToCurrentTimeZone, separateDateAndTime, separateLocalDateAndTime } from "../utils/timeStamps";
+const redis = new Redis();
+
+
 
 const generateAccessToken = function(){
     return jwt.sign(
@@ -96,11 +101,11 @@ const generateAccessToken = function(){
   })
   
   
-  const loginUser = asyncHandler(async (req:Request, res:Response)=>{
+  const loginAdmin = asyncHandler(async (req:Request, res:Response)=>{
     
     const {email, password} = req.body;
-    
-  
+
+    console.log("loginAdmin", email, password);
     if(!email || !password) throw new ApiError(400,"All fields are required")
   
       // Validate UserName
@@ -112,10 +117,11 @@ const generateAccessToken = function(){
     if (password.length < 8) {
         throw new ApiError(400,"Password must be at least 8 characters long");
     }
-  
+    console.log("before mongo")
     const {Users} =  mongo;
-    
-    const user = await Users.findOne({email})
+    console.log("after mongo")
+    const user = await Users.findOne({email:email})
+    console.log("User", user)
     if(!user) throw new ApiError(404,"User doesn't exist")
   
   
@@ -173,5 +179,45 @@ const generateAccessToken = function(){
     .clearCookie("refreshToken", options)
     .json("User logged Out")
   })
+
+  const loginUser = asyncHandler(async (req: Request, res: Response) => {
+    const { email, username } = req.body;
+    console.log("loginUser", email, username);
+    // Check if email and username are provided
+    if (!email || !username) {
+      throw new ApiError(400, "Email and username are required");
+    }
   
-  export { register, loginUser, logoutUser }
+    // Validate username length
+    if (username.length < 3 || username.length > 25) {
+      throw new ApiError(400, "Username must be between 3-25 characters");
+    }
+  
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      throw new ApiError(400, "Invalid email format");
+    }
+  
+    
+    const key = `user:${email}${username}`;
+    const token = generateAccessToken.call({ _id: key, email, username });
+    await redis.set(key, token, "EX", 60 * 60);
+    // console.log("User Token", token);
+    const { Chats } = mongo;
+    const universalDateTime = getUniversalDateTime();
+    const { date, time } = separateDateAndTime(universalDateTime);
+    await Chats.insertOne({
+      userEmail: email,
+      username,
+      agentEmailId: "",
+      agentName: "",
+      ip: req.ip,
+      chatHistory: `(${date} , ${time}.) ${username} :  ${username} joined the chat\n`,
+      userJoinedTime: `${date} , ${time}`,
+      agentJoinedTime: "",
+    });
+  
+    return res.status(200).json({ email, username, message: "User Logged in successfully", accessToken:token });
+  });
+  export { register, loginAdmin, logoutUser, loginUser }

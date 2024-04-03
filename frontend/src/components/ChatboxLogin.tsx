@@ -19,26 +19,28 @@ const ChatboxLogin = ({ setAuth }: UserLoginProps) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
       setError('');
-      if(validateEmail(email) && username.length > 0){
-        setAuth({ emailId: email, username: username });
+      console.log(email, username)
+      if(validateEmail(email) && username.length > 3){
+        const response = await fetch('http://localhost:5003/api/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, username })
+        });
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+            const { email, username, message, accessToken } = data;
+            setAuth({emailId:email, username:username, message:message, accessToken:accessToken});
+        } else {
+            setError('Error in repsonse.');
+        }
         }else {
             setError('Please enter a valid email address.');
         }
     //   if (validateEmail(email)) {
-    //       const response = await fetch(import.meta.env.VITE_SERVER_URL+'/api/user/login', {
-    //           method: 'POST',
-    //           headers: {
-    //               'Content-Type': 'application/json'
-    //           },
-    //           body: JSON.stringify({ email, username })
-    //       });
-    //       const data = await response.json();
-    //       console.log(data);
-    //       if (response.ok) {
-    //           setAuth({ emailId: email, username: data.chatHistory });
-    //       } else {
-    //           setError('Invalid credentials.');
-    //       }
+
           
     //   } else {
     //       setError('Please enter a valid email address.');
