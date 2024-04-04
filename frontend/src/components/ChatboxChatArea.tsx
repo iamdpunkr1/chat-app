@@ -34,7 +34,7 @@ const [chatMessages, setChatMessages] = useState<messageTypes[]>([]);
 const [username, setUsername] = useState<string>("");
 const [roomID, setRoomID] = useState<string>("");
 const [queueStatus, setQueueStatus] = useState<string>("");
-const [connectToQueue, setConnectToQueue] = useState<boolean>(false);
+// const [connectToQueue, setConnectToQueue] = useState<boolean>(false);
 const [error, setError] = useState<string>("");
 // Create a ref to store the roomID
 const roomIdRef = useRef<string>("");
@@ -56,7 +56,7 @@ const sendMessage = (message:string) => {
    
   }
 
-const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+const handleKeyPress = (e: any):void => {
     if(e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
         setMessage("");
@@ -66,13 +66,13 @@ const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
 }
 
 
-const handleDisonnect = () => {
-    console.log("Disconnecting")
-    socket.emit("leave-room", {roomId:roomID, type: "User", name });
-    socket.emit("save-message", {emailId, message: "You left the chat"})
-    setRoomID("");
-    setConnectToQueue(false);
-}
+// const handleDisonnect = () => {
+//     console.log("Disconnecting")
+//     socket.emit("leave-room", {roomId:roomID, type: "User", name });
+//     socket.emit("save-message", {emailId, message: "You left the chat"})
+//     setRoomID("");
+//     setConnectToQueue(false);
+// }
 
 
 const handleLogout = (roomID:string) => {
@@ -181,7 +181,7 @@ useEffect(() => {
 
    
 
-    if(connectToQueue) socket.emit("user-connect", emailId);
+    // if(connectToQueue) socket.emit("user-connect", emailId);
 
     return () => {
         //  socket.disconnect()

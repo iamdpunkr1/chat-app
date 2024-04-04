@@ -60,7 +60,7 @@ const UserPanel = ({ emailId,  setAuth }: UserPanelProps) => {
        
       }
 
-    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const handleKeyPress = (e:any) => {
         if(e.key === 'Enter'){
             sendMessage(e.currentTarget.value)
             // e.currentTarget.value = ""

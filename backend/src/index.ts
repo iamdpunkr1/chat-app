@@ -1,4 +1,5 @@
 import express, { Application } from "express";
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 import { Server as SocketIOServer, Socket } from "socket.io";
@@ -9,7 +10,7 @@ import { configDotenv } from 'dotenv';
 import nodemailer from 'nodemailer';
 import { upload } from "./middleware/multerMiddleware";
 import fs from 'fs';
-import { loginAdmin, register, loginUser } from "./controllers/userController";
+import { loginAdmin, register, loginUser, refreshAccessToken } from "./controllers/userController";
 configDotenv({
     path: "./.env"
 });
@@ -36,6 +37,7 @@ app.use(
 );
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.static("public"))
 app.get("/", (req, res) => {
   const ipAddress = req.header('x-forwarded-for') || req.socket.remoteAddress || req.ip;
@@ -48,6 +50,7 @@ app.post("/api/user/login", loginUser);
 
 app.post("/api/admin/login", loginAdmin);
 app.post("/api/admin/register", register);
+app.get("/api/refresh-token", refreshAccessToken);
 app.post("/api/send-transcript", async (req, res) => {
   const { emailId, transcript } = req.body;
   if (emailId === "" || transcript === "") {

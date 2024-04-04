@@ -1,18 +1,19 @@
 import { Link } from "react-router-dom";
-import { AdminType } from "../types";
+import axios from "axios"; // Import Axios
+
 import { useState, useRef, useEffect } from "react";
+import { useAdmin } from "../context/AuthContext";
 
-type AdminLoginProps = {
-  setAuth: (auth: AdminType | null) => void;
-};
+const AdminLogin = () => {
+  const { setAdmin } = useAdmin();
 
-const AdminLogin = ({ setAuth }: AdminLoginProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
+
   useEffect(() => {
-    if(emailInputRef.current){
+    if (emailInputRef.current) {
       emailInputRef.current.focus();
     }
   }, []);
@@ -21,36 +22,36 @@ const AdminLogin = ({ setAuth }: AdminLoginProps) => {
   const validateEmail = (email: string) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
-}
+  };
 
-  const handleSubmit = async(e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    // Replace these with your actual authentication logic
+
+    // Replace this with your actual Axios API call
     if (validateEmail(email)) {
-      try{
-      const response = await fetch('http://localhost:5003/api/admin/login', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email, password })
-      });
-      const data = await response.json();
-      console.log(data);
-      if (response.ok) {
-          const { email, name, accessToken } = data;
-          setAuth({ emailId: email, name, accessToken});
-      } else {
+      try {
+        const response = await axios.post(
+          'http://localhost:5003/api/admin/login',
+          { email, password },
+          { withCredentials: true } // Set withCredentials to true
+        );
+
+        console.log(response.data);
+
+        if (response.status === 200) {
+          const { email, name, accessToken } = response.data;
+          setAdmin({ emailId: email, name, accessToken });
+        } else {
           setError('Invalid credentials.');
+        }
+      } catch (err) {
+        console.error("Error while logging in:", err);
+        setError("Error occurred while logging in. Please try again.");
       }
-    }catch(err){
-      console.log("Error while logging in: ", err);
-    }
-      
-  } else {
+    } else {
       setError('Please enter a valid email address.');
-  }
+    }
   };
 
   return (

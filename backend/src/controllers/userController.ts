@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import { ApiError } from "../utils/ApiError";
 import Redis from 'ioredis';
 import { getUniversalDateTime, convertToCurrentTimeZone, separateDateAndTime, separateLocalDateAndTime } from "../utils/timeStamps";
+import { ObjectId } from "mongodb";
 const redis = new Redis();
 
 
@@ -138,7 +139,7 @@ const generateAccessToken = function(){
       { email },
       { $set: { refreshToken } }
     );
-  
+    
     res.status(200).cookie("refreshToken", refreshToken, options).json({ ...userWithoutPassword, accessToken });
   
   });
@@ -202,6 +203,8 @@ const generateAccessToken = function(){
     
     const key = `user:${email}${username}`;
     const token = generateAccessToken.call({ _id: key, email, username });
+    const refreshToken =await generateRefreshToken.call({ _id: key, email, username });
+    
     await redis.set(key, token, "EX", 60 * 60);
     // console.log("User Token", token);
     const { Chats } = mongo;
@@ -218,6 +221,48 @@ const generateAccessToken = function(){
       agentJoinedTime: "",
     });
   
-    return res.status(200).json({ email, username, message: "User Logged in successfully", accessToken:token });
+    return res.status(200).cookie("refreshToken", refreshToken, options).json({ email, username, message: "User Logged in successfully", accessToken:token });
   });
-  export { register, loginAdmin, logoutUser, loginUser }
+
+
+  const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    console.log("refresh token", incomingRefreshToken)
+    if (!incomingRefreshToken) {
+        throw new ApiError(401,"Unauthorized request")
+    }
+
+    try {
+        const decodedToken:any = jwt.verify(
+            incomingRefreshToken,
+            process.env.REFRESH_TOKEN_SECRET
+        )
+          
+        const {Users} = mongo;
+        // console.log(decodedToken?._id)
+        const user = await Users.findOne({_id: new ObjectId(decodedToken?._id)})
+    
+        if (!user) {
+            throw new ApiError(401,"Invalid refresh token")
+        }
+    
+        if (incomingRefreshToken !== user?.refreshToken) {
+            throw new ApiError(401,"Refresh token is expired or used")
+            
+        }
+    
+    
+        const accessToken = await generateAccessToken.call(user);
+        const { password: _,_id:id, refreshToken:rfsh, ...userWithoutPassword } = user;
+        return res
+        .status(200)
+        .json({...userWithoutPassword,  accessToken});
+
+    } catch (error) {
+        throw new ApiError(401,  "Invalid refresh token")
+    }
+
+})
+
+
+  export { register, loginAdmin, logoutUser, loginUser , refreshAccessToken }

@@ -2,14 +2,13 @@ import ChatArea from "./ChatArea";
 import { useEffect, useMemo, useRef, useState} from "react";
 import { io } from 'socket.io-client';
 // import messageSound from "../assets/sound/message.mp3";
-import notifySound from "../assets/sound/notify.wav";
+import notifySound from "../assets/sound/notify2.wav";
 // import ringSound from "../assets/sound/ring.mp3";
-import { AdminType, messageTypes } from "../types";
+import { messageTypes } from "../types";
 import axios from 'axios';
-// import useSound from 'use-sound';
-// @ts-ignore
-// import useSound from 'use-sound';
-// console.log(useSound)
+import { useAdmin } from "../context/AuthContext";
+import useRefreshToken from "../hooks/useRefreshToken";
+
 interface Room {
   roomId: string;
   userName: string;
@@ -28,10 +27,7 @@ type UsernameType = {
   [roomID: string]: string;
 }
 
-type AdmiPanelProps = {
-  auth: AdminType,
-  setAuth: React.Dispatch<React.SetStateAction<any>>;
-}
+
 
  // Function to get current timestamp in IST with separated date and time
  const getISTTimestamp = ():{date:string, time:string} => {
@@ -44,8 +40,12 @@ type AdmiPanelProps = {
   return { date: ISTDate, time: ISTTime };
 };
 
-const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
-  const { emailId, name:adminUserName, accessToken } = auth;
+const AdminPanel = () => {
+
+  const { admin, setAdmin } = useAdmin();
+
+  const { emailId, name:adminUserName, accessToken } = admin || {};
+
   const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
     auth: {
       token: accessToken,
@@ -63,11 +63,14 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
   const [isAgentJoined, setIsAgentJoined] = useState(false);
   const notificationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const notificationAudioRef = useRef<HTMLAudioElement | null>(null);
-  // const soundIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  // const [soundTimeout, setSoundTimeout] = useState<typeof setTimeout | null>(null);
-  // const [socketID, setSocketID] = useState<string>("");
-  // const adminUserName= emailId.split("@")[0];
-  
+  const refresh = useRefreshToken();
+
+  const handleRefreshToken = async () => {
+    
+    const data = await refresh();
+    console.log("Refreshed Token: ", data);
+    
+  }
 
   const sendMessage = (message: string) => {
     console.log("Sending Message");
@@ -76,7 +79,7 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
     }
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = (e:any) => {
     if(e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
         // e.currentTarget.value = ""
@@ -102,7 +105,7 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("type", fileType);
-    formData.append("sender", adminUserName);
+    formData.append("sender", adminUserName || "");
     formData.append("roomId", roomId);
     try{
       const res = await axios.post("http://localhost:5003/api/upload",formData, {
@@ -161,9 +164,9 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
       console.log('Connection error:', error.message);
       if(error.message === "Authentication error"){
         setError("Authentication Error. Please login again");
-        // setTimeout(() => {
-        //   setAuth(null);
-        // }, 2000);
+        setTimeout(() => {
+          setAdmin(null);
+        }, 2000);
       }
     });
 
@@ -287,7 +290,7 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
       socket.emit("leave-room", {roomId, type: "Agent", name:adminUserName});
       }
      socket.disconnect();
-     setAuth(null);
+     setAdmin(null);
   }
 
   return (
@@ -299,6 +302,7 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
           <button onClick={()=> stop()} className="btn btn-outline">Stop</button> */}
           <button disabled={roomId ==="" } className="btn btn-outline btn-primary btn-sm" onClick={()=>{ if(chatMessages[roomId].length>0) sendTranscript()}}>Send Transcript</button>
           <button disabled={roomId ===""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
+          <button className="btn btn-outline btn-sm" onClick={handleRefreshToken}>refresh</button>
           <button className="btn btn-outline btn-sm" onClick={handleLogout}>Logout</button>
         </div>        
     </div>
@@ -326,7 +330,7 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
               handleKeyPress={handleKeyPress}
               username={username[roomId] || ""}
               handleSendFileUser={handleSendFileUser}
-              name={adminUserName}/>
+              name={adminUserName || ""}/>
     </div>
     </div>
     {/* <audio ref={soundRef} src={messageSound} /> */}
@@ -334,4 +338,4 @@ const AdmiPanel = ({auth, setAuth}:AdmiPanelProps) => {
   )
 }
 
-export default AdmiPanel
+export default AdminPanel

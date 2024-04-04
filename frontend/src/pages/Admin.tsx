@@ -1,15 +1,11 @@
 import AdminLogin from "../components/AdminLogin";
-import AdmiPanel from "../components/AdmiPanel";
-import { useState } from "react";
-import { AdminType } from "../types";
+import AdminPanel from "../components/AdminPanel";
+import { useAdmin } from "../context/AuthContext";
 
 const Admin = () => {
+  const { admin } = useAdmin();
 
-  const [auth, setAuth] = useState<AdminType | null>(null);
-  return (
-    auth ? <AdmiPanel auth={auth}  setAuth={setAuth}/> : <AdminLogin setAuth={setAuth}/>
+  return admin ? <AdminPanel /> : <AdminLogin />;
+};
 
-  )
-}
-
-export default Admin
+export default Admin;
