@@ -10,13 +10,13 @@ import { configDotenv } from 'dotenv';
 import nodemailer from 'nodemailer';
 import { upload } from "./middleware/multerMiddleware";
 import fs from 'fs';
-import { loginAdmin, register, loginUser, refreshAccessToken } from "./controllers/userController";
+import { loginAdmin, register, loginUser, refreshAccessToken, logoutUser } from "./controllers/userController";
 configDotenv({
     path: "./.env"
 });
 
 import mongo from "./db/index";
-import { ObjectId } from "mongodb";
+// import { ObjectId } from "mongodb";
 
 
 mongo.init().then(() => {
@@ -47,10 +47,10 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/user/login", loginUser);
-
 app.post("/api/admin/login", loginAdmin);
 app.post("/api/admin/register", register);
-app.get("/api/refresh-token", refreshAccessToken);
+app.get("/api/logout",logoutUser)
+app.post("/api/refresh-token", refreshAccessToken);
 app.post("/api/send-transcript", async (req, res) => {
   const { emailId, transcript } = req.body;
   if (emailId === "" || transcript === "") {
@@ -161,7 +161,7 @@ const agentInRoom = (roomId: string) => {
 let userQueue: string[] = [];
 
 io.use(async(socket, next) => {
-  // console.log("Socket Auth: ", socket.handshake.auth);
+ 
   const {token, code} = socket.handshake.auth;
 
   if(!token || !code){
@@ -188,18 +188,20 @@ io.use(async(socket, next) => {
     try{
       const decodedToken:any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
       console.log("Decoded Token: ", decodedToken);
-      const {email, username} = decodedToken;
-      const key = "user:"+email+username;
-      const getToken = await redis.get(key);
-      if(getToken === token){
-        return next();
+      
+      
+      const getToken = await redis.get(decodedToken?._id);
+      if(!getToken){
+        return  next(new Error("Authentication error"));
       }
+
+      return next();
 
     }catch(err){
       return next(new Error("Authentication error"));
     }
   }
-  return next(new Error("Authentication error"));
+  // return next(new Error("Authentication error"));
 });
 
 io.on("connection", (socket: Socket) => {    
@@ -219,6 +221,7 @@ io.on("connection", (socket: Socket) => {
 
   socket.on("send-file", (data:{roomId:string, file:any, name:string}) => {
     const {roomId, file, name} = data;
+    if(agentInRoom(roomId)){
     fs.writeFile(`.public/temp/${file.name}`, file , (err) => {
       if(err){
         console.log("Error: ", err);
@@ -227,7 +230,7 @@ io.on("connection", (socket: Socket) => {
         io.to(roomId).emit("recieve-file", {file, name});
       }
     });
-    
+  }
   });
 
 
@@ -244,16 +247,19 @@ io.on("connection", (socket: Socket) => {
 
   //user connect event & adding user to rooms
   socket.on("user-connect", (userEmailId: string, name: string) => {
-    console.log("User connected", name);
+    console.log("User connected", name, userEmailId);
     let existingRoom: { roomId: string; userName: string; userEmailId: string; agentName: string; agentEmailId: string } | undefined;
   
     // Check if the user's email already exists in a room
     rooms.forEach((room) => {
       if (room.userEmailId === userEmailId) {
         existingRoom = room;
-        
+      
       }
     });
+    console.log("existing room", existingRoom)
+
+    console.log(rooms)
   
     if (existingRoom) {
       // Join the existing room
@@ -278,27 +284,13 @@ io.on("connection", (socket: Socket) => {
       // Add room to the queue
       userQueue.push(roomName);
       // Update queue status for all users
-      updateQueueStatus();
+      
       socket.broadcast.emit("notifyAgent");
       socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
     }
+    updateQueueStatus();
   });
-  // socket.on("user-connect", (userEmailId: string, name:string) => {
 
-  //   const roomName = generateRandomRoomName(10);
-  //   rooms.set(roomName, {roomId: roomName, userName: name, userEmailId, agentName: "", agentEmailId:""});
-  //   // rooms.push({roomID: roomName, userID: socket.id, userEmailId, agentID: "", agentEmailId:""});
-  //   socket.join(roomName);
-    
-  //   console.log("Rooms: ", rooms);
-                                        
-  //   // Add room to the queue
-  //   userQueue.push(roomName);
-  //   // Update queue status for all users
-  //   updateQueueStatus();
-  //   socket.broadcast.emit("notifyAgent");
-  //   socket.broadcast.emit("fetch-users", rooms);
-  // });
 
   //sending rooms to admin(if users are already connected)
   socket.emit("fetch-users", Array.from(rooms.values()));

@@ -1,19 +1,21 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect } from "react";
 import useRefreshToken from "../hooks/useRefreshToken";
-import { useAdmin } from "../context/AuthContext";
+import { useAdmin, useUser } from "../context/AuthContext";
 
-const PersistLogin = () => {
+const PersistLogin = ({type}:{type:string}) => {
+
     const [isLoading, setIsLoading] = useState(true);
     const refresh = useRefreshToken();
     const { admin } = useAdmin();
-    console.log(`admin:`, admin)
+    const { user } = useUser();
+
     useEffect(() => {
         let isMounted = true;
 
         const verifyRefreshToken = async () => {
             try {
-                await refresh();
+                await refresh(type);
             }
             catch (err) {
                 console.error(err);
@@ -22,11 +24,9 @@ const PersistLogin = () => {
                 isMounted && setIsLoading(false);
             }
         }
-
-        // persist added here AFTER tutorial video
         // Avoids unwanted call to verifyRefreshToken
         
-        !admin?.accessToken  ? verifyRefreshToken() : setIsLoading(false);
+        type === 'user' ? !user?.accessToken ? verifyRefreshToken() : setIsLoading(false) : !admin?.accessToken  ? verifyRefreshToken() : setIsLoading(false);
 
         return () => {isMounted = false;}
     }, [])

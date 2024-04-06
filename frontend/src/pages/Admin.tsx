@@ -4,7 +4,7 @@ import { useAdmin } from "../context/AuthContext";
 
 const Admin = () => {
   const { admin } = useAdmin();
-
+  console.log(`Admin componenet called`)
   return admin ? <AdminPanel /> : <AdminLogin />;
 };
 

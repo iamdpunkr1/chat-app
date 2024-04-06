@@ -14,6 +14,7 @@ function App() {
 
   return (
     <AdminProvider>
+      <UserProvider>
     <main className='max-w-[1000px] mx-auto px-2'>
       <div className='flex items-center justify-center gap-4 mb-4'>
          {logo()}
@@ -23,32 +24,20 @@ function App() {
       </div>
 
       <Router >
-        <Routes>
-
-          
-          <Route
-           path="/"
-           element={
-                    <UserProvider>
-                      <ChatBox/>
-                    </UserProvider>}/>
-
-                    
-                            <Route element={<PersistLogin/>}>
-                            <Route
-                            path="/admin"
-                            element={
-                                      
-                                        <Admin/>
-                                    }/>
-                              </Route>
-                    
-          <Route path="*" element={<NotFound/>}/>
-        </Routes>
+            <Routes>
+              <Route path="/" element={<PersistLogin type="user" />}>
+                <Route index element={<ChatBox />} />
+              </Route>
+              <Route path="/admin" element={<PersistLogin type="admin" />}>
+                <Route index element={<Admin />} />
+              </Route>
+              <Route path="*" element={<NotFound />} />
+            </Routes>
       </Router>
 
       
     </main>
+    </UserProvider>
     </AdminProvider>
   )
 }

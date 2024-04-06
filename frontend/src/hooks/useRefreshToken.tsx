@@ -1,11 +1,17 @@
 import axios from 'axios';
-import { useAdmin } from '../context/AuthContext';
+import { useAdmin, useUser,  } from '../context/AuthContext';
 
 const useRefreshToken = () => {
-    const {  setAdmin } = useAdmin();
-
-    const refresh = async () => {
-        const response:any = await axios.get('http://localhost:5003/api/refresh-token', {
+    const {  setAdmin } = useAdmin(); 
+    const {  setUser } = useUser();
+    
+    const refresh = async (type:string) => {
+        const response:any = await axios.post('http://localhost:5003/api/refresh-token',
+        {
+            type
+        }
+        ,
+        {
             withCredentials: true
         });
         
@@ -13,7 +19,7 @@ const useRefreshToken = () => {
         if (response?.data?.accessToken) {
             const updatedAuth: any = { ...response.data};
             console.log("Updated Auth: ", updatedAuth);
-            setAdmin(updatedAuth);
+            type === 'user' ? setUser(updatedAuth) : setAdmin(updatedAuth);
         return response.data.accessToken;
         }
     }

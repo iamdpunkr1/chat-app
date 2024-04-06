@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { UserLoginProps } from "../types";
+import { useUser } from "../context/AuthContext";
 
+const ChatboxLogin = () => {
 
-const ChatboxLogin = ({ setAuth }: UserLoginProps) => {
+    const { setUser } = useUser(); // Destructure setUser function from AuthContext
 
   const [email, setEmail] = useState<string>(''); // State to store email value
   const [username, setUsername] = useState<string>("");
@@ -26,13 +27,14 @@ const ChatboxLogin = ({ setAuth }: UserLoginProps) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, username })
+            body: JSON.stringify({ email, username }),
+            credentials: 'include'
         });
         const data = await response.json();
         console.log(data);
         if (response.ok) {
             const { email, username, message, accessToken } = data;
-            setAuth({emailId:email, username:username, message:message, accessToken:accessToken});
+            setUser({emailId:email, username:username, message:message, accessToken:accessToken});
         } else {
             setError('Error in repsonse.');
         }

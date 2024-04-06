@@ -150,7 +150,7 @@ const generateAccessToken = function(){
     const cookies = req.cookies;
   
       if (!cookies?.refreshToken) {
-         res.status(204).json("User already logged out");
+        return res.status(204).json("User already logged out");
         }
   
     const refreshToken = req.cookies.refreshToken;
@@ -163,9 +163,9 @@ const generateAccessToken = function(){
       );
   
     if (!foundUser) {
-      res.status(204)
+      return res.status(200)
       .clearCookie("refreshToken", options)
-      .json("User already logged Out");
+      .json({message:"User logged Out"});
     }
   
     // await collection.updateOne(
@@ -175,10 +175,7 @@ const generateAccessToken = function(){
   
   
     console.log("logout validation completed")
-     res
-    .status(200)
-    .clearCookie("refreshToken", options)
-    .json("User logged Out")
+    return  res.status(200).clearCookie("refreshToken", options).json({message:"Agent logged Out"})
   })
 
   const loginUser = asyncHandler(async (req: Request, res: Response) => {
@@ -200,17 +197,10 @@ const generateAccessToken = function(){
       throw new ApiError(400, "Invalid email format");
     }
   
-    
-    const key = `user:${email}${username}`;
-    const token = generateAccessToken.call({ _id: key, email, username });
-    const refreshToken =await generateRefreshToken.call({ _id: key, email, username });
-    
-    await redis.set(key, token, "EX", 60 * 60);
-    // console.log("User Token", token);
     const { Chats } = mongo;
     const universalDateTime = getUniversalDateTime();
     const { date, time } = separateDateAndTime(universalDateTime);
-    await Chats.insertOne({
+    const chat =  await Chats.insertOne({
       userEmail: email,
       username,
       agentEmailId: "",
@@ -220,13 +210,29 @@ const generateAccessToken = function(){
       userJoinedTime: `${date} , ${time}`,
       agentJoinedTime: "",
     });
-  
+
+    if (!chat) {
+      throw new ApiError(500, "Something went wrong while logging in");
+    }
+
+    console.log("Chat", chat);
+
+
+    
+    const key = chat?.insertedId.toString();
+    console.log("USER login-key", key)
+    const token = generateAccessToken.call({ _id: key, email, username });
+    const refreshToken =await generateRefreshToken.call({ _id: key});
+    const value = `${email}###${username}`;
+    await redis.set(key, value, "EX", 60 * 60);
+    console.log("USER: refreshTOken", refreshToken)
     return res.status(200).cookie("refreshToken", refreshToken, options).json({ email, username, message: "User Logged in successfully", accessToken:token });
   });
 
 
   const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    const { type } = req.body;
     console.log("refresh token", incomingRefreshToken)
     if (!incomingRefreshToken) {
         throw new ApiError(401,"Unauthorized request")
@@ -238,8 +244,9 @@ const generateAccessToken = function(){
             process.env.REFRESH_TOKEN_SECRET
         )
           
+      if(type === "admin"){
         const {Users} = mongo;
-        // console.log(decodedToken?._id)
+        // for admin
         const user = await Users.findOne({_id: new ObjectId(decodedToken?._id)})
     
         if (!user) {
@@ -256,7 +263,24 @@ const generateAccessToken = function(){
         const { password: _,_id:id, refreshToken:rfsh, ...userWithoutPassword } = user;
         return res
         .status(200)
+        .cookie("refreshToken", incomingRefreshToken, options)
         .json({...userWithoutPassword,  accessToken});
+      }else{
+
+        const key = decodedToken?._id;
+        console.log("key", key)
+        const token = await redis.get(key);
+        console.log("token", token)
+        if (!token) {
+            throw new ApiError(401,"Invalid refresh token")
+        }
+
+        const [email, username] = token.split("###");
+        const accessToken = generateAccessToken.call({ _id: key, email, username });
+        return res.status(200).cookie("refreshToken", incomingRefreshToken, options).json({ emailId:email, username, message: "User Logged in successfully", accessToken });
+
+      }
+
 
     } catch (error) {
         throw new ApiError(401,  "Invalid refresh token")

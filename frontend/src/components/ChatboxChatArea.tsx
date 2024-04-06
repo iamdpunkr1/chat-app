@@ -1,10 +1,11 @@
-import { UserChatBoxProps, messageTypes } from "../types"
+import { messageTypes } from "../types"
 import { useEffect, useMemo, useRef, useState} from "react";
 import { io } from 'socket.io-client';
 import axios from 'axios';
 import ChatArea from "./ChatArea"
 import useSendTranscript from "../hooks/useSendTranscript";
 import { send_Transcript } from "../config";
+import { useUser } from "../context/AuthContext";
  // Function to get current timestamp in IST with separated date and time
  const getISTTimestamp = ():{date:string, time:string} => {
   const now = new Date();
@@ -17,9 +18,10 @@ import { send_Transcript } from "../config";
 };
 
 
-const ChatboxChatArea = ({auth, setAuth}:UserChatBoxProps) => {
+const ChatboxChatArea = () => {
 
-  const { emailId, username:name, accessToken }  = auth;
+  const { user, setUser} = useUser();
+  const { emailId, username:name, accessToken }  = user || {};
   const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
     auth: {
       token: accessToken,
@@ -75,13 +77,26 @@ const handleKeyPress = (e: any):void => {
 // }
 
 
-const handleLogout = (roomID:string) => {
+const handleLogout =async  (roomID:string) => {
   console.log("Logging out", roomID, chatMessages)
-  if(send_Transcript) sendTranscript(emailId, chatMessages);
+  if(send_Transcript) sendTranscript(emailId || "", chatMessages);
    socket.emit("leave-room", {roomId:roomID, type: "User", name });
    socket.disconnect();
    roomIdRef.current = "";
-   setAuth(null);
+   try{
+    const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",
+    {
+      withCredentials: true,
+    });
+    console.log(res.data)
+    // if (!res?.data) throw new Error("Logout failed");
+
+  }catch(err){
+    console.log(err)
+  }finally {
+    setUser(null);
+  }
+  
 }
 
 
@@ -102,7 +117,7 @@ const handleSendFileUser = async (file:File) => {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("type", fileType);
-  formData.append("sender", name);
+  formData.append("sender", name || "");
   formData.append("roomId", roomID);
   try{
     const res = await axios.post("http://localhost:5003/api/upload",formData, {
@@ -127,14 +142,15 @@ useEffect(() => {
       console.log("User Connected to server with id: ", socket.id)
     })
     
-    socket.emit("user-connect", emailId, name);
+    console.log("emailId", emailId, name)
+    if(emailId) socket.emit("user-connect", emailId, name);
 
     socket.on('connect_error', (error) => {
       console.log('Connection error:', error.message);
       if(error.message === "Authentication error"){
         setError("Authentication Error. Please login again");
         setTimeout(() => {
-          setAuth(null);
+          setUser(null);
         }, 2000);
       }
     });
@@ -201,7 +217,7 @@ useEffect(() => {
                        handleKeyPress={handleKeyPress}
                        username={username}
                        handleSendFileUser={handleSendFileUser}
-                       name={name} />
+                       name={name || ""} />
     </div>
   )
 }

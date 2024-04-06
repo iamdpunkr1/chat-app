@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import ChatboxLogin from './ChatboxLogin';
 import { chatIcon, chatTitle } from '../config';
-import { UserType } from '../types';
 import ChatboxChatArea from './ChatboxChatArea';
-
+import { useUser } from '../context/AuthContext';
 
 
 
 const ChatBox: React.FC = () => {
-  const [auth, setAuth] = useState<UserType | null>(null);
-  const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(false);
+  const { user, setUser } = useUser();
+  const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(user? true : false);
 
 
   const toggleChatbox = () => {
-    if(isChatboxOpen && auth){
-      setAuth(null);
+    if(isChatboxOpen && user){
+      setUser(null);
     } 
     setIsChatboxOpen(!isChatboxOpen);
   };
@@ -76,10 +75,10 @@ const ChatBox: React.FC = () => {
               </button>
             </div>
             {
-              auth ? (
-                 <ChatboxChatArea auth={auth} setAuth={setAuth}/>
+              user ? (
+                 <ChatboxChatArea />
               ) : (
-                <ChatboxLogin setAuth={setAuth} />
+                <ChatboxLogin />
               )
             }
 

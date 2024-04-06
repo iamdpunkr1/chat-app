@@ -65,12 +65,7 @@ const AdminPanel = () => {
   const notificationAudioRef = useRef<HTMLAudioElement | null>(null);
   const refresh = useRefreshToken();
 
-  const handleRefreshToken = async () => {
-    
-    const data = await refresh();
-    console.log("Refreshed Token: ", data);
-    
-  }
+
 
   const sendMessage = (message: string) => {
     console.log("Sending Message");
@@ -285,12 +280,25 @@ const AdminPanel = () => {
       setRoomId(roomId);
   }
 
-  const handleLogout = () => {
+  const handleLogout = async() => {
     if(roomId !==""){
       socket.emit("leave-room", {roomId, type: "Agent", name:adminUserName});
       }
      socket.disconnect();
-     setAdmin(null);
+     try{
+      const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",
+      {
+        withCredentials: true,
+      });
+      console.log(res.data)
+      // if (!res?.data) throw new Error("Logout failed");
+  
+    }catch(err){
+      console.log(err)
+    }finally {
+      setAdmin(null);
+    }
+     
   }
 
   return (
@@ -302,7 +310,6 @@ const AdminPanel = () => {
           <button onClick={()=> stop()} className="btn btn-outline">Stop</button> */}
           <button disabled={roomId ==="" } className="btn btn-outline btn-primary btn-sm" onClick={()=>{ if(chatMessages[roomId].length>0) sendTranscript()}}>Send Transcript</button>
           <button disabled={roomId ===""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
-          <button className="btn btn-outline btn-sm" onClick={handleRefreshToken}>refresh</button>
           <button className="btn btn-outline btn-sm" onClick={handleLogout}>Logout</button>
         </div>        
     </div>
