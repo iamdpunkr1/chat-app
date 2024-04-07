@@ -171,10 +171,10 @@ io.use(async(socket, next) => {
   if(code === process.env.SOCKET_AUTH_CODE){
     try{
       const decodedToken:any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      
+    
       const {Users} = mongo;
         const user = await Users.findOne({email:decodedToken.email});
-        
+        console.log("admin auth", user)
         if (!user) {
           return next(new Error("Authentication error"));
         }
@@ -219,6 +219,11 @@ io.on("connection", (socket: Socket) => {
     console.log("User connected", socket.id);
   });
 
+  socket.on("reconnect", () => {
+    socket.emit("fetch-users", Array.from(rooms.values()));
+  });
+
+
   socket.on("send-file", (data:{roomId:string, file:any, name:string}) => {
     const {roomId, file, name} = data;
     if(agentInRoom(roomId)){
@@ -233,6 +238,7 @@ io.on("connection", (socket: Socket) => {
   }
   });
 
+  socket.emit("fetch-users", Array.from(rooms.values()));
 
   socket.on("save-message", async (data:{emailId:string, message:string}) => {
     const {emailId, message} = data;
@@ -246,7 +252,7 @@ io.on("connection", (socket: Socket) => {
   });
 
   //user connect event & adding user to rooms
-  socket.on("user-connect", (userEmailId: string, name: string) => {
+  socket.on("user-connect", async (userEmailId: string, name: string) => {
     console.log("User connected", name, userEmailId);
     let existingRoom: { roomId: string; userName: string; userEmailId: string; agentName: string; agentEmailId: string } | undefined;
   
@@ -267,6 +273,8 @@ io.on("connection", (socket: Socket) => {
       socket.join(roomId);
       socket.emit("room-id", roomId);
       socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
+      const savedMessages = await redis.get(roomId);
+      if(savedMessages) socket.emit("saved-messages", savedMessages)
     } else {
       // Create a new room
       const roomName = generateRandomRoomName(10);
@@ -292,8 +300,6 @@ io.on("connection", (socket: Socket) => {
   });
 
 
-  //sending rooms to admin(if users are already connected)
-  socket.emit("fetch-users", Array.from(rooms.values()));
 
   //sending typing event to connect user/admin 
   socket.on("typing", (data) => {
@@ -310,6 +316,8 @@ io.on("connection", (socket: Socket) => {
       if(room.agentName === "" || room.agentName === name || room.agentEmailId === agentEmailId || room.agentEmailId === ""){
         rooms.set(roomId, {...room, agentName: name, agentEmailId});
         socket.join(roomId);
+        const {Chats} = mongo;
+        // const chat =  Chats.findOneAndUpdate({userEmail:room.userEmailId}, {agentEmailId, agentName:name});
         io.to(roomId).emit("agent-joined", {type:"notify", message:name+" has joined the chat", sender:name});
         socket.broadcast.to(roomId).emit("queue-status", "");
 
@@ -350,10 +358,12 @@ io.on("connection", (socket: Socket) => {
 
 
   //message to room
-  socket.on("room-message", (msg: { roomId: string; message: string, sender:string, type:string }) => {
+  socket.on("room-message", async (msg: { roomId: string; message: string, sender:string, type:string }) => {
     console.log("Message: ", msg);
+
     if(agentInRoom(msg.roomId)){
       console.log("Message: ", msg);
+      await redis.append(msg.roomId, `${JSON.stringify(msg)}###`)
       io.to(msg.roomId).emit("recieve-message",msg);
     }
   });

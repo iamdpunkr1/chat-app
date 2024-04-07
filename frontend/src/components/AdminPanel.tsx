@@ -63,8 +63,8 @@ const AdminPanel = () => {
   const [isAgentJoined, setIsAgentJoined] = useState(false);
   const notificationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const notificationAudioRef = useRef<HTMLAudioElement | null>(null);
-  const refresh = useRefreshToken();
 
+  console.log("chat-messages: ", chatMessages);
 
 
   const sendMessage = (message: string) => {
@@ -256,11 +256,16 @@ const AdminPanel = () => {
 
 
   const startNotificationSound = () => {
+    
+    if (notificationAudioRef.current) {
+      notificationAudioRef.current.play();
+    }
+
     notificationIntervalRef.current = setInterval(() => {
       if (notificationAudioRef.current) {
         notificationAudioRef.current.play();
       }
-    }, 5000);
+    }, 7000);
   };
 
   const stopNotificationSound = () => {
@@ -281,9 +286,12 @@ const AdminPanel = () => {
   }
 
   const handleLogout = async() => {
-    if(roomId !==""){
-      socket.emit("leave-room", {roomId, type: "Agent", name:adminUserName});
-      }
+     users.forEach(user => {
+       if(emailId===user.agentEmailId){
+         socket.emit("leave-room", {roomId:user.roomId, type:"Agent", name:adminUserName});
+        }
+      })
+
      socket.disconnect();
      try{
       const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",

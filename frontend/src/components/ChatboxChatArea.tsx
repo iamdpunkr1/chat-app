@@ -68,13 +68,6 @@ const handleKeyPress = (e: any):void => {
 }
 
 
-// const handleDisonnect = () => {
-//     console.log("Disconnecting")
-//     socket.emit("leave-room", {roomId:roomID, type: "User", name });
-//     socket.emit("save-message", {emailId, message: "You left the chat"})
-//     setRoomID("");
-//     setConnectToQueue(false);
-// }
 
 
 const handleLogout =async  (roomID:string) => {
@@ -137,6 +130,13 @@ const handleSendFileUser = async (file:File) => {
 
 useEffect(() => {
 
+  socket.on("saved-messages", (savedMessages:string) => {
+    console.log("savedMessages: ", savedMessages)
+    const getMessages = savedMessages.split("###");
+    
+    console.log("after splitting: ", getMessages)
+    // setChatMessages(getMessages);
+  })
 
     socket.on("connect", () => {
       console.log("User Connected to server with id: ", socket.id)
@@ -163,6 +163,7 @@ useEffect(() => {
     })
 
     socket.on("recieve-message", (data: messageTypes) => {
+      console.log(data)
         setMessages(data);
       })
 

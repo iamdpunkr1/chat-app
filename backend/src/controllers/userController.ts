@@ -233,7 +233,7 @@ const generateAccessToken = function(){
   const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     const { type } = req.body;
-    console.log("refresh token", incomingRefreshToken)
+    // console.log("refresh token", incomingRefreshToken)
     if (!incomingRefreshToken) {
         throw new ApiError(401,"Unauthorized request")
     }
@@ -268,9 +268,9 @@ const generateAccessToken = function(){
       }else{
 
         const key = decodedToken?._id;
-        console.log("key", key)
+        // console.log("key", key)
         const token = await redis.get(key);
-        console.log("token", token)
+        // console.log("token", token)
         if (!token) {
             throw new ApiError(401,"Invalid refresh token")
         }
