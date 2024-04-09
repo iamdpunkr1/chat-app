@@ -1,4 +1,3 @@
-import exp from "constants";
 
 // Function to get the universal date and time
 function getUniversalDateTime(): string {
@@ -22,14 +21,14 @@ function getUniversalDateTime(): string {
   }
   
   const universalDateTime: string = getUniversalDateTime();
-  console.log("Universal Date and Time:", universalDateTime);
+  // console.log("Universal Date and Time:", universalDateTime);
   
   const { date, time } = separateDateAndTime(universalDateTime);
-  console.log("Date:", date);
-  console.log("Time:", time);
+  // console.log("Date:", date);
+  // console.log("Time:", time);
   
   const localDateTime: string = convertToCurrentTimeZone(universalDateTime);
-  console.log("Local Date and Time:", localDateTime);
+  // console.log("Local Date and Time:", localDateTime);
   
   // Function to separate date and time from a local datetime string
 function separateLocalDateAndTime(localDateTime: string): { date: string, time: string } {
@@ -39,9 +38,9 @@ function separateLocalDateAndTime(localDateTime: string): { date: string, time: 
   }
   
   // Example usage
-  const { date: localDate, time: localTime } = separateLocalDateAndTime(localDateTime);
-  console.log("Local Date:", localDate);
-  console.log("Local Time:", localTime);
+  // const { date: localDate, time: localTime } = separateLocalDateAndTime(localDateTime);
+  // console.log("Local Date:", localDate);
+  // console.log("Local Time:", localTime);
   
 
   export { getUniversalDateTime, convertToCurrentTimeZone, separateDateAndTime, separateLocalDateAndTime };

@@ -16,6 +16,7 @@ configDotenv({
 });
 
 import mongo from "./db/index";
+import { getUniversalDateTime, separateDateAndTime } from "./utils/timeStamps";
 // import { ObjectId } from "mongodb";
 
 
@@ -120,6 +121,12 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
   }
 }); 
 
+// Function to get messages from redis
+const getMessages = async (roomId:string) => {
+  const messages = await redis.get(roomId);
+  return messages;
+};
+
 // Function to generate a random room name
 function generateRandomRoomName(length:number) {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -220,7 +227,7 @@ io.on("connection", (socket: Socket) => {
   });
 
   socket.on("reconnect", () => {
-    socket.emit("fetch-users", Array.from(rooms.values()));
+    // socket.emit("fetch-users", Array.from(rooms.values()));
   });
 
 
@@ -240,16 +247,16 @@ io.on("connection", (socket: Socket) => {
 
   socket.emit("fetch-users", Array.from(rooms.values()));
 
-  socket.on("save-message", async (data:{emailId:string, message:string}) => {
-    const {emailId, message} = data;
-    console.log("Message: ", data)
-    const chatHistory = await redis.get(emailId);
-    if(chatHistory){
-      await redis.set(emailId, chatHistory + "#\n#" + message);
-    }else{
-      await redis.set(emailId, message);
-    }
-  });
+  // socket.on("save-message", async (data:{emailId:string, message:string}) => {
+  //   const {emailId, message} = data;
+  //   console.log("Message: ", data)
+  //   const chatHistory = await redis.get(emailId);
+  //   if(chatHistory){
+  //     await redis.set(emailId, chatHistory + "#\n#" + message);
+  //   }else{
+  //     await redis.set(emailId, message);
+  //   }
+  // });
 
   //user connect event & adding user to rooms
   socket.on("user-connect", async (userEmailId: string, name: string) => {
@@ -273,8 +280,8 @@ io.on("connection", (socket: Socket) => {
       socket.join(roomId);
       socket.emit("room-id", roomId);
       socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
-      const savedMessages = await redis.get(roomId);
-      if(savedMessages) socket.emit("saved-messages", savedMessages)
+      const savedMessages = await getMessages(roomId);
+      if(savedMessages) socket.emit("saved-messages", savedMessages, roomId)
     } else {
       // Create a new room
       const roomName = generateRandomRoomName(10);
@@ -309,15 +316,20 @@ io.on("connection", (socket: Socket) => {
    
 
   //join room by admin
-  socket.on("join-room", (data:{roomId:string, agentEmailId:string, name:string}) => {
+  socket.on("join-room",async (data:{roomId:string, agentEmailId:string, name:string}) => {
     const {roomId, agentEmailId, name} = data;
     const room = rooms.get(roomId);
     if(room){
-      if(room.agentName === "" || room.agentName === name || room.agentEmailId === agentEmailId || room.agentEmailId === ""){
+      if(room.agentName === "" || room.agentEmailId === ""){
         rooms.set(roomId, {...room, agentName: name, agentEmailId});
         socket.join(roomId);
+        const universalDateTime = getUniversalDateTime();
+        const { date, time } = separateDateAndTime(universalDateTime);
         const {Chats} = mongo;
-        // const chat =  Chats.findOneAndUpdate({userEmail:room.userEmailId}, {agentEmailId, agentName:name});
+        await Chats.findOneAndUpdate(
+          { userEmail: room.userEmailId },
+          { $set: { agentEmailId, agentName: name, agentJoinedTime: `${date} , ${time}`} }
+        );
         io.to(roomId).emit("agent-joined", {type:"notify", message:name+" has joined the chat", sender:name});
         socket.broadcast.to(roomId).emit("queue-status", "");
 
@@ -326,7 +338,12 @@ io.on("connection", (socket: Socket) => {
         userQueue = userQueue.filter((room) => roomId !== room);
         // Update queue status for all users
         updateQueueStatus();
-      }else{
+      }else if( room.agentName === name || room.agentEmailId === agentEmailId ){
+        socket.join(roomId);
+        const savedMessages = await getMessages(roomId);
+        if(savedMessages) socket.emit("saved-messages", savedMessages, roomId)
+      }
+      else{
         socket.emit("room-full", "User is already taken by another agent");
       }
     }else{
@@ -337,12 +354,22 @@ io.on("connection", (socket: Socket) => {
   
 
   //Agent leave room
-  socket.on("leave-room", ( data:{roomId:string, type:string, name:string }) => {
+  socket.on("leave-room",async ( data:{roomId:string, type:string, name:string }) => {
     const {roomId, type, name} = data;
     socket.leave(roomId);
     const room = rooms.get(roomId);
 
-    if(room) rooms.delete(roomId);
+    if(room){
+        rooms.delete(roomId);
+        const chatHistory = await redis.get(roomId); 
+        const {Chats} = mongo;
+        await Chats.findOneAndUpdate(
+          { userEmail: room.userEmailId },
+          { $set: { chatHistory } }
+        );
+        await redis.del(roomId);
+      }
+
     if(type === "User"){
       userQueue = userQueue.filter((room) => roomId !== room);
       updateQueueStatus();
@@ -363,8 +390,10 @@ io.on("connection", (socket: Socket) => {
 
     if(agentInRoom(msg.roomId)){
       console.log("Message: ", msg);
-      await redis.append(msg.roomId, `${JSON.stringify(msg)}###`)
-      io.to(msg.roomId).emit("recieve-message",msg);
+      const universalDateTime = getUniversalDateTime();
+      const msgData = {...msg, time:universalDateTime};
+      await redis.append(msg.roomId, `${JSON.stringify(msgData)}###`)
+      io.to(msg.roomId).emit("recieve-message",msgData);
     }
   });
 

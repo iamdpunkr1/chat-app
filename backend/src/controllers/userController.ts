@@ -260,11 +260,11 @@ const generateAccessToken = function(){
     
     
         const accessToken = await generateAccessToken.call(user);
-        const { password: _,_id:id, refreshToken:rfsh, ...userWithoutPassword } = user;
+        const { password: _,_id:id, refreshToken:rfsh, email:emailId, ...userWithoutPassword } = user;
         return res
         .status(200)
         .cookie("refreshToken", incomingRefreshToken, options)
-        .json({...userWithoutPassword,  accessToken});
+        .json({emailId,...userWithoutPassword,  accessToken});
       }else{
 
         const key = decodedToken?._id;

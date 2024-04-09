@@ -17,6 +17,19 @@ import { useUser } from "../context/AuthContext";
   return { date: ISTDate, time: ISTTime };
 };
 
+function convertToCurrentTimeZone(universalDateTime: string): string {
+    const date = new Date(universalDateTime);
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert hours to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle 0 as 12 PM
+
+    const localTime = `${hours}:${minutes} ${ampm}`;
+    return localTime;
+}
 
 const ChatboxChatArea = () => {
 
@@ -43,10 +56,11 @@ const roomIdRef = useRef<string>("");
 
 
 const setMessages = (data: messageTypes) => {
-  const { time } = getISTTimestamp();
-  const { sender, message, type } = data;
+  const { time:ISTtime } = getISTTimestamp();
+  const { sender, message, type, time } = data;
+  const localTime = convertToCurrentTimeZone(time || ISTtime);
   
-  setChatMessages((prevMessages) => [...prevMessages, {type, sender, message, time}])
+  setChatMessages((prevMessages) => [...prevMessages, {type, sender, message, time: localTime}])
 }
   
 
@@ -130,16 +144,29 @@ const handleSendFileUser = async (file:File) => {
 
 useEffect(() => {
 
-  socket.on("saved-messages", (savedMessages:string) => {
-    console.log("savedMessages: ", savedMessages)
+  socket.on("saved-messages", (savedMessages:string, roomId:string) => {
+    // console.log("savedMessages: ", savedMessages)
     const getMessages = savedMessages.split("###");
+    console.log(roomId)
     
-    console.log("after splitting: ", getMessages)
-    // setChatMessages(getMessages);
+    const finalMessages = getMessages
+                            .slice(0, -1) // Remove the last element
+                            .map(msg => {
+                              const parsedMsg = JSON.parse(msg);
+                              const localTime = convertToCurrentTimeZone(parsedMsg.time);
+                              return {
+                                type: parsedMsg.type,
+                                sender: parsedMsg.sender,
+                                message: parsedMsg.message,
+                                time: localTime
+                              }
+                            } );
+        // console.log("finalMessages: ", finalMessages);
+        setChatMessages(finalMessages);
   })
 
     socket.on("connect", () => {
-      console.log("User Connected to server with id: ", socket.id)
+      console.log("User Connected to Socket with id: ", socket.id)
     })
     
     console.log("emailId", emailId, name)
@@ -164,7 +191,7 @@ useEffect(() => {
 
     socket.on("recieve-message", (data: messageTypes) => {
       console.log(data)
-        setMessages(data);
+        setMessages(data); 
       })
 
     socket.on("room-id", (roomID: string) => {

@@ -7,7 +7,7 @@ import notifySound from "../assets/sound/notify2.wav";
 import { messageTypes } from "../types";
 import axios from 'axios';
 import { useAdmin } from "../context/AuthContext";
-import useRefreshToken from "../hooks/useRefreshToken";
+// import useRefreshToken from "../hooks/useRefreshToken";
 
 interface Room {
   roomId: string;
@@ -25,6 +25,20 @@ type UserMessages = {
 
 type UsernameType = {
   [roomID: string]: string;
+}
+
+function convertToCurrentTimeZone(universalDateTime: string): string {
+    const date = new Date(universalDateTime);
+    let hours = date.getHours();
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+    // Convert hours to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // Handle 0 as 12 PM
+
+    const localTime = `${hours}:${minutes} ${ampm}`;
+    return localTime;
 }
 
 
@@ -64,11 +78,11 @@ const AdminPanel = () => {
   const notificationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const notificationAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  console.log("chat-messages: ", chatMessages);
+  // console.log("chat-messages: ", chatMessages);
 
 
   const sendMessage = (message: string) => {
-    console.log("Sending Message");
+    // console.log("Sending Message");
     if(message.length>0){
     socket.emit("room-message", {roomId: roomId, message, sender:adminUserName, type:"text"})
     }
@@ -85,7 +99,7 @@ const AdminPanel = () => {
   }
 
   const handleSendFileUser = async (file:File) => {
-    console.log("Sending File: ", file);
+    // console.log("Sending File: ", file);
     let fileType;
     if (file.type.includes("image/")) {
       fileType = "image";
@@ -110,7 +124,7 @@ const AdminPanel = () => {
         },
       });
       // const data = await res.data();
-      console.log("File Uploaded: ", res.data);
+      // console.log("File Uploaded: ", res.data);
 
     }catch(err){
       console.log("Error while uploading file: ", err);
@@ -147,11 +161,11 @@ const AdminPanel = () => {
 
 
   useEffect(() => {
-    console.log("Admin Panel: ", emailId)
+    // console.log("Admin Panel: ", emailId)
     notificationAudioRef.current = new Audio(notifySound);
    
     socket.on("connect", () => {
-     console.log("Admin Connected to server with id: ", socket.id)
+     console.log("Admin Connected to SOCKET with id: ", socket.id)
     })
 
 
@@ -176,39 +190,48 @@ const AdminPanel = () => {
     })
 
     socket.on("agent-joined", (message: string) => {
-      console.log("Agent Joined: ", message);
+      // console.log("Agent Joined: ", message);
       setIsAgentJoined(true);
       stopNotificationSound();
     })
 
 
     //user array to store all messages instead of object
-    socket.on("recieve-message", (data: { roomId: string, message: string, sender:string, type:string }) => {
-      const { time } = getISTTimestamp();
+    socket.on("recieve-message", (data: { roomId: string, message: string, sender:string, type:string, time:string }) => {
+      // const { time } = getISTTimestamp();
       console.log("Recieved Message: ", data);
+      const { time:ISTtime } = getISTTimestamp();
+      const { roomId, message, sender, type, time } = data;
+      const localTime = convertToCurrentTimeZone(time);
+
       setChatMessages(prevMessages => {
         const newMessages = { ...prevMessages };
-        if (!newMessages[data.roomId]) {
-          newMessages[data.roomId] = [];
+        if (!newMessages[roomId]) {
+          newMessages[roomId] = [];
         }
         
-        newMessages[data.roomId] = [
-          ...newMessages[data.roomId],
-          { message: data.message, sender: data.sender, type: data.type, time }
+        newMessages[roomId] = [
+          ...newMessages[roomId],
+          { message, sender, type, time: localTime || ISTtime}
         ];
         return { ...newMessages };
       });
     });
 
     socket.on("fetch-users", (rooms: Room[]) => {
-      console.log("Users in the room: ", rooms)
-      // const users:Room[] = Array.from(rooms.values());
-      // if(rooms.length<users.length || rooms.length === 0){
-      //  stop();
-      // }
       setUsers(rooms);
-
+      if(rooms.length>0){
+        console.log("Users [USEFFECT] : ", rooms)
+        rooms.forEach(user => {
+          if(emailId===user.agentEmailId){
+            socket.emit("join-room", {roomId:user.roomId, agentEmailId:emailId, name:adminUserName});
+            setRoomId(user.roomId);
+          }
+        })
+      }
     })
+
+
 
 
     socket.on("user-typing", (data: { room: string, username: string }) => {
@@ -240,10 +263,35 @@ const AdminPanel = () => {
       });
       
   });
+  socket.on("saved-messages", (savedMessages:string, roomId:string) => {
+    // console.log("savedMessages: ", savedMessages)
+    const getMessages = savedMessages.split("###");
+    console.log(roomId)
+    // console.log("after splitting: ", getMessages)
+    const finalMessages = getMessages
+                            .slice(0, -1) // Remove the last element
+                            .map(msg => {
+                              const parsedMsg = JSON.parse(msg);
+                              const localTime = convertToCurrentTimeZone(parsedMsg.time);
+                              return {
+                                type: parsedMsg.type,
+                                sender: parsedMsg.sender,
+                                message: parsedMsg.message,
+                                time: localTime
+                              }
+                            } );
 
-  if(roomId!=="" && emailId){
-    socket.emit("join-room", {roomId:roomId, agentEmailId:emailId, name:adminUserName});
-  }
+    setChatMessages(prevMessages => {
+                              const newMessages = { ...prevMessages };
+                              if (!newMessages[roomId]) {
+                                newMessages[roomId] = [];
+                              }
+                              
+                              newMessages[roomId] = finalMessages
+                              return { ...newMessages };
+                            });
+                       })
+
 
     return () => {
       console.log("Admin Disconnected")
@@ -255,17 +303,18 @@ const AdminPanel = () => {
 
 
 
+
   const startNotificationSound = () => {
     
-    if (notificationAudioRef.current) {
-      notificationAudioRef.current.play();
-    }
+    // if (notificationAudioRef.current) {
+    //   notificationAudioRef.current.play();
+    // }
 
     notificationIntervalRef.current = setInterval(() => {
       if (notificationAudioRef.current) {
         notificationAudioRef.current.play();
       }
-    }, 7000);
+    }, 5000);
   };
 
   const stopNotificationSound = () => {
@@ -279,9 +328,6 @@ const AdminPanel = () => {
 
   const handleJoinRoom = (roomId:string) => {
     socket.emit("join-room", {roomId, agentEmailId:emailId, name:adminUserName});
-      console.log("before join room")
-      // stop();
-      console.log("after join room")
       setRoomId(roomId);
   }
 
@@ -324,8 +370,12 @@ const AdminPanel = () => {
     
     <div className="flex gap-x-4">
     <div className="flex flex-col gap-4  my-4 w-3/12 ">
-           {users.map((user, index) => {
-              if(user.agentEmailId==="" || user.agentEmailId===emailId){
+           { users && users.map((user, index) => {
+
+              if(user.agentEmailId==="" || user.agentEmailId === emailId){
+                  // if(user.agentEmailId === emailId){
+                  //   handleJoinRoom(user.roomId);
+                  // }
                return(
                 <div key={index} className={`flex justify-between border-2 rounded-md p-2 bg-base-200 relative cursor-pointer ${roomId===user?.roomId && "border-green-500"}`}
                         onClick={()=>{if(emailId===user.agentEmailId) setRoomId(user?.roomId)}}>
