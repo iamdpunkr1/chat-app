@@ -74,12 +74,15 @@ const AdminPanel = () => {
   const [roomId, setRoomId] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [username, setUsername] = useState<UsernameType>({});
-  const [isAgentJoined, setIsAgentJoined] = useState(false);
+  // const [isAgentJoined, setIsAgentJoined] = useState(false);
   const notificationIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const notificationAudioRef = useRef<HTMLAudioElement | null>(null);
+  const [playStatus, setPlayStatus] = useState<boolean>(false);
+  const [startCounter, setStartCounter] = useState<number>(0);
+  const [stopCounter, setStopCounter] = useState<number>(0);
 
   // console.log("chat-messages: ", chatMessages);
-
+  notificationAudioRef.current = useMemo(()=> new Audio(notifySound), []) 
 
   const sendMessage = (message: string) => {
     // console.log("Sending Message");
@@ -162,7 +165,7 @@ const AdminPanel = () => {
 
   useEffect(() => {
     // console.log("Admin Panel: ", emailId)
-    notificationAudioRef.current = new Audio(notifySound);
+    
    
     socket.on("connect", () => {
      console.log("Admin Connected to SOCKET with id: ", socket.id)
@@ -184,15 +187,16 @@ const AdminPanel = () => {
     });
 
     socket.on("notifyAgent", () => {
-      setIsAgentJoined(false);
-      startNotificationSound();
+      // setIsAgentJoined(false);
+      
+         startNotificationSound();
 
     })
 
     socket.on("agent-joined", (message: string) => {
-      // console.log("Agent Joined: ", message);
-      setIsAgentJoined(true);
-      stopNotificationSound();
+
+        stopNotificationSound();
+
     })
 
 
@@ -263,11 +267,12 @@ const AdminPanel = () => {
       });
       
   });
+
   socket.on("saved-messages", (savedMessages:string, roomId:string) => {
     // console.log("savedMessages: ", savedMessages)
     const getMessages = savedMessages.split("###");
     console.log(roomId)
-    // console.log("after splitting: ", getMessages)
+    console.log("after splitting: ", getMessages)
     const finalMessages = getMessages
                             .slice(0, -1) // Remove the last element
                             .map(msg => {
@@ -280,7 +285,7 @@ const AdminPanel = () => {
                                 time: localTime
                               }
                             } );
-
+    console.log("finalMessages: ", finalMessages); 
     setChatMessages(prevMessages => {
                               const newMessages = { ...prevMessages };
                               if (!newMessages[roomId]) {
@@ -290,7 +295,7 @@ const AdminPanel = () => {
                               newMessages[roomId] = finalMessages
                               return { ...newMessages };
                             });
-                       })
+       })
 
 
     return () => {
@@ -305,26 +310,31 @@ const AdminPanel = () => {
 
 
   const startNotificationSound = () => {
-    
-    // if (notificationAudioRef.current) {
-    //   notificationAudioRef.current.play();
-    // }
-
-    notificationIntervalRef.current = setInterval(() => {
-      if (notificationAudioRef.current) {
-        notificationAudioRef.current.play();
-      }
-    }, 5000);
+    stopNotificationSound();
+    if (!playStatus) {
+      console.log("Playing Notification Sound", startCounter);
+      setStartCounter(prevCounter => prevCounter + 1); // Increment startCounter
+      notificationIntervalRef.current = setInterval(() => {
+        if (notificationAudioRef.current) {
+          notificationAudioRef.current.play();
+        }
+      }, 5000);
+      setPlayStatus(true);
+    }
   };
-
+  
   const stopNotificationSound = () => {
+    console.log("Stopping Notification Sound", stopCounter);
+    setStopCounter(prevCounter => prevCounter + 1); // Increment stopCounter
     if (notificationAudioRef.current) {
       notificationAudioRef.current.pause();
       notificationAudioRef.current.currentTime = 0;
     }
     clearInterval(notificationIntervalRef.current || undefined);
     notificationIntervalRef.current = null;
+    setPlayStatus(false);
   };
+  
 
   const handleJoinRoom = (roomId:string) => {
     socket.emit("join-room", {roomId, agentEmailId:emailId, name:adminUserName});
@@ -379,7 +389,7 @@ const AdminPanel = () => {
                return(
                 <div key={index} className={`flex justify-between border-2 rounded-md p-2 bg-base-200 relative cursor-pointer ${roomId===user?.roomId && "border-green-500"}`}
                         onClick={()=>{if(emailId===user.agentEmailId) setRoomId(user?.roomId)}}>
-                   <h2 className="text-sm ">{"User-"+1+"-"+ user?.userName}</h2>
+                   <h2 className="text-sm ">{"User-"+index+"-"+ user?.userName}</h2>
                    <button disabled={emailId===user.agentEmailId} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user?.roomId)}>{emailId===user.agentEmailId? "connected": "Take"}</button>
                 </div>)
               }

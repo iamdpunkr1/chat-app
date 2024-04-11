@@ -20,6 +20,12 @@ import { getUniversalDateTime, separateDateAndTime } from "./utils/timeStamps";
 // import { ObjectId } from "mongodb";
 
 
+// Extend the Socket interface to include roomId property
+interface CustomSocket extends Socket {
+  roomId?: string;
+}
+
+
 mongo.init().then(() => {
     console.log('MongoDB connected');
 }).catch((error) => {
@@ -167,7 +173,7 @@ const agentInRoom = (roomId: string) => {
 // Queue to hold users waiting to be connected with an agent
 let userQueue: string[] = [];
 
-io.use(async(socket, next) => {
+io.use(async(socket:CustomSocket, next) => {
  
   const {token, code} = socket.handshake.auth;
 
@@ -186,6 +192,8 @@ io.use(async(socket, next) => {
           return next(new Error("Authentication error"));
         }
 
+       
+
         return next();
     }catch(err){
       return next(new Error("Authentication error"));
@@ -202,6 +210,9 @@ io.use(async(socket, next) => {
         return  next(new Error("Authentication error"));
       }
 
+      //i want to attach the room id to the socket so that it 
+      //can be used to create
+      socket.roomId  = "room"+decodedToken?._id;
       return next();
 
     }catch(err){
@@ -211,7 +222,7 @@ io.use(async(socket, next) => {
   // return next(new Error("Authentication error"));
 });
 
-io.on("connection", (socket: Socket) => {    
+io.on("connection", (socket: CustomSocket) => {    
     // Function to update queue status and inform user about their position in the queue
   const updateQueueStatus = () => {
       // Recalculate position in queue for all users
@@ -261,22 +272,22 @@ io.on("connection", (socket: Socket) => {
   //user connect event & adding user to rooms
   socket.on("user-connect", async (userEmailId: string, name: string) => {
     console.log("User connected", name, userEmailId);
-    let existingRoom: { roomId: string; userName: string; userEmailId: string; agentName: string; agentEmailId: string } | undefined;
+    // let existingRoom: { roomId: string; userName: string; userEmailId: string; agentName: string; agentEmailId: string } | undefined;
   
     // Check if the user's email already exists in a room
-    rooms.forEach((room) => {
-      if (room.userEmailId === userEmailId) {
-        existingRoom = room;
+    // rooms.forEach((room) => {
+    //   if (room.userEmailId === userEmailId) {
+    //     existingRoom = room;
       
-      }
-    });
-    console.log("existing room", existingRoom)
+    //   }
+    // });
+    // console.log("existing room", existingRoom)
 
-    console.log(rooms)
-  
-    if (existingRoom) {
+    // console.log(rooms)
+    const roomId = await redis.get(socket.roomId)
+    if (roomId) {
       // Join the existing room
-      const roomId = existingRoom.roomId;
+      // const roomId = existingRoom.roomId;
       socket.join(roomId);
       socket.emit("room-id", roomId);
       socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
@@ -292,6 +303,8 @@ io.on("connection", (socket: Socket) => {
         agentName: "",
         agentEmailId: "",
       });
+
+      await redis.set(socket.roomId, "")
       socket.join(roomName);
       socket.emit("room-id", roomName);
       console.log("Rooms: ", rooms);
