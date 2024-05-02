@@ -91,7 +91,7 @@ const AdminPanel = () => {
     }
   }
 
-  const handleKeyPress = (e:any) => {
+  const handleKeyPress = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
     if(e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
         // e.currentTarget.value = ""
@@ -120,7 +120,7 @@ const AdminPanel = () => {
     formData.append("sender", adminUserName || "");
     formData.append("roomId", roomId);
     try{
-      const res = await axios.post("http://localhost:5003/api/upload",formData, {
+       await axios.post("http://localhost:5003/api/upload",formData, {
         headers:{
           "Content-Type": "multipart/form-data;",
 
@@ -194,7 +194,7 @@ const AdminPanel = () => {
     })
 
     socket.on("agent-joined", (message: string) => {
-
+        console.log("Agent Joined: ", message);
         stopNotificationSound();
 
     })

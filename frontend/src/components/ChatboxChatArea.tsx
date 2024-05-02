@@ -72,7 +72,7 @@ const sendMessage = (message:string) => {
    
   }
 
-const handleKeyPress = (e: any):void => {
+const handleKeyPress = (e:  React.KeyboardEvent<HTMLTextAreaElement>) => {
     if(e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
         setMessage("");

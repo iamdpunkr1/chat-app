@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import { Server as SocketIOServer, Socket } from "socket.io";
 import { createServer, get, Server as HTTPServer } from "http";
 import Redis from 'ioredis';
-import { findUser } from "./userdetails";
 import { configDotenv } from 'dotenv';
 import nodemailer from 'nodemailer';
 import { upload } from "./middleware/multerMiddleware";
@@ -31,7 +30,7 @@ mongo.init().then(() => {
 }).catch((error) => {
     console.log('MongoDB connection error:', error);
 });
-const PORT="http://localhost:5173"   //"https://www.alegralabs.com"
+const PORT = "https://www.alegralabs.com"
 
 const redis = new Redis()
 
@@ -321,6 +320,7 @@ io.on("connection", (socket: CustomSocket) => {
 
 
 
+
   //sending typing event to connect user/admin 
   socket.on("typing", (data) => {
     socket.broadcast.to(data.room).emit("user-typing", data);
@@ -422,6 +422,6 @@ io.on("connection", (socket: CustomSocket) => {
 
 
 server.listen(5003, () => {
-  console.log("Server is running on port 5001");
+  console.log("Server is running on port 5003");
 });
 

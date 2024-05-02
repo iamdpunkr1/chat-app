@@ -7,7 +7,7 @@ type ChatAreaProps = {
   setMessage: (message: string) => void;
   chats: messageTypes[];
   sendMessage: (message: string) => void;
-  handleKeyPress: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleKeyPress: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
   username: string;
   handleSendFileUser?: (file: File) => void;
   name: string;

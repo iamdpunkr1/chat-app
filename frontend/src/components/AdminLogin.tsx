@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+
 import axios from "axios"; // Import Axios
 
 import { useState, useRef, useEffect } from "react";
@@ -90,12 +90,6 @@ const AdminLogin = () => {
           Login
         </button>
 
-        <p className="text-center font-semibold text-sm">
-          Looking for user login?{" "}
-          <Link className="text-indigo-700" to="/">
-            click here
-          </Link>
-        </p>
       </form>
     </div>
   );

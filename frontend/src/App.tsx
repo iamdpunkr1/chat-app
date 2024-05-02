@@ -23,7 +23,7 @@ function App() {
         </h1>
       </div>
 
-      <Router >
+      <Router basename='/dipankar/frontend/chatbot'>
             <Routes>
               <Route path="/" element={<PersistLogin type="user" />}>
                 <Route index element={<ChatBox />} />
