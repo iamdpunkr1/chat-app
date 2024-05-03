@@ -10,7 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "@types/connect-redis": "^0.0.23",
     "@types/cookie-parser": "^1.4.7",
@@ -22,7 +21,6 @@
     "@types/redis": "^4.0.11",
     "@types/ssh2": "^1.11.19",
     "@types/tunnel-ssh": "^5.0.4",
-    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "connect-redis": "^7.1.1",
     "cookie-parser": "^1.4.6",
