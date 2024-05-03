@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import mongo from "../db/index";
 import asyncHandler from "../utils/asyncHandler";
 import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { ApiError } from "../utils/ApiError";
 import Redis from 'ioredis';
 import { getUniversalDateTime, convertToCurrentTimeZone, separateDateAndTime, separateLocalDateAndTime } from "../utils/timeStamps";
