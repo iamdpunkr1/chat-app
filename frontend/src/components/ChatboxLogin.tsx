@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useUser } from "../context/AuthContext";
+import { port } from "../config";
 
 const ChatboxLogin = () => {
 
@@ -22,7 +23,7 @@ const ChatboxLogin = () => {
       setError('');
       console.log(email, username)
       if(validateEmail(email) && username.length > 3){
-        const response = await fetch('http://localhost:5003/api/user/login', {
+        const response = await fetch(port+'/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

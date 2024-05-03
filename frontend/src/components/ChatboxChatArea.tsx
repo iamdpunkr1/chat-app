@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import ChatArea from "./ChatArea"
 import useSendTranscript from "../hooks/useSendTranscript";
-import { send_Transcript } from "../config";
+import { port, send_Transcript } from "../config";
 import { useUser } from "../context/AuthContext";
  // Function to get current timestamp in IST with separated date and time
  const getISTTimestamp = ():{date:string, time:string} => {
@@ -35,7 +35,7 @@ const ChatboxChatArea = () => {
 
   const { user, setUser} = useUser();
   const { emailId, username:name, accessToken }  = user || {};
-  const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
+  const socket = useMemo(() => io(port, {
     auth: {
       token: accessToken,
       code:'7811'
@@ -91,7 +91,7 @@ const handleLogout =async  (roomID:string) => {
    socket.disconnect();
    roomIdRef.current = "";
    try{
-    const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",
+    const res:any = await axios.get(port+"/api/logout",
     {
       withCredentials: true,
     });
@@ -127,7 +127,7 @@ const handleSendFileUser = async (file:File) => {
   formData.append("sender", name || "");
   formData.append("roomId", roomID);
   try{
-    const res = await axios.post("http://localhost:5003/api/upload",formData, {
+    const res = await axios.post(port+"/api/upload",formData, {
       headers:{
         "Content-Type": "multipart/form-data;",
 

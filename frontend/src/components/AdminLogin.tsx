@@ -1,6 +1,6 @@
 
 import axios from "axios"; // Import Axios
-
+import { port } from "../config";
 import { useState, useRef, useEffect } from "react";
 import { useAdmin } from "../context/AuthContext";
 
@@ -32,7 +32,7 @@ const AdminLogin = () => {
     if (validateEmail(email)) {
       try {
         const response = await axios.post(
-          'http://localhost:5003/api/admin/login',
+          port+'/api/admin/login',
           { email, password },
           { withCredentials: true } // Set withCredentials to true
         );

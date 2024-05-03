@@ -1,3 +1,4 @@
+import { port } from "../config";
 import { messageTypes } from "../types";
 
 
@@ -7,7 +8,7 @@ const useSendTranscript = () => {
     const sendTranscript = async (emailId:string, chatMessages: messageTypes[]) => {
       console.log("Sending Transcript")
       try {
-        const res = await fetch(import.meta.env.VITE_SERVER_URL + "/api/send-transcript", {
+        const res = await fetch(port + "/api/send-transcript", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"

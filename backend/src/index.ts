@@ -16,6 +16,7 @@ configDotenv({
 
 import mongo from "./db/index";
 import { getUniversalDateTime, separateDateAndTime } from "./utils/timeStamps";
+import path from "path";
 // import { ObjectId } from "mongodb";
 
 
@@ -25,11 +26,22 @@ interface CustomSocket extends Socket {
 }
 
 
+
 mongo.init().then(() => {
     console.log('MongoDB connected');
 }).catch((error) => {
     console.log('MongoDB connection error:', error);
 });
+
+
+
+const logStream = fs.createWriteStream(path.join(__dirname, 'logs.txt'), { flags: 'a' });
+
+console.log = function() {
+  logStream.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
+  process.stdout.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
+};
+
 const PORT = "https://www.alegralabs.com"
 
 const redis = new Redis()
@@ -42,6 +54,14 @@ app.use(
   })
 );
 
+const createFolder = (folderName:string) => {
+  if (!fs.existsSync(folderName)) {
+    fs.mkdirSync(folderName, { recursive: true });
+  }
+}
+
+createFolder("public/temp")
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("public"))
@@ -50,6 +70,34 @@ app.get("/", (req, res) => {
 
   console.log("IP Address: ", ipAddress)
   return res.status(200).json({ message: "Welcome to Chat-App server" });
+});
+
+app.get('/api/logs',async (req, res) => {
+  const logFilePath = path.join(__dirname, 'logs.txt');
+
+  fs.readFile(logFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading log file:', err);
+      return res.status(500).send('Error reading log file');
+    }
+
+    const logLines = data.trim().split('\n').map(line => `<pre>${line}</pre>`).join('');
+
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Logs</title>
+        </head>
+        <body>
+          <h1>Logs</h1>
+          ${logLines}
+        </body>
+      </html>
+    `;
+
+    res.send(html);
+  });
 });
 
 app.post("/api/user/login", loginUser);
@@ -110,13 +158,14 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
 
   console.log('File uploaded:', req.file)
   try {
+
     // Get the file URL based on where it's stored
     const fileUrl =`${req.file.filename}`;
 
     console.log("File URL: ", fileUrl)
     // Emit the file URL to other users in the same room
     const {roomId, sender, type} = req.body; // Assuming roomId is sent from the client
-    io.to(roomId).emit("recieve-message", { roomId,message: "http://localhost:5003/temp/"+fileUrl, type, sender });
+    io.to(roomId).emit("recieve-message", { roomId,message: process.env.BASE_URL+"/temp/"+fileUrl, type, sender });
     
 
     res.status(200).json({ success: true, url: fileUrl });
@@ -205,6 +254,7 @@ io.use(async(socket:CustomSocket, next) => {
       
       
       const getToken = await redis.get(decodedToken?._id);
+      console.log("Middleware User Token: ", getToken)
       if(!getToken){
         return  next(new Error("Authentication error"));
       }
@@ -287,6 +337,7 @@ io.on("connection", (socket: CustomSocket) => {
     if (roomId) {
       // Join the existing room
       // const roomId = existingRoom.roomId;
+      console.log("Old User", roomId)
       socket.join(roomId);
       socket.emit("room-id", roomId);
       socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
@@ -295,6 +346,7 @@ io.on("connection", (socket: CustomSocket) => {
     } else {
       // Create a new room
       const roomName = generateRandomRoomName(10);
+      console.log("New User", roomName)
       rooms.set(roomName, {
         roomId: roomName,
         userName: name,

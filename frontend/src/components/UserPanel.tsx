@@ -3,6 +3,7 @@ import { io } from 'socket.io-client';
 import ChatArea from "../components/ChatArea";
 import axios from 'axios';
 import { messageTypes } from "../types";
+import { port } from "../config";
 
 type UserType = {
   emailId: string,
@@ -28,7 +29,7 @@ type UserPanelProps = {
 
 const UserPanel = ({ emailId,  setAuth }: UserPanelProps) => {
 
-    const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
+    const socket = useMemo(() => io(port, {
         withCredentials: true,
       }), []);
     

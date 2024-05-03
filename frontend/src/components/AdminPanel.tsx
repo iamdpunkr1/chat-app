@@ -7,6 +7,7 @@ import notifySound from "../assets/sound/notify2.wav";
 import { messageTypes } from "../types";
 import axios from 'axios';
 import { useAdmin } from "../context/AuthContext";
+import { port } from "../config";
 // import useRefreshToken from "../hooks/useRefreshToken";
 
 interface Room {
@@ -60,7 +61,7 @@ const AdminPanel = () => {
 
   const { emailId, name:adminUserName, accessToken } = admin || {};
 
-  const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
+  const socket = useMemo(() => io(port, {
     auth: {
       token: accessToken,
       code:"7812"
@@ -120,7 +121,7 @@ const AdminPanel = () => {
     formData.append("sender", adminUserName || "");
     formData.append("roomId", roomId);
     try{
-       await axios.post("http://localhost:5003/api/upload",formData, {
+       await axios.post(port+"/api/upload",formData, {
         headers:{
           "Content-Type": "multipart/form-data;",
 
@@ -350,7 +351,7 @@ const AdminPanel = () => {
 
      socket.disconnect();
      try{
-      const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",
+      const res:any = await axios.get(port+"/api/logout",
       {
         withCredentials: true,
       });

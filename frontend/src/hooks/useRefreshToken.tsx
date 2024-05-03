@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useAdmin, useUser,  } from '../context/AuthContext';
+import { port } from '../config';
 
 const useRefreshToken = () => {
     const {  setAdmin } = useAdmin(); 
     const {  setUser } = useUser();
     
     const refresh = async (type:string) => {
-        const response:any = await axios.post('http://localhost:5003/api/refresh-token',
+        const response:any = await axios.post(port+'/api/refresh-token',
         {
             type
         }

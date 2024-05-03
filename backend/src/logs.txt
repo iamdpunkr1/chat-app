@@ -1,0 +1,6 @@
+2024-05-03T12:54:42.000Z - Server is running on port 5003
+2024-05-03T12:54:42.713Z - connected
+2024-05-03T12:54:42.714Z - MongoDB connected
+2024-05-03T12:58:43.658Z - Server is running on port 5003
+2024-05-03T12:58:47.267Z - connected
+2024-05-03T12:58:47.272Z - MongoDB connected

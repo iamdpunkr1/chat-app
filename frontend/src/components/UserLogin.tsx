@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'; // Import useState hook
 import { Link } from 'react-router-dom';
+import { port } from '../config';
 
 
 type UserLoginProps = {
@@ -23,7 +24,7 @@ const UserLogin = ({ setAuth }: UserLoginProps) => {
         e.preventDefault();
         setError('');
         if (validateEmail(email)) {
-            const response = await fetch(import.meta.env.VITE_SERVER_URL+'/api/user/login', {
+            const response = await fetch(port+'/api/user/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
