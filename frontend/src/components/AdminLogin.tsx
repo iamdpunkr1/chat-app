@@ -32,7 +32,7 @@ const AdminLogin = () => {
     if (validateEmail(email)) {
       try {
         const response = await axios.post(
-          port+'/api/admin/login',
+          import.meta.env.VITE_SERVER_URL+'/api/admin/login',
           { email, password },
           { withCredentials: true } // Set withCredentials to true
         );

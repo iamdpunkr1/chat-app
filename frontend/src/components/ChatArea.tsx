@@ -11,6 +11,8 @@ type ChatAreaProps = {
   username: string;
   handleSendFileUser?: (file: File) => void;
   name: string;
+  uploadProgress?: number;
+  isUploading?: boolean;
 };
 
 type ChatMessageProps = {
@@ -65,6 +67,8 @@ const ChatArea = ({
   username,
   handleSendFileUser,
   name,
+  uploadProgress,
+  isUploading,
 }: ChatAreaProps) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -91,6 +95,7 @@ const ChatArea = ({
   };
 
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("Handle File Change: ",event.target.files?.[0])
     try {
       const file = event.target.files?.[0];
       if (file) {
@@ -101,6 +106,10 @@ const ChatArea = ({
         handleFilePreview(file);
         setFile(file);
         setShowModal(true);
+        
+        if(fileRef.current){
+          fileRef.current.value = "";
+        }
       }
     } catch (err) {
       console.log(err);
@@ -221,11 +230,14 @@ const ChatArea = ({
                 )}
               </div>
             )}
+
+            
             <div className="modal-action">
-              <button className="btn" onClick={handleSendFile}>
+            <progress className="progress progress-primary w-56" value={uploadProgress} max="100"></progress>
+              <button className="btn" onClick={handleSendFile} disabled={isUploading}>
                 Send
               </button>
-              <button className="btn" onClick={handleCancel}>
+              <button className="btn" onClick={handleCancel} disabled={isUploading}>
                 Cancel
               </button>
             </div>

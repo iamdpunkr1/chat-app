@@ -42,7 +42,8 @@ console.log = function() {
   process.stdout.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
 };
 
-const PORT = "https://www.alegralabs.com"
+const PORT =  "https://www.alegralabs.com"
+const FILEURL = process.env.FILE_URL;
 
 const redis = new Redis()
 
@@ -154,7 +155,7 @@ app.post("/api/send-transcript", async (req, res) => {
   return res.status(200).json({ message: "Transcript saved successfully" });
 });
 
-app.post('/api/upload', upload.single('file'), (req, res) => {
+app.post('/api/upload', upload.single('file'),async (req, res) => {
 
   console.log('File uploaded:', req.file)
   try {
@@ -165,7 +166,9 @@ app.post('/api/upload', upload.single('file'), (req, res) => {
     console.log("File URL: ", fileUrl)
     // Emit the file URL to other users in the same room
     const {roomId, sender, type} = req.body; // Assuming roomId is sent from the client
-    io.to(roomId).emit("recieve-message", { roomId,message: process.env.BASE_URL+"/temp/"+fileUrl, type, sender });
+    const universalDateTime = getUniversalDateTime();
+    await redis.append(roomId, `${JSON.stringify( { roomId,message: FILEURL+fileUrl, type, sender, time:universalDateTime })}###`)
+    io.to(roomId).emit("recieve-message", { roomId,message: FILEURL+fileUrl, type, sender, time:universalDateTime });
     
 
     res.status(200).json({ success: true, url: fileUrl });
@@ -262,6 +265,7 @@ io.use(async(socket:CustomSocket, next) => {
       //i want to attach the room id to the socket so that it 
       //can be used to create
       socket.roomId  = "room"+decodedToken?._id;
+      // console.log("SOCKET.ROOMID: ", socket.roomId)
       return next();
 
     }catch(err){
@@ -333,7 +337,10 @@ io.on("connection", (socket: CustomSocket) => {
     // console.log("existing room", existingRoom)
 
     // console.log(rooms)
+    console.log("Inside SOCKET.ROOMID: ", socket.roomId)
+
     const roomId = await redis.get(socket.roomId)
+    console.log("Redis ROOMID: ", roomId)
     if (roomId) {
       // Join the existing room
       // const roomId = existingRoom.roomId;
@@ -355,7 +362,7 @@ io.on("connection", (socket: CustomSocket) => {
         agentEmailId: "",
       });
 
-      await redis.set(socket.roomId, "")
+      await redis.set(socket.roomId, roomName)
       socket.join(roomName);
       socket.emit("room-id", roomName);
       console.log("Rooms: ", rooms);
@@ -451,10 +458,10 @@ io.on("connection", (socket: CustomSocket) => {
 
   //message to room
   socket.on("room-message", async (msg: { roomId: string; message: string, sender:string, type:string }) => {
-    console.log("Message: ", msg);
+    console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type);
 
     if(agentInRoom(msg.roomId)){
-      console.log("Message: ", msg);
+      console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type);
       const universalDateTime = getUniversalDateTime();
       const msgData = {...msg, time:universalDateTime};
       await redis.append(msg.roomId, `${JSON.stringify(msgData)}###`)

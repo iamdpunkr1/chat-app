@@ -23,7 +23,7 @@ const ChatboxLogin = () => {
       setError('');
       console.log(email, username)
       if(validateEmail(email) && username.length > 3){
-        const response = await fetch(port+'/api/user/login', {
+        const response = await fetch(import.meta.env.VITE_SERVER_URL+'/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

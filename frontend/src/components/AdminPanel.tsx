@@ -61,7 +61,7 @@ const AdminPanel = () => {
 
   const { emailId, name:adminUserName, accessToken } = admin || {};
 
-  const socket = useMemo(() => io(port, {
+  const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
     auth: {
       token: accessToken,
       code:"7812"
@@ -81,6 +81,8 @@ const AdminPanel = () => {
   const [playStatus, setPlayStatus] = useState<boolean>(false);
   const [startCounter, setStartCounter] = useState<number>(0);
   const [stopCounter, setStopCounter] = useState<number>(0);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   // console.log("chat-messages: ", chatMessages);
   notificationAudioRef.current = useMemo(()=> new Audio(notifySound), []) 
@@ -104,6 +106,7 @@ const AdminPanel = () => {
 
   const handleSendFileUser = async (file:File) => {
     // console.log("Sending File: ", file);
+    setIsUploading(true);
     let fileType;
     if (file.type.includes("image/")) {
       fileType = "image";
@@ -120,11 +123,16 @@ const AdminPanel = () => {
     formData.append("type", fileType);
     formData.append("sender", adminUserName || "");
     formData.append("roomId", roomId);
+    //add FILE UPLOAD Progress
+    
     try{
-       await axios.post(port+"/api/upload",formData, {
+       await axios.post(import.meta.env.VITE_SERVER_URL+"/api/upload",formData, {
         headers:{
           "Content-Type": "multipart/form-data;",
 
+        },
+        onUploadProgress: (data) => {
+          setUploadProgress(Math.round((data.loaded / (data.total || 100)) * 100));
         },
       });
       // const data = await res.data();
@@ -133,7 +141,8 @@ const AdminPanel = () => {
     }catch(err){
       console.log("Error while uploading file: ", err);
     }
-    
+    setUploadProgress(0);
+    setIsUploading(false);
   };
 
   const sendTranscript = async () => {
@@ -351,7 +360,7 @@ const AdminPanel = () => {
 
      socket.disconnect();
      try{
-      const res:any = await axios.get(port+"/api/logout",
+      const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",
       {
         withCredentials: true,
       });
@@ -390,7 +399,7 @@ const AdminPanel = () => {
                return(
                 <div key={index} className={`flex justify-between border-2 rounded-md p-2 bg-base-200 relative cursor-pointer ${roomId===user?.roomId && "border-green-500"}`}
                         onClick={()=>{if(emailId===user.agentEmailId) setRoomId(user?.roomId)}}>
-                   <h2 className="text-sm ">{"User-"+index+"-"+ user?.userName}</h2>
+                   <h2 className="text-sm ">{index+1+": User-"+ user?.userName}</h2>
                    <button disabled={emailId===user.agentEmailId} className="btn btn-xs btn-neutral" onClick={()=> handleJoinRoom(user?.roomId)}>{emailId===user.agentEmailId? "connected": "Take"}</button>
                 </div>)
               }
@@ -406,7 +415,10 @@ const AdminPanel = () => {
               handleKeyPress={handleKeyPress}
               username={username[roomId] || ""}
               handleSendFileUser={handleSendFileUser}
-              name={adminUserName || ""}/>
+              name={adminUserName || ""}
+              uploadProgress={uploadProgress}
+              isUploading={isUploading} />
+              
     </div>
     </div>
     {/* <audio ref={soundRef} src={messageSound} /> */}
