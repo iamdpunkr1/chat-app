@@ -59,7 +59,7 @@ console.log = function() {
   process.stdout.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
 };
 
-const PORT = "http://localhost:5173" // "https://www.alegralabs.com"
+const PORT =  "https://www.alegralabs.com"
 const FILEURL = process.env.FILE_URL;
 console.log("FILEURL: ", FILEURL);
 
