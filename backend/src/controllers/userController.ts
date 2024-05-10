@@ -7,8 +7,8 @@ import { ApiError } from "../utils/ApiError";
 import Redis from 'ioredis';
 import { getUniversalDateTime, convertToCurrentTimeZone, separateDateAndTime, separateLocalDateAndTime } from "../utils/timeStamps";
 import { ObjectId } from "mongodb";
-const redis = new Redis();
 
+const redis = new Redis();
 
 
 const generateAccessToken = function(){

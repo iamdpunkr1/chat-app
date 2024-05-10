@@ -25,6 +25,23 @@ interface CustomSocket extends Socket {
   roomId?: string;
 }
 
+type RoomType = {
+  roomId: string,
+  userName: string,
+  agentName: string,
+  userEmailId: string,
+  agentEmailId:string
+}
+
+const rooms = new Map();
+
+const agentInRoom = (roomId: string) => {
+  const room = rooms.get(roomId);
+  if(room){
+    return room.agentEmailId !== "";
+  }
+  return false;
+}
 
 
 mongo.init().then(() => {
@@ -42,8 +59,9 @@ console.log = function() {
   process.stdout.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
 };
 
-const PORT =  "https://www.alegralabs.com"
+const PORT = "http://localhost:5173" // "https://www.alegralabs.com"
 const FILEURL = process.env.FILE_URL;
+console.log("FILEURL: ", FILEURL);
 
 const redis = new Redis()
 
@@ -162,18 +180,24 @@ app.post('/api/upload', upload.single('file'),async (req, res) => {
 
     // Get the file URL based on where it's stored
     const fileUrl =`${req.file.filename}`;
+    
 
     console.log("File URL: ", fileUrl)
     // Emit the file URL to other users in the same room
-    const {roomId, sender, type} = req.body; // Assuming roomId is sent from the client
-    const universalDateTime = getUniversalDateTime();
-    await redis.append(roomId, `${JSON.stringify( { roomId,message: FILEURL+fileUrl, type, sender, time:universalDateTime })}###`)
-    io.to(roomId).emit("recieve-message", { roomId,message: FILEURL+fileUrl, type, sender, time:universalDateTime });
+    const {roomId, sender, type, time} = req.body; // Assuming roomId is sent from the client
+    // const universalDateTime = getUniversalDateTime();
+    // await redis.append(roomId, `${JSON.stringify( { roomId, message: FILEURL+fileUrl, type, sender, time })}###`)
+    if(roomId === "") return res.status(400).json({ success: false, error: 'Room ID is invalid' }  ); 
     
+    if(!agentInRoom(roomId)){
+     return res.status(402).json({ success: false, error: 'Upload failed!, Agent not available' });
+    }
 
-    res.status(200).json({ success: true, url: fileUrl });
+    io.to(roomId).emit("recieve-message", { roomId, message: FILEURL+fileUrl, type, sender, time });
+    return res.status(200).json({ success: true, url: fileUrl });
+ 
   } catch (error) {
-    console.error('Error uploading file:', error);
+    console.log('Error uploading file:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 }); 
@@ -203,23 +227,6 @@ const io: SocketIOServer = new SocketIOServer(server, {
   }
 });
 
-type RoomType = {
-  roomId: string,
-  userName: string,
-  agentName: string,
-  userEmailId: string,
-  agentEmailId:string
-}
-
-const rooms = new Map();
-
-const agentInRoom = (roomId: string) => {
-  const room = rooms.get(roomId);
-  if(room){
-    return room.agentEmailId !== "";
-  }
-  return false;
-}
 
 // Queue to hold users waiting to be connected with an agent
 let userQueue: string[] = [];
@@ -243,7 +250,6 @@ io.use(async(socket:CustomSocket, next) => {
           return next(new Error("Authentication error"));
         }
 
-       
 
         return next();
     }catch(err){
@@ -285,13 +291,18 @@ io.on("connection", (socket: CustomSocket) => {
       });
     };
 
+  socket.emit("fetch-users", Array.from(rooms.values()));
 
   socket.on("connect", () => {
     console.log("User connected", socket.id);
+
   });
 
   socket.on("reconnect", () => {
     // socket.emit("fetch-users", Array.from(rooms.values()));
+    console.log("User reconnected", socket.id);
+    socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
+
   });
 
 
@@ -311,16 +322,6 @@ io.on("connection", (socket: CustomSocket) => {
 
   socket.emit("fetch-users", Array.from(rooms.values()));
 
-  // socket.on("save-message", async (data:{emailId:string, message:string}) => {
-  //   const {emailId, message} = data;
-  //   console.log("Message: ", data)
-  //   const chatHistory = await redis.get(emailId);
-  //   if(chatHistory){
-  //     await redis.set(emailId, chatHistory + "#\n#" + message);
-  //   }else{
-  //     await redis.set(emailId, message);
-  //   }
-  // });
 
   //user connect event & adding user to rooms
   socket.on("user-connect", async (userEmailId: string, name: string) => {
@@ -347,7 +348,7 @@ io.on("connection", (socket: CustomSocket) => {
       console.log("Old User", roomId)
       socket.join(roomId);
       socket.emit("room-id", roomId);
-      socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
+      // socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
       const savedMessages = await getMessages(roomId);
       if(savedMessages) socket.emit("saved-messages", savedMessages, roomId)
     } else {
@@ -362,7 +363,7 @@ io.on("connection", (socket: CustomSocket) => {
         agentEmailId: "",
       });
 
-      await redis.set(socket.roomId, roomName)
+      await redis.set(socket.roomId, roomName,  "EX", 2 * 60 * 60)
       socket.join(roomName);
       socket.emit("room-id", roomName);
       console.log("Rooms: ", rooms);
@@ -372,8 +373,10 @@ io.on("connection", (socket: CustomSocket) => {
       // Update queue status for all users
       
       socket.broadcast.emit("notifyAgent");
-      socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
+      // socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
     }
+
+    socket.broadcast.emit("fetch-users", Array.from(rooms.values()));
     updateQueueStatus();
   });
 
@@ -457,16 +460,22 @@ io.on("connection", (socket: CustomSocket) => {
 
 
   //message to room
-  socket.on("room-message", async (msg: { roomId: string; message: string, sender:string, type:string }) => {
-    console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type);
-
+  socket.on("room-message", async (msg: { roomId: string; message: string, sender:string, type:string, time:string }) => {
+    console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type, msg.time);
+    console.log("Socket Id: ", socket.id);
     if(agentInRoom(msg.roomId)){
       console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type);
-      const universalDateTime = getUniversalDateTime();
-      const msgData = {...msg, time:universalDateTime};
-      await redis.append(msg.roomId, `${JSON.stringify(msgData)}###`)
-      io.to(msg.roomId).emit("recieve-message",msgData);
+      // const universalDateTime = getUniversalDateTime();
+      // const msgData = {...msg, time:universalDateTime};
+      // await redis.append(msg.roomId, `${JSON.stringify(msgData)}###`)
+      io.to(msg.roomId).emit("recieve-message",msg);
     }
+  });
+
+  //save message to redis
+  socket.on("save-message", async (msg: { roomId: string; message: string, sender:string, type:string }) => {
+    await redis.append(msg.roomId, `${JSON.stringify(msg)}###`);
+    await redis.expire(msg.roomId, 60 * 60);
   });
 
   //disconnect event

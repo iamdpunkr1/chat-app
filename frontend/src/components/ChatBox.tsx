@@ -22,6 +22,7 @@ const ChatBox: React.FC = () => {
 
   return (
     <div>
+      {!isChatboxOpen ?
       <div className="fixed bottom-0 right-0 mb-4 mr-4">
         <button
           id="open-chat"
@@ -45,8 +46,8 @@ const ChatBox: React.FC = () => {
           Chat with an Agent
         </button>
       </div>
-      {isChatboxOpen && (
-        <div id="chat-container" className="fixed bottom-16 right-4 w-96">
+       : (
+        <div id="chat-container" className="fixed bottom-5 right-4 w-96">
           <div className="bg-white shadow-md rounded-lg max-w-lg w-full">
             <div className="p-4 border-b bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
               <div className='flex gap-2 items-center'>

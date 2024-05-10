@@ -1,11 +1,19 @@
 import { messageTypes } from "../types"
 import { useEffect, useMemo, useRef, useState} from "react";
-import { io } from 'socket.io-client';
+import { connect, io } from 'socket.io-client';
 import axios from 'axios';
 import ChatArea from "./ChatArea"
 import useSendTranscript from "../hooks/useSendTranscript";
 import { port, send_Transcript } from "../config";
 import { useUser } from "../context/AuthContext";
+
+// Function to get the universal date and time
+function getUniversalDateTime(): string {
+  const date = new Date();
+  const universalDateTime: string = date.toISOString();
+  return universalDateTime;
+}
+
  // Function to get current timestamp in IST with separated date and time
  const getISTTimestamp = ():{date:string, time:string} => {
   const now = new Date();
@@ -35,7 +43,7 @@ const ChatboxChatArea = () => {
 
   const { user, setUser} = useUser();
   const { emailId, username:name, accessToken }  = user || {};
-  const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
+  const socket = useMemo(() => io(port, {
     auth: {
       token: accessToken,
       code:'7811'
@@ -68,7 +76,8 @@ const setMessages = (data: messageTypes) => {
 
 const sendMessage = (message:string) => {
     console.log("Sending Message", roomID);
-    socket.emit("room-message", {roomId: roomID, message, sender:name, type:"text"})
+    const universalDateTime = getUniversalDateTime();
+    socket.emit("room-message", {roomId: roomID, message, sender:name, type:"text", time:universalDateTime})
    
   }
 
@@ -91,7 +100,7 @@ const handleLogout =async  (roomID:string) => {
    socket.disconnect();
    roomIdRef.current = "";
    try{
-    const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",
+    const res:any = await axios.get(port+"/api/logout",
     {
       withCredentials: true,
     });
@@ -109,6 +118,13 @@ const handleLogout =async  (roomID:string) => {
 
 
 const handleSendFileUser = async (file:File) => {
+  if(queueStatus.length>0) {
+    setError("Please wait for an agent to join the chat");
+    setTimeout(() => {
+      setError("");
+    }, 2000);
+    return;
+  }
   console.log("Sending File: ", file);
   let fileType;
   if (file.type.includes("image/")) {
@@ -121,16 +137,20 @@ const handleSendFileUser = async (file:File) => {
     fileType = "other";
   }
 
+  const time = getUniversalDateTime();
+
   const formData = new FormData();
   formData.append("file", file);
   formData.append("type", fileType);
   formData.append("sender", name || "");
   formData.append("roomId", roomID);
+  formData.append("time", time);
+
   try{
-    const res = await axios.post(import.meta.env.VITE_SERVER_URL+"/api/upload",formData, {
+    const res = await axios.post(port+"/api/upload",formData, {
       headers:{
         "Content-Type": "multipart/form-data;",
-
+        
       },
     });
     // const data = await res.data();
@@ -191,7 +211,8 @@ useEffect(() => {
 
     socket.on("recieve-message", (data: messageTypes) => {
       console.log(data)
-        setMessages(data); 
+        setMessages(data);
+        socket.emit("save-message", data) 
       })
 
     socket.on("room-id", (roomID: string) => {

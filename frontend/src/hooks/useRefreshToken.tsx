@@ -7,7 +7,7 @@ const useRefreshToken = () => {
     const {  setUser } = useUser();
     
     const refresh = async (type:string) => {
-        const response:any = await axios.post(import.meta.env.VITE_SERVER_URL+'/api/refresh-token',
+        const response:any = await axios.post(port+'/api/refresh-token',
         {
             type
         }

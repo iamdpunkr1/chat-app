@@ -1,4 +1,3 @@
-
 import axios from "axios"; // Import Axios
 import { port } from "../config";
 import { useState, useRef, useEffect } from "react";
@@ -11,6 +10,7 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const emailInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false); // State to store loading status
 
   useEffect(() => {
     if (emailInputRef.current) {
@@ -27,12 +27,13 @@ const AdminLogin = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
+    setLoading(true); // Set loading to true when form is submitted
 
     // Replace this with your actual Axios API call
     if (validateEmail(email)) {
       try {
         const response = await axios.post(
-          import.meta.env.VITE_SERVER_URL+'/api/admin/login',
+          port+'/api/admin/login',
           { email, password },
           { withCredentials: true } // Set withCredentials to true
         );
@@ -47,10 +48,13 @@ const AdminLogin = () => {
         }
       } catch (err) {
         console.error("Error while logging in:", err);
-        setError("Error occurred while logging in. Please try again.");
+        setError('Invalid credentials.');
+      } finally {
+        setLoading(false); // Set loading to false after form submission completes
       }
     } else {
       setError('Please enter a valid email address.');
+      setLoading(false); // Set loading to false if email is invalid
     }
   };
 
@@ -86,8 +90,8 @@ const AdminLogin = () => {
 
         {error && <p className="text-red-600">{error}</p>}
 
-        <button type="submit" className="btn btn-primary mb-3">
-          Login
+        <button type="submit" className={`btn btn-primary mb-3 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
+          {loading ? 'Loading...' : 'Login'}
         </button>
 
       </form>

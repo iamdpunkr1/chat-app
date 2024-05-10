@@ -28,6 +28,14 @@ type UsernameType = {
   [roomID: string]: string;
 }
 
+
+// Function to get the universal date and time
+function getUniversalDateTime(): string {
+  const date = new Date();
+  const universalDateTime: string = date.toISOString();
+  return universalDateTime;
+}
+
 function convertToCurrentTimeZone(universalDateTime: string): string {
     const date = new Date(universalDateTime);
     let hours = date.getHours();
@@ -61,7 +69,7 @@ const AdminPanel = () => {
 
   const { emailId, name:adminUserName, accessToken } = admin || {};
 
-  const socket = useMemo(() => io(import.meta.env.VITE_SERVER_URL, {
+  const socket = useMemo(() => io(port, {
     auth: {
       token: accessToken,
       code:"7812"
@@ -83,17 +91,20 @@ const AdminPanel = () => {
   const [stopCounter, setStopCounter] = useState<number>(0);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
   const [isUploading, setIsUploading] = useState<boolean>(false);
-
+  const [loading, setLoading] = useState<boolean>(false);
+  const [disconnectLoading, setDisconnectLoading] = useState<boolean>(false);
+  const [loggingOut, setLoggingOut] = useState<boolean>(false);
+  
   // console.log("chat-messages: ", chatMessages);
   notificationAudioRef.current = useMemo(()=> new Audio(notifySound), []) 
 
   const sendMessage = (message: string) => {
     // console.log("Sending Message");
+    const time = getUniversalDateTime();
     if(message.length>0){
-    socket.emit("room-message", {roomId: roomId, message, sender:adminUserName, type:"text"})
+    socket.emit("room-message", {roomId: roomId, message, sender:adminUserName, type:"text", time})
     }
-  }
-
+  } 
   const handleKeyPress = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
     if(e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
@@ -105,7 +116,12 @@ const AdminPanel = () => {
   }
 
   const handleSendFileUser = async (file:File) => {
-    // console.log("Sending File: ", file);
+   
+    if(roomId.length === 0){
+      console.log("FIle not sent")
+      return;
+    }
+    console.log("Sending File: ", roomId);
     setIsUploading(true);
     let fileType;
     if (file.type.includes("image/")) {
@@ -118,15 +134,17 @@ const AdminPanel = () => {
       fileType = "other";
     }
 
+    const time = getUniversalDateTime();
     const formData = new FormData();
     formData.append("file", file);
     formData.append("type", fileType);
     formData.append("sender", adminUserName || "");
     formData.append("roomId", roomId);
+    formData.append("time", time);
     //add FILE UPLOAD Progress
     
     try{
-       await axios.post(import.meta.env.VITE_SERVER_URL+"/api/upload",formData, {
+       await axios.post(port+"/api/upload",formData, {
         headers:{
           "Content-Type": "multipart/form-data;",
 
@@ -147,35 +165,43 @@ const AdminPanel = () => {
 
   const sendTranscript = async () => {
     console.log("Sending Transcript")
+    setLoading(true);
+    const room = users.find(user => user.roomId === roomId);
+    console.log("Room: ", room)
     try{
-    const res = await fetch(import.meta.env.VITE_SERVER_URL+"/api/send-transcript", {
+    const res = await fetch(port+"/api/send-transcript", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({emailId, transcript:chatMessages[roomId]})
+      body: JSON.stringify({emailId:`${emailId} , ${room?.userEmailId}`, transcript:chatMessages[roomId]})
     });
     const data = await res.json();
     console.log("Transcript sent: ",data);
-    if(data.success){
-      alert("Transcript sent successfully");
-    }
+ 
+    alert("Transcript sent successfully");
+    
   }catch(err){
     console.log("Error while sending transcript: ",err);
+    alert("Error while sending transcript");
+  }finally{
+    setLoading(false);
   }
     
   }
 
   const handleDisonnect = () => { 
+    setDisconnectLoading(true);
     socket.emit("leave-room", {roomId, type: "Agent", name:adminUserName});
     setRoomId("");
+    setDisconnectLoading(false);
   }
 
 
 
   useEffect(() => {
     // console.log("Admin Panel: ", emailId)
-    
+
    
     socket.on("connect", () => {
      console.log("Admin Connected to SOCKET with id: ", socket.id)
@@ -198,14 +224,14 @@ const AdminPanel = () => {
 
     socket.on("notifyAgent", () => {
       // setIsAgentJoined(false);
-      
+         console.log("New User Joined. Playing Notification Sound")
          startNotificationSound();
 
     })
 
     socket.on("agent-joined", (message: string) => {
         console.log("Agent Joined: ", message);
-        stopNotificationSound();
+        stopNotificationSound(); 
 
     })
 
@@ -213,6 +239,7 @@ const AdminPanel = () => {
     //user array to store all messages instead of object
     socket.on("recieve-message", (data: { roomId: string, message: string, sender:string, type:string, time:string }) => {
       // const { time } = getISTTimestamp();
+      console.log("Socket Id: ", socket.id);
       console.log("Recieved Message: ", data);
       const { time:ISTtime } = getISTTimestamp();
       const { roomId, message, sender, type, time } = data;
@@ -233,6 +260,7 @@ const AdminPanel = () => {
     });
 
     socket.on("fetch-users", (rooms: Room[]) => {
+      let nonConnectedUser = false;
       setUsers(rooms);
       if(rooms.length>0){
         console.log("Users [USEFFECT] : ", rooms)
@@ -240,9 +268,17 @@ const AdminPanel = () => {
           if(emailId===user.agentEmailId){
             socket.emit("join-room", {roomId:user.roomId, agentEmailId:emailId, name:adminUserName});
             setRoomId(user.roomId);
+          }else if(user.agentEmailId===""){
+            nonConnectedUser = true;
           }
         })
       }
+
+      if(!nonConnectedUser){
+        // setError("No User Available")
+        stopNotificationSound();
+      }
+
     })
 
 
@@ -351,29 +387,30 @@ const AdminPanel = () => {
       setRoomId(roomId);
   }
 
-  const handleLogout = async() => {
-     users.forEach(user => {
-       if(emailId===user.agentEmailId){
-         socket.emit("leave-room", {roomId:user.roomId, type:"Agent", name:adminUserName});
-        }
-      })
-
-     socket.disconnect();
-     try{
-      const res:any = await axios.get(import.meta.env.VITE_SERVER_URL+"/api/logout",
-      {
+  const handleLogout = async () => {
+    setLoggingOut(true); // Set loggingOut to true before initiating the logout process
+  
+    users.forEach((user) => {
+      if (emailId === user.agentEmailId) {
+        socket.emit("leave-room", { roomId: user.roomId, type: "Agent", name: adminUserName });
+      }
+    });
+  
+    socket.disconnect();
+  
+    try {
+      const res: any = await axios.get(port + "/api/logout", {
         withCredentials: true,
       });
-      console.log(res.data)
+      console.log(res.data);
       // if (!res?.data) throw new Error("Logout failed");
-  
-    }catch(err){
-      console.log(err)
-    }finally {
+    } catch (err) {
+      console.log(err);
+    } finally {
       setAdmin(null);
+      setLoggingOut(false); // Set loggingOut to false after the logout process is completed
     }
-     
-  }
+  };
 
   return (
     <>
@@ -382,9 +419,15 @@ const AdminPanel = () => {
         <div className="flex gap-4">
           {/* <button onClick={()=> play()} className="btn btn-outline">Play</button>
           <button onClick={()=> stop()} className="btn btn-outline">Stop</button> */}
-          <button disabled={roomId ==="" } className="btn btn-outline btn-primary btn-sm" onClick={()=>{ if(chatMessages[roomId].length>0) sendTranscript()}}>Send Transcript</button>
-          <button disabled={roomId ===""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>Disconnect</button>
-          <button className="btn btn-outline btn-sm" onClick={handleLogout}>Logout</button>
+          <button disabled={loading || roomId === ""} className="btn btn-outline btn-primary btn-sm" onClick={() => { if (chatMessages[roomId]) sendTranscript() }}>
+            {loading ? <span className="loading loading-infinity text-primary"></span> : "Send Transcript"}
+          </button>
+          <button disabled={loading || roomId === ""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>
+            {disconnectLoading ? <span className="loading loading-infinity text-primary"></span> : "Disconnect"}
+          </button>
+          <button className="btn btn-outline btn-sm" onClick={handleLogout}>
+          {loggingOut ? <span className="loading loading-infinity text-primary"></span> : "Logout"}
+        </button>
         </div>        
     </div>
     

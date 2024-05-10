@@ -23,25 +23,30 @@ type ChatMessageProps = {
 };
 
 const ChatMessage = ({ sender, message, time, isUser, type }: ChatMessageProps & { type: string }) => {
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const handleImageClick = () => {
-    setIsZoomed(!isZoomed);
+    setShowModal(true);
   };
+
   return (
     <div
-      className={`relative w-[10/12] flex flex-col px-4 py-2 text-gray-700 rounded-lg my-4 mx-2 ${
+      className={`relative flex flex-col px-4 py-2 text-gray-700 rounded-lg my-4 mx-2 ${
         isUser ? 'bg-green-100 self-end' : 'bg-gray-100 self-start'
       }`}
+
+      style={{ maxWidth: '80%', }}
     >
       <p className="font-bold text-gray-500 text-xs self-start pb-1 ">{isUser ? 'You' : sender}</p>
       {type === 'text' ? (
-        <p className=" self-start pt-1 text-gray-700 text-base">{message}</p>
+        <div className=' w-full text-wrap break-words'>
+         <p className="text-left text-gray-700 text-sm ">{message}</p>
+        </div>
       ) : type === 'image' ? (
         <img
           src={message}
           alt="Sent Image"
-          className={` rounded-lg self-start cursor-pointer ${isZoomed ? 'max-w-[400px] max-h-[400px]' : 'max-w-[200px] max-h-[200px]'}`}
+          className={` rounded-lg self-start cursor-pointer max-w-[200px] max-h-[200px] `}
           onClick={handleImageClick}
         />
       ) : type === 'video' ? (
@@ -54,6 +59,17 @@ const ChatMessage = ({ sender, message, time, isUser, type }: ChatMessageProps &
         </a>
       )}
       <p className="text-xs self-end text-gray-400 pt-2">{time}</p>
+      {showModal && (
+        <div
+          className= {`z-10 fixed inset-0 overflow-y-auto flex items-center justify-center`}
+          style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+          onClick={() => setShowModal(false)}
+        >
+          <div className={` bg-white rounded-lg p-6`}>
+            <img src={message} alt="Full Image" className="max-w-full max-h-[80vh]" />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -75,6 +91,7 @@ const ChatArea = ({
   const [file, setFile] = useState<File | null>(null);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [filePreview, setFilePreview] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const handleClick = () => {
     if (fileRef.current) {
@@ -131,6 +148,30 @@ const ChatArea = ({
     }
   };
 
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    setIsDragging(false);
+    const droppedFile = event.dataTransfer.files[0];
+    if (droppedFile) {
+      if (droppedFile.size > fileSize) {
+        alert('File size should be less than 20MB');
+        return;
+      }
+      handleFilePreview(droppedFile);
+      setFile(droppedFile);
+      setShowModal(true);
+    }
+  };
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chats]);
@@ -138,7 +179,19 @@ const ChatArea = ({
   return (
     <section className="relative">
       {/* maintain chats messages length */}
-      <div className="overflow-y-auto overflow-x-clip  flex flex-col border-[2px] border-gray-300  h-[600px] rounded-md pt-4">
+      <div
+        className={`overflow-y-auto overflow-x-clip  flex flex-col border-[2px] border-gray-300  h-[600px] rounded-md pt-4 ${isDragging ? 'bg-gray-200' : ''}`}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        onDragLeave={handleDragLeave}
+      >
+        {/* Drag and drop indicator */} 
+        {isDragging && (
+          <div className="flex justify-center items-center h-full absolute inset-0 bg-gray-200 bg-opacity-50">
+            <p className="text-gray-600">Drop file here</p>
+          </div>
+        )}
+
         {chats &&
           chats.map((chat, index) => {
             switch (chat.type) {
@@ -176,13 +229,13 @@ const ChatArea = ({
         </div>
       </div>
 
-      <div className="flex w-full mt-4 gap-2 items-center border-2 border-gray-300 py-2 rounded-md">
-      <textarea
+      <div className="flex w-full mt-4 gap-2 items-center border-2 border-gray-300 py-2 rounded-md " >
+       <textarea
             value={message}
             onKeyDown={handleKeyPress}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type here"
-            className="input-lg outline-none grow resize-none"
+            className="input-md outline-none grow resize-none"
             style={{ height: `${(message.match(/\n/g) || []).length * 20 + 40}px` }}
           />
 
@@ -199,7 +252,7 @@ const ChatArea = ({
             </button>
 
             <button
-              className="btn btn-outline px-4"
+              className="btn btn-outline px-3"
               onClick={() => {
                 if (message.length > 0) sendMessage(message);
                 setMessage('');
