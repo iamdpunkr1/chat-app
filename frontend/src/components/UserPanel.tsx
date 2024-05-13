@@ -234,7 +234,8 @@ const UserPanel = ({ emailId,  setAuth }: UserPanelProps) => {
                        handleKeyPress={handleKeyPress}
                        username={username}
                        handleSendFileUser={handleSendFileUser}
-                       name={name} />
+                      //  name={name}
+                        />
     </div>
   )
 }
