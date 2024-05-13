@@ -59,7 +59,7 @@ console.log = function() {
   process.stdout.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
 };
 
-const PORT =  "https://www.alegralabs.com"
+const PORT = "https://www.alegralabs.com"
 const FILEURL = process.env.FILE_URL;
 console.log("FILEURL: ", FILEURL);
 
@@ -343,7 +343,7 @@ io.on("connection", (socket: CustomSocket) => {
     const roomId = await redis.get(socket.roomId)
     console.log("Redis ROOMID: ", roomId)
     if (roomId) {
-      // Join the existing room
+      // Join the existing room 
       // const roomId = existingRoom.roomId;
       console.log("Old User", roomId)
       socket.join(roomId);
@@ -460,11 +460,11 @@ io.on("connection", (socket: CustomSocket) => {
 
 
   //message to room
-  socket.on("room-message", async (msg: { roomId: string; message: string, sender:string, type:string, time:string }) => {
-    console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type, msg.time);
-    console.log("Socket Id: ", socket.id);
+  socket.on("room-message", async (msg: { roomId: string; message: string, sender:string, type:string, time:string, email:string }) => {
+    // console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type, msg.time, msg.email);
+    // console.log("Socket Id: ", socket.id);
     if(agentInRoom(msg.roomId)){
-      console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type);
+      console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type, msg.time, msg.email);
       // const universalDateTime = getUniversalDateTime();
       // const msgData = {...msg, time:universalDateTime};
       // await redis.append(msg.roomId, `${JSON.stringify(msgData)}###`)
@@ -473,7 +473,7 @@ io.on("connection", (socket: CustomSocket) => {
   });
 
   //save message to redis
-  socket.on("save-message", async (msg: { roomId: string; message: string, sender:string, type:string }) => {
+  socket.on("save-message", async (msg: { roomId: string; message: string, sender:string, type:string, time:string, email:string }) => {
     await redis.append(msg.roomId, `${JSON.stringify(msg)}###`);
     await redis.expire(msg.roomId, 60 * 60);
   });

@@ -1623,3 +1623,85 @@ Jello John SNow text
 2024-05-10T12:38:24.447Z - Server is running on port 5005
 2024-05-10T12:38:25.198Z - connected
 2024-05-10T12:38:25.199Z - MongoDB connected
+2024-05-13T05:30:09.918Z - FILEURL:  http://localhost:5005/temp/
+2024-05-13T05:30:09.939Z - Server is running on port 5005
+2024-05-13T05:30:10.831Z - connected
+2024-05-13T05:30:10.835Z - MongoDB connected
+2024-05-13T05:37:23.557Z - IP Address:  ::ffff:127.0.0.1
+2024-05-13T05:37:56.681Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-13T05:37:56.682Z - before mongo
+2024-05-13T05:37:56.683Z - after mongo
+2024-05-13T05:37:56.733Z - User [object Object]
+2024-05-13T05:37:56.998Z - admin auth [object Object]
+2024-05-13T05:38:19.691Z - loginUser mikel@gmail.com Mike
+2024-05-13T05:38:19.743Z - Chat [object Object]
+2024-05-13T05:38:19.743Z - USER login-key 6641a74bc5e3a3dda00a5a31
+2024-05-13T05:38:19.753Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxYTc0YmM1ZTNhM2RkYTAwYTVhMzEiLCJpYXQiOjE3MTU1Nzg2OTksImV4cCI6MTcxNTYyMTg5OX0.r8fKb94yWvOtytbALwkk0NTPYkyF6ZM7lrvDGbDxiis
+2024-05-13T05:38:19.778Z - Decoded Token:  [object Object]
+2024-05-13T05:38:19.781Z - Middleware User Token:  mikel@gmail.com###Mike
+2024-05-13T05:38:19.808Z - User connected Mike mikel@gmail.com
+2024-05-13T05:38:19.808Z - Inside SOCKET.ROOMID:  room6641a74bc5e3a3dda00a5a31
+2024-05-13T05:38:19.810Z - Redis ROOMID:  
+2024-05-13T05:38:19.811Z - New User osuiyXDj0z
+2024-05-13T05:38:19.812Z - Rooms:  [object Map]
+2024-05-13T05:39:39.706Z - Message:  osuiyXDj0z HI Dipankar text 2024-05-13T05:39:39.706Z
+2024-05-13T05:39:39.707Z - Socket Id:  VIg89OnS0RSd48ieAAAB
+2024-05-13T05:39:39.708Z - Message:  osuiyXDj0z HI Dipankar text
+2024-05-13T05:39:47.953Z - Message:  osuiyXDj0z hello Mike text 2024-05-13T05:39:47.952Z
+2024-05-13T05:39:47.955Z - Socket Id:  KBaBWTy11OHRI1FeAAAD
+2024-05-13T05:39:47.955Z - Message:  osuiyXDj0z hello Mike text
+2024-05-13T05:39:58.411Z - File uploaded: [object Object]
+2024-05-13T05:39:58.412Z - File URL:  29-1715578798403.jpg
+2024-05-13T05:41:19.802Z - user left room [object Object]
+2024-05-13T05:41:21.097Z - user left room [object Object]
+2024-05-13T05:41:21.101Z - User disconnected KBaBWTy11OHRI1FeAAAD
+2024-05-13T06:46:27.667Z - User disconnected VIg89OnS0RSd48ieAAAB
+2024-05-13T06:46:28.593Z - admin auth [object Object]
+2024-05-13T06:49:54.602Z - User disconnected SlJv06Gs8E8Q3K-TAAAF
+2024-05-13T06:49:54.654Z - admin auth [object Object]
+2024-05-13T06:52:54.581Z - User disconnected utv9YIfXpGxQGtmnAAAH
+2024-05-13T06:52:54.634Z - admin auth [object Object]
+2024-05-13T06:54:40.586Z - FILEURL:  http://localhost:5005/temp/
+2024-05-13T06:54:40.608Z - Server is running on port 5005
+2024-05-13T06:54:41.462Z - connected
+2024-05-13T06:54:41.464Z - MongoDB connected
+2024-05-13T06:55:04.051Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-13T06:55:04.053Z - before mongo
+2024-05-13T06:55:04.053Z - after mongo
+2024-05-13T06:55:04.110Z - User [object Object]
+2024-05-13T06:55:04.344Z - admin auth [object Object]
+2024-05-13T06:55:15.684Z - loginUser mikel@gmail.com mIkel
+2024-05-13T06:55:15.738Z - Chat [object Object]
+2024-05-13T06:55:15.739Z - USER login-key 6641b953dbda8a133a724323
+2024-05-13T06:55:15.742Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxYjk1M2RiZGE4YTEzM2E3MjQzMjMiLCJpYXQiOjE3MTU1ODMzMTUsImV4cCI6MTcxNTYyNjUxNX0.7y1JMgKFE24bdLmRzmWcM8j0k3oP32Qs1c8bXH0BSN0
+2024-05-13T06:55:15.776Z - Decoded Token:  [object Object]
+2024-05-13T06:55:15.778Z - Middleware User Token:  mikel@gmail.com###mIkel
+2024-05-13T06:55:15.790Z - User connected mIkel mikel@gmail.com
+2024-05-13T06:55:15.790Z - Inside SOCKET.ROOMID:  room6641b953dbda8a133a724323
+2024-05-13T06:55:15.792Z - Redis ROOMID:  
+2024-05-13T06:55:15.792Z - New User lVpQA7WXCs
+2024-05-13T06:55:15.793Z - Rooms:  [object Map]
+2024-05-13T06:55:28.099Z - Message:  lVpQA7WXCs Hi therer Dipankar text 2024-05-13T06:55:28.099Z iamdpunkr@gmail.com
+2024-05-13T06:55:32.195Z - Message:  lVpQA7WXCs Hello mIkel text 2024-05-13T06:55:32.194Z mikel@gmail.com
+2024-05-13T06:55:39.537Z - user left room [object Object]
+2024-05-13T06:55:40.540Z - user left room [object Object]
+2024-05-13T06:55:40.545Z - User disconnected k5osqhy1HDpb_NAEAAAF
+2024-05-13T06:55:53.459Z - loginUser dipankar@gmail.com Dipankar
+2024-05-13T06:55:53.509Z - Chat [object Object]
+2024-05-13T06:55:53.509Z - USER login-key 6641b979dbda8a133a724324
+2024-05-13T06:55:53.512Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxYjk3OWRiZGE4YTEzM2E3MjQzMjQiLCJpYXQiOjE3MTU1ODMzNTMsImV4cCI6MTcxNTYyNjU1M30.POarwetG7H7dxJbbAlY4kfdFexfT1qIIGH9Yzyk7V94
+2024-05-13T06:55:53.525Z - Decoded Token:  [object Object]
+2024-05-13T06:55:53.527Z - Middleware User Token:  dipankar@gmail.com###Dipankar
+2024-05-13T06:55:53.547Z - User connected Dipankar dipankar@gmail.com
+2024-05-13T06:55:53.547Z - Inside SOCKET.ROOMID:  room6641b979dbda8a133a724324
+2024-05-13T06:55:53.548Z - Redis ROOMID:  
+2024-05-13T06:55:53.549Z - New User QuP1G5wFsr
+2024-05-13T06:55:53.550Z - Rooms:  [object Map]
+2024-05-13T06:56:02.763Z - Message:  QuP1G5wFsr Hi
+ Dipankar text 2024-05-13T06:56:02.763Z iamdpunkr@gmail.com
+2024-05-13T06:56:06.891Z - Message:  QuP1G5wFsr Heelo Dipankar text 2024-05-13T06:56:06.890Z dipankar@gmail.com
+2024-05-13T06:58:07.787Z - File uploaded: [object Object]
+2024-05-13T06:58:07.788Z - File URL:  190101004_Assignment2_DBMS-1715583487777.pdf
+2024-05-13T07:05:49.674Z - User disconnected l47cJzeCgrJyjh3IAAAH
+2024-05-13T07:05:57.397Z - user left room [object Object]
+2024-05-13T07:05:58.849Z - User disconnected d42YDXcKqh6_D6IDAAAD

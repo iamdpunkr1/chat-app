@@ -10,9 +10,10 @@ type ChatAreaProps = {
   handleKeyPress: (e: React.KeyboardEvent<HTMLTextAreaElement>) => void;
   username: string;
   handleSendFileUser?: (file: File) => void;
-  name: string;
+  // name: string;
   uploadProgress?: number;
   isUploading?: boolean;
+  email?: string;
 };
 
 type ChatMessageProps = {
@@ -82,9 +83,10 @@ const ChatArea = ({
   handleKeyPress,
   username,
   handleSendFileUser,
-  name,
+  // name,
   uploadProgress,
   isUploading,
+  email
 }: ChatAreaProps) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -213,7 +215,7 @@ const ChatArea = ({
                     message={chat.message}
                     time={chat.time as string}
                     sender={chat.sender}
-                    isUser={chat.sender === name}
+                    isUser={chat.email === email}
                     type={chat.type}
                   />
                 );

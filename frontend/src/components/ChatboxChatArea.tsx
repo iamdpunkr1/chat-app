@@ -1,6 +1,6 @@
 import { messageTypes } from "../types"
 import { useEffect, useMemo, useRef, useState} from "react";
-import { connect, io } from 'socket.io-client';
+import {io } from 'socket.io-client';
 import axios from 'axios';
 import ChatArea from "./ChatArea"
 import useSendTranscript from "../hooks/useSendTranscript";
@@ -65,10 +65,10 @@ const roomIdRef = useRef<string>("");
 
 const setMessages = (data: messageTypes) => {
   const { time:ISTtime } = getISTTimestamp();
-  const { sender, message, type, time } = data;
+  const { sender, message, type, time, email } = data;
   const localTime = convertToCurrentTimeZone(time || ISTtime);
   
-  setChatMessages((prevMessages) => [...prevMessages, {type, sender, message, time: localTime}])
+  setChatMessages((prevMessages) => [...prevMessages, {type, sender, message, time: localTime, email}])
 }
   
 
@@ -77,7 +77,7 @@ const setMessages = (data: messageTypes) => {
 const sendMessage = (message:string) => {
     console.log("Sending Message", roomID);
     const universalDateTime = getUniversalDateTime();
-    socket.emit("room-message", {roomId: roomID, message, sender:name, type:"text", time:universalDateTime})
+    socket.emit("room-message", {roomId: roomID, message, sender:name, type:"text", time:universalDateTime, email:emailId})
    
   }
 
@@ -145,6 +145,7 @@ const handleSendFileUser = async (file:File) => {
   formData.append("sender", name || "");
   formData.append("roomId", roomID);
   formData.append("time", time);
+  formData.append("email", emailId || "");
 
   try{
     const res = await axios.post(port+"/api/upload",formData, {
@@ -178,7 +179,8 @@ useEffect(() => {
                                 type: parsedMsg.type,
                                 sender: parsedMsg.sender,
                                 message: parsedMsg.message,
-                                time: localTime
+                                time: localTime,
+                                email: parsedMsg.email
                               }
                             } );
         // console.log("finalMessages: ", finalMessages);
@@ -266,7 +268,8 @@ useEffect(() => {
                        handleKeyPress={handleKeyPress}
                        username={username}
                        handleSendFileUser={handleSendFileUser}
-                       name={name || ""} />
+                      //  name={name || ""}
+                       email={emailId} />
     </div>
   )
 }

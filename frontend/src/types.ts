@@ -3,7 +3,8 @@ export type messageTypes ={
     type: string,
     message: string,
     sender: string,
-    time?:string
+    time?:string,
+    email?:string,
 }
 
 export type UserType = {

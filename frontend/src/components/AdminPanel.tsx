@@ -102,7 +102,7 @@ const AdminPanel = () => {
     // console.log("Sending Message");
     const time = getUniversalDateTime();
     if(message.length>0){
-    socket.emit("room-message", {roomId: roomId, message, sender:adminUserName, type:"text", time})
+    socket.emit("room-message", {roomId: roomId, message, sender:adminUserName, type:"text", time, email:emailId});
     }
   } 
   const handleKeyPress = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -141,6 +141,7 @@ const AdminPanel = () => {
     formData.append("sender", adminUserName || "");
     formData.append("roomId", roomId);
     formData.append("time", time);
+    formData.append("email", emailId || "");
     //add FILE UPLOAD Progress
     
     try{
@@ -237,12 +238,12 @@ const AdminPanel = () => {
 
 
     //user array to store all messages instead of object
-    socket.on("recieve-message", (data: { roomId: string, message: string, sender:string, type:string, time:string }) => {
+    socket.on("recieve-message", (data: { roomId: string, message: string, sender:string, type:string, time:string, email:string }) => {
       // const { time } = getISTTimestamp();
       console.log("Socket Id: ", socket.id);
       console.log("Recieved Message: ", data);
       const { time:ISTtime } = getISTTimestamp();
-      const { roomId, message, sender, type, time } = data;
+      const { roomId, message, sender, type, time, email } = data;
       const localTime = convertToCurrentTimeZone(time);
 
       setChatMessages(prevMessages => {
@@ -253,7 +254,7 @@ const AdminPanel = () => {
         
         newMessages[roomId] = [
           ...newMessages[roomId],
-          { message, sender, type, time: localTime || ISTtime}
+          { message, sender, type, time: localTime || ISTtime, email}
         ];
         return { ...newMessages };
       });
@@ -328,7 +329,8 @@ const AdminPanel = () => {
                                 type: parsedMsg.type,
                                 sender: parsedMsg.sender,
                                 message: parsedMsg.message,
-                                time: localTime
+                                time: localTime,
+                                email: parsedMsg.email
                               }
                             } );
     console.log("finalMessages: ", finalMessages); 
@@ -458,9 +460,10 @@ const AdminPanel = () => {
               handleKeyPress={handleKeyPress}
               username={username[roomId] || ""}
               handleSendFileUser={handleSendFileUser}
-              name={adminUserName || ""}
+              // name={adminUserName || ""}
               uploadProgress={uploadProgress}
-              isUploading={isUploading} />
+              isUploading={isUploading}
+              email={emailId} />
               
     </div>
     </div>
