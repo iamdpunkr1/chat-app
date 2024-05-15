@@ -23,8 +23,8 @@ function App() {
             </h1>
           </div>
 
-          <Router basename='/dipankar/frontend/chatbot/'>
-          {/* <Router> */}
+          {/* <Router basename='/dipankar/frontend/chatbot/'> */}
+          <Router>
                 <Routes>
                   <Route path="/" element={<PersistLogin type="user" />}>
                     <Route index element={<ChatBox />} />

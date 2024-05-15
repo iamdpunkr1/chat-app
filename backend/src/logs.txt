@@ -1705,3 +1705,1280 @@ Jello John SNow text
 2024-05-13T07:05:49.674Z - User disconnected l47cJzeCgrJyjh3IAAAH
 2024-05-13T07:05:57.397Z - user left room [object Object]
 2024-05-13T07:05:58.849Z - User disconnected d42YDXcKqh6_D6IDAAAD
+2024-05-13T10:09:40.841Z - FILEURL:  http://localhost:5005/temp/
+2024-05-13T10:09:40.869Z - Server is running on port 5005
+2024-05-13T10:09:41.635Z - connected
+2024-05-13T10:09:41.638Z - MongoDB connected
+2024-05-13T11:11:56.853Z - loginUser mikel@gmail.com Mikel
+2024-05-13T11:11:56.917Z - Chat [object Object]
+2024-05-13T11:11:56.917Z - USER login-key 6641f57c2c358e5ef5a136ab
+2024-05-13T11:11:56.922Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxZjU3YzJjMzU4ZTVlZjVhMTM2YWIiLCJpYXQiOjE3MTU1OTg3MTYsImV4cCI6MTcxNTY0MTkxNn0.JlBurl_vTQIN5AfRfppb1rJ-yHn9KDszHe_2hg7zu7E
+2024-05-13T11:11:56.960Z - Decoded Token:  [object Object]
+2024-05-13T11:11:56.975Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-13T11:11:56.983Z - User connected Mikel mikel@gmail.com
+2024-05-13T11:11:56.984Z - Inside SOCKET.ROOMID:  room6641f57c2c358e5ef5a136ab
+2024-05-13T11:11:56.985Z - Redis ROOMID:  
+2024-05-13T11:11:56.985Z - New User EoGAnHSazF
+2024-05-13T11:11:56.986Z - Rooms:  [object Map]
+2024-05-13T11:12:21.262Z - User disconnected -tv6_Meo2PThMm0kAAAB
+2024-05-13T11:12:21.310Z - user left room [object Object]
+2024-05-13T11:12:48.411Z - loginUser jay@gmail.com Jay
+2024-05-13T11:12:48.465Z - Chat [object Object]
+2024-05-13T11:12:48.465Z - USER login-key 6641f5b02c358e5ef5a136ac
+2024-05-13T11:12:48.468Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxZjViMDJjMzU4ZTVlZjVhMTM2YWMiLCJpYXQiOjE3MTU1OTg3NjgsImV4cCI6MTcxNTY0MTk2OH0.CrgXVcpaYB0b1ukKGL7vsXrcxBDuv4TfLpLRuWSKGMc
+2024-05-13T11:12:48.508Z - Decoded Token:  [object Object]
+2024-05-13T11:12:48.513Z - Middleware User Token:  jay@gmail.com###Jay
+2024-05-13T11:12:48.518Z - User connected Jay jay@gmail.com
+2024-05-13T11:12:48.518Z - Inside SOCKET.ROOMID:  room6641f5b02c358e5ef5a136ac
+2024-05-13T11:12:48.520Z - Redis ROOMID:  
+2024-05-13T11:12:48.520Z - New User WNCHH01hx5
+2024-05-13T11:12:48.521Z - Rooms:  [object Map]
+2024-05-13T11:27:58.660Z - User disconnected iBV9_Yx2sMXe_Vw0AAAD
+2024-05-13T11:27:58.717Z - user left room [object Object]
+2024-05-13T11:35:37.554Z - loginUser jay@gmail.com Jay
+2024-05-13T11:35:37.612Z - Chat [object Object]
+2024-05-13T11:35:37.613Z - USER login-key 6641fb092c358e5ef5a136ad
+2024-05-13T11:35:37.616Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxZmIwOTJjMzU4ZTVlZjVhMTM2YWQiLCJpYXQiOjE3MTU2MDAxMzcsImV4cCI6MTcxNTY0MzMzN30.tz7LuDaQx_CYOqpjerQC-CeWMmIQc0t7JnAGalh8i1c
+2024-05-13T11:35:37.631Z - Decoded Token:  [object Object]
+2024-05-13T11:35:37.632Z - Middleware User Token:  jay@gmail.com###Jay
+2024-05-13T11:35:37.637Z - User connected Jay jay@gmail.com
+2024-05-13T11:35:37.637Z - Inside SOCKET.ROOMID:  room6641fb092c358e5ef5a136ad
+2024-05-13T11:35:37.638Z - Redis ROOMID:  
+2024-05-13T11:35:37.638Z - New User tbiRIJUYEd
+2024-05-13T11:35:37.639Z - Rooms:  [object Map]
+2024-05-13T11:46:24.057Z - User disconnected BLWKYu-BLxjR61s1AAAF
+2024-05-13T11:46:24.109Z - user left room [object Object]
+2024-05-13T11:54:37.802Z - loginUser mike@gmail.com Mike
+2024-05-13T11:54:37.858Z - Chat [object Object]
+2024-05-13T11:54:37.859Z - USER login-key 6641ff7d2c358e5ef5a136ae
+2024-05-13T11:54:37.865Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQxZmY3ZDJjMzU4ZTVlZjVhMTM2YWUiLCJpYXQiOjE3MTU2MDEyNzcsImV4cCI6MTcxNTY0NDQ3N30.0e8ZFAj-oUEL6Tp5-R7R4gzcHAKYdoT4USAbcoda6oI
+2024-05-13T11:54:37.884Z - Decoded Token:  [object Object]
+2024-05-13T11:54:37.886Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T11:54:37.894Z - User connected Mike mike@gmail.com
+2024-05-13T11:54:37.895Z - Inside SOCKET.ROOMID:  room6641ff7d2c358e5ef5a136ae
+2024-05-13T11:54:37.897Z - Redis ROOMID:  
+2024-05-13T11:54:37.898Z - New User mX0WgY39YQ
+2024-05-13T11:54:37.900Z - Rooms:  [object Map]
+2024-05-13T12:11:40.753Z - User disconnected tji63GUUE52jjoXtAAAH
+2024-05-13T12:11:40.811Z - user left room [object Object]
+2024-05-13T12:13:19.644Z - loginUser mike@gmail.com Mike
+2024-05-13T12:13:19.695Z - Chat [object Object]
+2024-05-13T12:13:19.696Z - USER login-key 664203df2c358e5ef5a136af
+2024-05-13T12:13:19.702Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQyMDNkZjJjMzU4ZTVlZjVhMTM2YWYiLCJpYXQiOjE3MTU2MDIzOTksImV4cCI6MTcxNTY0NTU5OX0.MwPx2fKydUv3nXgnYBZOQ5DH5OjOtxuRXPPJFPBmtUU
+2024-05-13T12:13:19.718Z - Decoded Token:  [object Object]
+2024-05-13T12:13:19.719Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T12:13:19.736Z - User connected Mike mike@gmail.com
+2024-05-13T12:13:19.737Z - Inside SOCKET.ROOMID:  room664203df2c358e5ef5a136af
+2024-05-13T12:13:19.738Z - Redis ROOMID:  
+2024-05-13T12:13:19.739Z - New User XaOvz6wi6v
+2024-05-13T12:13:19.740Z - Rooms:  [object Map]
+2024-05-13T12:18:20.069Z - loginAdmin jay3000bc@gmail.com password
+2024-05-13T12:18:20.070Z - before mongo
+2024-05-13T12:18:20.070Z - after mongo
+2024-05-13T12:18:20.115Z - User [object Object]
+2024-05-13T12:18:20.362Z - admin auth [object Object]
+2024-05-13T12:18:54.216Z - Message:  XaOvz6wi6v Hi there Jay text 2024-05-13T12:18:54.211Z jay3000bc@gmail.com
+2024-05-13T12:18:59.683Z - Message:  XaOvz6wi6v Heello Mike text 2024-05-13T12:18:59.681Z mike@gmail.com
+2024-05-13T12:23:02.676Z - User disconnected jZopWXvIeajkyKlRAAAL
+2024-05-13T12:23:02.731Z - admin auth [object Object]
+2024-05-13T12:23:33.390Z - User disconnected pKrJcjObmAm81FT9AAAN
+2024-05-13T12:23:33.477Z - User disconnected vbZX88xAyeH5vKbpAAAJ
+2024-05-13T12:23:34.438Z - admin auth [object Object]
+2024-05-13T12:23:34.641Z - Decoded Token:  [object Object]
+2024-05-13T12:23:34.655Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T12:23:34.673Z - User connected Mike mike@gmail.com
+2024-05-13T12:23:34.674Z - Inside SOCKET.ROOMID:  room664203df2c358e5ef5a136af
+2024-05-13T12:23:34.689Z - Redis ROOMID:  XaOvz6wi6v
+2024-05-13T12:23:34.689Z - Old User XaOvz6wi6v
+2024-05-13T12:23:38.532Z - User disconnected txY9xKqOGlhM1eqEAAAP
+2024-05-13T12:23:38.585Z - User disconnected 6JBrCMBzdelwp5dNAAAR
+2024-05-13T12:23:38.970Z - Decoded Token:  [object Object]
+2024-05-13T12:23:38.977Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T12:23:38.989Z - User connected Mike mike@gmail.com
+2024-05-13T12:23:38.990Z - Inside SOCKET.ROOMID:  room664203df2c358e5ef5a136af
+2024-05-13T12:23:38.996Z - Redis ROOMID:  XaOvz6wi6v
+2024-05-13T12:23:38.997Z - Old User XaOvz6wi6v
+2024-05-13T12:23:39.186Z - admin auth [object Object]
+2024-05-13T12:24:06.740Z - User disconnected bPOnnnuXbWHUbOoCAAAT
+2024-05-13T12:24:06.923Z - Decoded Token:  [object Object]
+2024-05-13T12:24:06.925Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T12:24:06.934Z - User connected Mike mike@gmail.com
+2024-05-13T12:24:06.935Z - Inside SOCKET.ROOMID:  room664203df2c358e5ef5a136af
+2024-05-13T12:24:06.938Z - Redis ROOMID:  XaOvz6wi6v
+2024-05-13T12:24:06.938Z - Old User XaOvz6wi6v
+2024-05-13T12:24:18.699Z - File uploaded: [object Object]
+2024-05-13T12:24:18.700Z - File URL:  Screenshot (10)-1715603058689.png
+2024-05-13T12:24:28.178Z - File uploaded: [object Object]
+2024-05-13T12:24:28.178Z - File URL:  Screenshot (2)-1715603068165.png
+2024-05-13T12:36:05.142Z - FILEURL:  http://localhost:5005/temp/
+2024-05-13T12:36:05.167Z - Server is running on port 5005
+2024-05-13T12:36:05.700Z - Decoded Token:  [object Object]
+2024-05-13T12:36:05.707Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T12:36:05.896Z - connected
+2024-05-13T12:36:05.898Z - MongoDB connected
+2024-05-13T12:36:08.133Z - user left room [object Object]
+2024-05-13T12:36:08.137Z - User disconnected idu-PedPWj7rkcVfAAAD
+2024-05-13T12:36:08.143Z - Decoded Token:  [object Object]
+2024-05-13T12:36:08.153Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T12:36:08.161Z - User connected Mike mike@gmail.com
+2024-05-13T12:36:08.162Z - Inside SOCKET.ROOMID:  room664203df2c358e5ef5a136af
+2024-05-13T12:36:08.163Z - Redis ROOMID:  XaOvz6wi6v
+2024-05-13T12:36:08.164Z - Old User XaOvz6wi6v
+2024-05-13T12:36:08.232Z - user left room [object Object]
+2024-05-13T12:36:08.237Z - User disconnected 1QRvQ3qGoYSG3dDyAAAF
+2024-05-13T12:36:57.399Z - loginUser mike@gmail.com Mike
+2024-05-13T12:36:57.450Z - Chat [object Object]
+2024-05-13T12:36:57.451Z - USER login-key 66420969b746de8f8adf18fe
+2024-05-13T12:36:57.455Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQyMDk2OWI3NDZkZThmOGFkZjE4ZmUiLCJpYXQiOjE3MTU2MDM4MTcsImV4cCI6MTcxNTY0NzAxN30.e92A_cgrj-p_XAwQrVAX2jNVNS7sQ1l1CgffIi-SuZY
+2024-05-13T12:36:57.488Z - Decoded Token:  [object Object]
+2024-05-13T12:36:57.492Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T12:36:57.500Z - User connected Mike mike@gmail.com
+2024-05-13T12:36:57.500Z - Inside SOCKET.ROOMID:  room66420969b746de8f8adf18fe
+2024-05-13T12:36:57.502Z - Redis ROOMID:  
+2024-05-13T12:36:57.503Z - New User BXtGxw8hIz
+2024-05-13T12:36:57.505Z - Rooms:  [object Map]
+2024-05-13T12:37:19.833Z - loginAdmin jay3000bc@gmail.com password
+2024-05-13T12:37:19.833Z - before mongo
+2024-05-13T12:37:19.834Z - after mongo
+2024-05-13T12:37:19.884Z - User [object Object]
+2024-05-13T12:37:20.126Z - admin auth [object Object]
+2024-05-13T12:37:42.868Z - Message:  BXtGxw8hIz Hi Jay text 2024-05-13T12:37:42.868Z jay3000bc@gmail.com
+2024-05-13T12:37:51.283Z - Message:  BXtGxw8hIz Hello Mike text 2024-05-13T12:37:51.282Z mike@gmail.com
+2024-05-13T12:38:03.476Z - File uploaded: [object Object]
+2024-05-13T12:38:03.476Z - File URL:  Screenshot (10)-1715603883467.png
+2024-05-13T12:38:11.491Z - File uploaded: [object Object]
+2024-05-13T12:38:11.494Z - File URL:  Screenshot (9)-1715603891486.png
+2024-05-13T13:07:41.083Z - FILEURL:  http://localhost:5005/temp/
+2024-05-13T13:07:41.102Z - Server is running on port 5005
+2024-05-13T13:07:41.760Z - connected
+2024-05-13T13:07:41.766Z - MongoDB connected
+2024-05-13T13:07:42.920Z - Decoded Token:  [object Object]
+2024-05-13T13:07:42.924Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T13:07:46.383Z - user left room [object Object]
+2024-05-13T13:07:46.388Z - User disconnected TkHPlc4H4_5CRmpcAAAD
+2024-05-13T13:13:46.355Z - FILEURL:  http://localhost:5005/temp/
+2024-05-13T13:13:46.372Z - Server is running on port 5005
+2024-05-13T13:13:47.051Z - connected
+2024-05-13T13:13:47.053Z - MongoDB connected
+2024-05-13T13:16:49.914Z - loginAdmin jay300bc@gmail.com password
+2024-05-13T13:16:49.916Z - before mongo
+2024-05-13T13:16:49.916Z - after mongo
+2024-05-13T13:16:49.970Z - User 
+2024-05-13T13:16:56.567Z - loginAdmin jay3000bc@gmail.com password
+2024-05-13T13:16:56.568Z - before mongo
+2024-05-13T13:16:56.569Z - after mongo
+2024-05-13T13:16:56.617Z - User [object Object]
+2024-05-13T13:16:56.879Z - admin auth [object Object]
+2024-05-13T13:16:58.570Z - loginUser mike@gmail.com Mike
+2024-05-13T13:16:58.621Z - Chat [object Object]
+2024-05-13T13:16:58.622Z - USER login-key 664212caac4715c57d0cf4fb
+2024-05-13T13:16:58.625Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQyMTJjYWFjNDcxNWM1N2QwY2Y0ZmIiLCJpYXQiOjE3MTU2MDYyMTgsImV4cCI6MTcxNTY0OTQxOH0.WXLMFR2uoIZTwA3w7XUy-Vhm15DCbPItCcSS_kTRpEE
+2024-05-13T13:16:58.642Z - Decoded Token:  [object Object]
+2024-05-13T13:16:58.645Z - Middleware User Token:  mike@gmail.com###Mike
+2024-05-13T13:16:58.656Z - User connected Mike mike@gmail.com
+2024-05-13T13:16:58.657Z - Inside SOCKET.ROOMID:  room664212caac4715c57d0cf4fb
+2024-05-13T13:16:58.658Z - Redis ROOMID:  
+2024-05-13T13:16:58.659Z - New User RyXOJ9utgw
+2024-05-13T13:16:58.660Z - Rooms:  [object Map]
+2024-05-13T13:18:09.059Z - user left room [object Object]
+2024-05-13T13:18:10.067Z - user left room [object Object]
+2024-05-13T13:18:10.075Z - User disconnected Skf0srsVhkyLKC6iAAAD
+2024-05-14T05:35:42.847Z - FILEURL:  http://localhost:5005/temp/
+2024-05-14T05:35:42.866Z - Server is running on port 5005
+2024-05-14T05:35:43.565Z - connected
+2024-05-14T05:35:43.567Z - MongoDB connected
+2024-05-14T05:37:33.107Z - loginUser mike@gmail.com Mikel
+2024-05-14T05:37:33.168Z - Chat [object Object]
+2024-05-14T05:37:33.169Z - USER login-key 6642f89ddf4a84d7b3cfa31c
+2024-05-14T05:37:33.175Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQyZjg5ZGRmNGE4NGQ3YjNjZmEzMWMiLCJpYXQiOjE3MTU2NjUwNTMsImV4cCI6MTcxNTcwODI1M30.-YIeVmc35f34EQQjE-LVuu2yu6gKmf6UeCb1weAxOqY
+2024-05-14T05:37:33.232Z - Decoded Token:  [object Object]
+2024-05-14T05:37:33.236Z - Middleware User Token:  mike@gmail.com###Mikel
+2024-05-14T05:37:33.249Z - User connected Mikel mike@gmail.com
+2024-05-14T05:37:33.250Z - Inside SOCKET.ROOMID:  room6642f89ddf4a84d7b3cfa31c
+2024-05-14T05:37:33.252Z - Redis ROOMID:  
+2024-05-14T05:37:33.252Z - New User XJee43OXSq
+2024-05-14T05:37:33.254Z - Rooms:  [object Map]
+2024-05-14T05:39:19.592Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-14T05:39:19.593Z - before mongo
+2024-05-14T05:39:19.593Z - after mongo
+2024-05-14T05:39:19.641Z - User [object Object]
+2024-05-14T05:39:19.882Z - admin auth [object Object]
+2024-05-14T05:48:45.568Z - Message:  XJee43OXSq HI Mikel text 2024-05-14T05:48:45.579Z mike@gmail.com
+2024-05-14T05:48:50.991Z - Message:  XJee43OXSq hello Dipankar text 2024-05-14T05:48:51.003Z iamdpunkr@gmail.com
+2024-05-14T05:56:43.698Z - User disconnected d2IqRGK5b39UxFH6AAAB
+2024-05-14T05:56:43.717Z - Decoded Token:  [object Object]
+2024-05-14T05:56:43.732Z - Middleware User Token:  mike@gmail.com###Mikel
+2024-05-14T05:56:43.738Z - User connected Mikel mike@gmail.com
+2024-05-14T05:56:43.739Z - Inside SOCKET.ROOMID:  room6642f89ddf4a84d7b3cfa31c
+2024-05-14T05:56:43.741Z - Redis ROOMID:  XJee43OXSq
+2024-05-14T05:56:43.741Z - Old User XJee43OXSq
+2024-05-14T05:56:43.746Z - user left room [object Object]
+2024-05-14T05:56:44.098Z - user left room [object Object]
+2024-05-14T05:56:44.109Z - User disconnected YKS6b-fDJtwR8jheAAAF
+2024-05-14T05:57:05.498Z - loginUser jay@gmail.com Jay
+2024-05-14T05:57:05.547Z - Chat [object Object]
+2024-05-14T05:57:05.548Z - USER login-key 6642fd31df4a84d7b3cfa31d
+2024-05-14T05:57:05.550Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQyZmQzMWRmNGE4NGQ3YjNjZmEzMWQiLCJpYXQiOjE3MTU2NjYyMjUsImV4cCI6MTcxNTcwOTQyNX0.FqDcvhqFUxFBp461H9ddbvVprUolfMKOxPYP10tFJTQ
+2024-05-14T05:57:05.565Z - Decoded Token:  [object Object]
+2024-05-14T05:57:05.567Z - Middleware User Token:  jay@gmail.com###Jay
+2024-05-14T05:57:05.572Z - User connected Jay jay@gmail.com
+2024-05-14T05:57:05.573Z - Inside SOCKET.ROOMID:  room6642fd31df4a84d7b3cfa31d
+2024-05-14T05:57:05.574Z - Redis ROOMID:  
+2024-05-14T05:57:05.574Z - New User NnrkZneaId
+2024-05-14T05:57:05.575Z - Rooms:  [object Map]
+2024-05-14T05:57:56.854Z - User disconnected LpiKUwjCWXn_gh3lAAAH
+2024-05-14T05:57:56.900Z - user left room [object Object]
+2024-05-14T06:03:51.043Z - FILEURL:  http://localhost:5005/temp/
+2024-05-14T06:03:51.064Z - Server is running on port 5005
+2024-05-14T06:03:51.725Z - connected
+2024-05-14T06:03:51.729Z - MongoDB connected
+2024-05-14T06:06:05.794Z - loginUser mikel@gmail.com Mikel
+2024-05-14T06:06:05.854Z - Chat [object Object]
+2024-05-14T06:06:05.854Z - USER login-key 6642ff4d208a3f78806e2e53
+2024-05-14T06:06:05.859Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQyZmY0ZDIwOGEzZjc4ODA2ZTJlNTMiLCJpYXQiOjE3MTU2NjY3NjUsImV4cCI6MTcxNTcwOTk2NX0.7HSJjvgM-4l6F4XacC2YQK9Vxe23wn0oRkD9pjoRUys
+2024-05-14T06:06:05.884Z - Decoded Token:  [object Object]
+2024-05-14T06:06:05.887Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T06:06:05.907Z - User connected Mikel mikel@gmail.com
+2024-05-14T06:06:05.907Z - Inside SOCKET.ROOMID:  room6642ff4d208a3f78806e2e53
+2024-05-14T06:06:05.911Z - Redis ROOMID:  
+2024-05-14T06:06:05.912Z - New User kjyPRkkTiD
+2024-05-14T06:06:05.913Z - Rooms:  [object Map]
+2024-05-14T06:06:09.983Z - User disconnected 3_dSqgk_LRHcFKhyAAAD
+2024-05-14T06:06:10.025Z - user left room [object Object]
+2024-05-14T06:26:01.802Z - loginUser mike@gmail.com Mke
+2024-05-14T06:26:01.860Z - Chat [object Object]
+2024-05-14T06:26:01.861Z - USER login-key 664303f9208a3f78806e2e54
+2024-05-14T06:26:01.865Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzMDNmOTIwOGEzZjc4ODA2ZTJlNTQiLCJpYXQiOjE3MTU2Njc5NjEsImV4cCI6MTcxNTcxMTE2MX0.NqQvaNrA5UVq7j84Hs3IPdAdT7_fCTvig48t7GK9VHA
+2024-05-14T06:26:01.880Z - Decoded Token:  [object Object]
+2024-05-14T06:26:01.883Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:26:01.899Z - User connected Mke mike@gmail.com
+2024-05-14T06:26:01.900Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:26:01.901Z - Redis ROOMID:  
+2024-05-14T06:26:01.901Z - New User ohA3Eq4CTy
+2024-05-14T06:26:01.902Z - Rooms:  [object Map]
+2024-05-14T06:26:28.307Z - loginAdmin jay3000bc@gmail.com password
+2024-05-14T06:26:28.307Z - before mongo
+2024-05-14T06:26:28.307Z - after mongo
+2024-05-14T06:26:28.358Z - User [object Object]
+2024-05-14T06:26:28.590Z - admin auth [object Object]
+2024-05-14T06:26:34.962Z - Message:  ohA3Eq4CTy Hello Mke text 2024-05-14T06:26:34.960Z mike@gmail.com
+2024-05-14T06:26:38.698Z - Message:  ohA3Eq4CTy Hi Jay text 2024-05-14T06:26:38.698Z jay3000bc@gmail.com
+2024-05-14T06:26:53.185Z - Decoded Token:  [object Object]
+2024-05-14T06:26:53.186Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:26:53.189Z - User connected Mke mike@gmail.com
+2024-05-14T06:26:53.190Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:26:53.190Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:26:53.191Z - Old User ohA3Eq4CTy
+2024-05-14T06:27:08.520Z - Decoded Token:  [object Object]
+2024-05-14T06:27:08.522Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:27:08.527Z - User connected Mke mike@gmail.com
+2024-05-14T06:27:08.527Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:27:08.528Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:27:08.528Z - Old User ohA3Eq4CTy
+2024-05-14T06:31:08.644Z - Decoded Token:  [object Object]
+2024-05-14T06:31:08.648Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:31:08.651Z - User connected Mke mike@gmail.com
+2024-05-14T06:31:08.652Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:31:08.652Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:31:08.653Z - Old User ohA3Eq4CTy
+2024-05-14T06:31:32.848Z - Decoded Token:  [object Object]
+2024-05-14T06:31:32.850Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:31:32.855Z - User connected Mke mike@gmail.com
+2024-05-14T06:31:32.855Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:31:32.857Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:31:32.857Z - Old User ohA3Eq4CTy
+2024-05-14T06:31:37.376Z - User disconnected T766mOLhpzM_scNEAAAP
+2024-05-14T06:31:38.198Z - Decoded Token:  [object Object]
+2024-05-14T06:31:38.200Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:31:38.205Z - User connected Mke mike@gmail.com
+2024-05-14T06:31:38.205Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:31:38.208Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:31:38.209Z - Old User ohA3Eq4CTy
+2024-05-14T06:31:41.562Z - User disconnected FR5UUzoNzNlzT_hbAAAR
+2024-05-14T06:31:42.592Z - Decoded Token:  [object Object]
+2024-05-14T06:31:42.594Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:31:42.602Z - User connected Mke mike@gmail.com
+2024-05-14T06:31:42.603Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:31:42.605Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:31:42.605Z - Old User ohA3Eq4CTy
+2024-05-14T06:33:32.677Z - User disconnected B0HdALgNihnNNZDnAAAT
+2024-05-14T06:33:32.700Z - Decoded Token:  [object Object]
+2024-05-14T06:33:32.703Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:33:32.711Z - User connected Mke mike@gmail.com
+2024-05-14T06:33:32.711Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:33:32.713Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:33:32.713Z - Old User ohA3Eq4CTy
+2024-05-14T06:34:37.901Z - User disconnected GQljK4DWwHJyhuJOAAAV
+2024-05-14T06:34:37.912Z - Decoded Token:  [object Object]
+2024-05-14T06:34:37.914Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:34:37.918Z - User connected Mke mike@gmail.com
+2024-05-14T06:34:37.919Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:34:37.921Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:34:37.921Z - Old User ohA3Eq4CTy
+2024-05-14T06:35:07.077Z - User disconnected u5YbPzdipknJUy3EAAAX
+2024-05-14T06:35:07.088Z - Decoded Token:  [object Object]
+2024-05-14T06:35:07.090Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:35:07.096Z - User connected Mke mike@gmail.com
+2024-05-14T06:35:07.097Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:35:07.098Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:35:07.099Z - Old User ohA3Eq4CTy
+2024-05-14T06:35:54.573Z - User disconnected 9gDDs1sm1I-DrhbKAAAZ
+2024-05-14T06:35:54.581Z - Decoded Token:  [object Object]
+2024-05-14T06:35:54.584Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:35:54.591Z - User connected Mke mike@gmail.com
+2024-05-14T06:35:54.592Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:35:54.593Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:35:54.594Z - Old User ohA3Eq4CTy
+2024-05-14T06:36:12.311Z - User disconnected uep_isBeqnpI089UAAAb
+2024-05-14T06:36:12.321Z - Decoded Token:  [object Object]
+2024-05-14T06:36:12.324Z - Middleware User Token:  mike@gmail.com###Mke
+2024-05-14T06:36:12.333Z - User connected Mke mike@gmail.com
+2024-05-14T06:36:12.333Z - Inside SOCKET.ROOMID:  room664303f9208a3f78806e2e54
+2024-05-14T06:36:12.335Z - Redis ROOMID:  ohA3Eq4CTy
+2024-05-14T06:36:12.336Z - Old User ohA3Eq4CTy
+2024-05-14T06:36:41.296Z - User disconnected dUpt38IXCxEGvkVSAAAd
+2024-05-14T06:36:41.349Z - user left room [object Object]
+2024-05-14T06:36:42.353Z - user left room [object Object]
+2024-05-14T06:36:42.356Z - User disconnected QxeDFYj8jpBCRKabAAAF
+2024-05-14T06:36:42.357Z - User disconnected iDLB_oWlKpvxwAm5AAAJ
+2024-05-14T06:36:42.359Z - User disconnected jtOPaFZxm1hArOiNAAAL
+2024-05-14T06:36:42.361Z - User disconnected O2LLzyoPrl_IWRUWAAAN
+2024-05-14T06:43:23.194Z - loginUser deep@gmail.com Deep
+2024-05-14T06:43:23.249Z - Chat [object Object]
+2024-05-14T06:43:23.250Z - USER login-key 6643080b208a3f78806e2e55
+2024-05-14T06:43:23.253Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzMDgwYjIwOGEzZjc4ODA2ZTJlNTUiLCJpYXQiOjE3MTU2NjkwMDMsImV4cCI6MTcxNTcxMjIwM30.Tr3DFYLOdYvTGT8AMn7d2FFcLJf7yxq6D-Rc7tTNNUM
+2024-05-14T06:43:23.287Z - Decoded Token:  [object Object]
+2024-05-14T06:43:23.290Z - Middleware User Token:  deep@gmail.com###Deep
+2024-05-14T06:43:23.293Z - User connected Deep deep@gmail.com
+2024-05-14T06:43:23.294Z - Inside SOCKET.ROOMID:  room6643080b208a3f78806e2e55
+2024-05-14T06:43:23.297Z - Redis ROOMID:  
+2024-05-14T06:43:23.298Z - New User Dh7cHySpNi
+2024-05-14T06:43:23.299Z - Rooms:  [object Map]
+2024-05-14T06:49:57.715Z - User disconnected s0RXhlxbn6hYDTVBAAAf
+2024-05-14T06:49:57.723Z - Decoded Token:  [object Object]
+2024-05-14T06:49:57.725Z - Middleware User Token:  deep@gmail.com###Deep
+2024-05-14T06:49:57.728Z - User connected Deep deep@gmail.com
+2024-05-14T06:49:57.729Z - Inside SOCKET.ROOMID:  room6643080b208a3f78806e2e55
+2024-05-14T06:49:57.730Z - Redis ROOMID:  Dh7cHySpNi
+2024-05-14T06:49:57.731Z - Old User Dh7cHySpNi
+2024-05-14T06:50:04.928Z - User disconnected cPUzBCmFdFDa2I7yAAAh
+2024-05-14T06:50:04.982Z - user left room [object Object]
+2024-05-14T06:53:27.609Z - loginUser mike@gmail.com Mikwl
+2024-05-14T06:53:27.667Z - Chat [object Object]
+2024-05-14T06:53:27.667Z - USER login-key 66430a67208a3f78806e2e56
+2024-05-14T06:53:27.670Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzMGE2NzIwOGEzZjc4ODA2ZTJlNTYiLCJpYXQiOjE3MTU2Njk2MDcsImV4cCI6MTcxNTcxMjgwN30.ttcLk4cFMcedkj46pOI90FoPV_akSMBCCdYI7hU9eIU
+2024-05-14T06:53:27.690Z - Decoded Token:  [object Object]
+2024-05-14T06:53:27.721Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:53:27.725Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:53:27.726Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:53:27.730Z - Redis ROOMID:  
+2024-05-14T06:53:27.730Z - New User eotPZVQ4ic
+2024-05-14T06:53:27.733Z - Rooms:  [object Map]
+2024-05-14T06:53:56.495Z - Decoded Token:  [object Object]
+2024-05-14T06:53:56.496Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:53:56.500Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:53:56.500Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:53:56.502Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:53:56.502Z - Old User eotPZVQ4ic
+2024-05-14T06:54:18.062Z - Decoded Token:  [object Object]
+2024-05-14T06:54:18.064Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:54:18.067Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:54:18.067Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:54:18.068Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:54:18.068Z - Old User eotPZVQ4ic
+2024-05-14T06:54:53.229Z - Decoded Token:  [object Object]
+2024-05-14T06:54:53.231Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:54:53.236Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:54:53.237Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:54:53.238Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:54:53.238Z - Old User eotPZVQ4ic
+2024-05-14T06:55:16.729Z - Decoded Token:  [object Object]
+2024-05-14T06:55:16.731Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:55:16.736Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:55:16.736Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:55:16.737Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:55:16.738Z - Old User eotPZVQ4ic
+2024-05-14T06:55:37.129Z - Decoded Token:  [object Object]
+2024-05-14T06:55:37.131Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:55:37.133Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:55:37.134Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:55:37.137Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:55:37.138Z - Old User eotPZVQ4ic
+2024-05-14T06:56:54.140Z - Decoded Token:  [object Object]
+2024-05-14T06:56:54.142Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:56:54.148Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:56:54.148Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:56:54.149Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:56:54.149Z - Old User eotPZVQ4ic
+2024-05-14T06:57:28.248Z - Decoded Token:  [object Object]
+2024-05-14T06:57:28.249Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:57:28.252Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:57:28.252Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:57:28.253Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:57:28.253Z - Old User eotPZVQ4ic
+2024-05-14T06:58:31.435Z - Decoded Token:  [object Object]
+2024-05-14T06:58:31.436Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:58:31.441Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:58:31.442Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:58:31.443Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:58:31.444Z - Old User eotPZVQ4ic
+2024-05-14T06:58:41.042Z - Decoded Token:  [object Object]
+2024-05-14T06:58:41.044Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:58:41.048Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:58:41.048Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:58:41.051Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:58:41.051Z - Old User eotPZVQ4ic
+2024-05-14T06:59:59.061Z - Decoded Token:  [object Object]
+2024-05-14T06:59:59.062Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T06:59:59.067Z - User connected Mikwl mike@gmail.com
+2024-05-14T06:59:59.069Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T06:59:59.071Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T06:59:59.071Z - Old User eotPZVQ4ic
+2024-05-14T07:00:13.527Z - Decoded Token:  [object Object]
+2024-05-14T07:00:13.529Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:00:13.533Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:00:13.534Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:00:13.536Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:00:13.537Z - Old User eotPZVQ4ic
+2024-05-14T07:00:20.469Z - Decoded Token:  [object Object]
+2024-05-14T07:00:20.471Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:00:20.473Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:00:20.473Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:00:20.474Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:00:20.474Z - Old User eotPZVQ4ic
+2024-05-14T07:00:34.793Z - Decoded Token:  [object Object]
+2024-05-14T07:00:34.796Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:00:34.799Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:00:34.799Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:00:34.800Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:00:34.800Z - Old User eotPZVQ4ic
+2024-05-14T07:01:16.070Z - Decoded Token:  [object Object]
+2024-05-14T07:01:16.072Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:01:16.083Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:01:16.083Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:01:16.084Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:01:16.084Z - Old User eotPZVQ4ic
+2024-05-14T07:01:33.695Z - Decoded Token:  [object Object]
+2024-05-14T07:01:33.698Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:01:33.707Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:01:33.707Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:01:33.708Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:01:33.709Z - Old User eotPZVQ4ic
+2024-05-14T07:04:05.825Z - Decoded Token:  [object Object]
+2024-05-14T07:04:05.828Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:04:05.833Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:04:05.834Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:04:05.835Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:04:05.836Z - Old User eotPZVQ4ic
+2024-05-14T07:04:24.083Z - Decoded Token:  [object Object]
+2024-05-14T07:04:24.084Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:04:24.086Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:04:24.087Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:04:24.087Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:04:24.088Z - Old User eotPZVQ4ic
+2024-05-14T07:06:39.642Z - Decoded Token:  [object Object]
+2024-05-14T07:06:39.645Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:06:39.650Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:06:39.650Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:06:39.651Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:06:39.652Z - Old User eotPZVQ4ic
+2024-05-14T07:07:09.549Z - Decoded Token:  [object Object]
+2024-05-14T07:07:09.552Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:07:09.557Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:07:09.557Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:07:09.559Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:07:09.559Z - Old User eotPZVQ4ic
+2024-05-14T07:07:24.428Z - Decoded Token:  [object Object]
+2024-05-14T07:07:24.430Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:07:24.435Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:07:24.435Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:07:24.436Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:07:24.437Z - Old User eotPZVQ4ic
+2024-05-14T07:08:21.401Z - Decoded Token:  [object Object]
+2024-05-14T07:08:21.402Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:08:21.404Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:08:21.405Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:08:21.406Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:08:21.406Z - Old User eotPZVQ4ic
+2024-05-14T07:08:49.100Z - Decoded Token:  [object Object]
+2024-05-14T07:08:49.103Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:08:49.107Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:08:49.107Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:08:49.108Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:08:49.108Z - Old User eotPZVQ4ic
+2024-05-14T07:08:58.147Z - Decoded Token:  [object Object]
+2024-05-14T07:08:58.149Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:08:58.154Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:08:58.154Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:08:58.155Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:08:58.155Z - Old User eotPZVQ4ic
+2024-05-14T07:10:39.664Z - Decoded Token:  [object Object]
+2024-05-14T07:10:39.667Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:10:39.671Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:10:39.671Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:10:39.672Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:10:39.672Z - Old User eotPZVQ4ic
+2024-05-14T07:10:43.998Z - Decoded Token:  [object Object]
+2024-05-14T07:10:43.999Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:10:44.001Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:10:44.001Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:10:44.002Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:10:44.002Z - Old User eotPZVQ4ic
+2024-05-14T07:11:30.202Z - Decoded Token:  [object Object]
+2024-05-14T07:11:30.204Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:11:30.208Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:11:30.209Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:11:30.211Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:11:30.211Z - Old User eotPZVQ4ic
+2024-05-14T07:11:37.239Z - Decoded Token:  [object Object]
+2024-05-14T07:11:37.241Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:11:37.249Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:11:37.250Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:11:37.252Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:11:37.253Z - Old User eotPZVQ4ic
+2024-05-14T07:11:43.425Z - Decoded Token:  [object Object]
+2024-05-14T07:11:43.428Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:11:43.431Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:11:43.431Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:11:43.433Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:11:43.433Z - Old User eotPZVQ4ic
+2024-05-14T07:11:49.227Z - Decoded Token:  [object Object]
+2024-05-14T07:11:49.229Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:11:49.232Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:11:49.232Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:11:49.233Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:11:49.233Z - Old User eotPZVQ4ic
+2024-05-14T07:12:00.283Z - Decoded Token:  [object Object]
+2024-05-14T07:12:00.285Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:12:00.294Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:12:00.294Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:12:00.296Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:12:00.297Z - Old User eotPZVQ4ic
+2024-05-14T07:12:04.672Z - Decoded Token:  [object Object]
+2024-05-14T07:12:04.674Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:12:04.679Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:12:04.679Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:12:04.681Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:12:04.681Z - Old User eotPZVQ4ic
+2024-05-14T07:12:30.366Z - Decoded Token:  [object Object]
+2024-05-14T07:12:30.367Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:12:30.369Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:12:30.370Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:12:30.370Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:12:30.371Z - Old User eotPZVQ4ic
+2024-05-14T07:12:53.184Z - Decoded Token:  [object Object]
+2024-05-14T07:12:53.185Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:12:53.188Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:12:53.188Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:12:53.189Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:12:53.189Z - Old User eotPZVQ4ic
+2024-05-14T07:18:02.041Z - User disconnected LPZMoF74eLgnOO6jAAAH
+2024-05-14T07:18:02.103Z - admin auth [object Object]
+2024-05-14T07:28:35.064Z - Decoded Token:  [object Object]
+2024-05-14T07:28:35.065Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:28:35.071Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:28:35.071Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:28:35.073Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:28:35.073Z - Old User eotPZVQ4ic
+2024-05-14T07:28:36.046Z - User disconnected UnnZ8lcOboeHElaWAABn
+2024-05-14T07:40:34.700Z - Decoded Token:  [object Object]
+2024-05-14T07:40:34.703Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:40:34.709Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:40:34.709Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:40:34.711Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:40:34.711Z - Old User eotPZVQ4ic
+2024-05-14T07:42:23.681Z - Decoded Token:  [object Object]
+2024-05-14T07:42:23.683Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:42:23.687Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:42:23.687Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:42:23.689Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:42:23.690Z - Old User eotPZVQ4ic
+2024-05-14T07:45:30.353Z - Decoded Token:  [object Object]
+2024-05-14T07:45:30.355Z - Middleware User Token:  mike@gmail.com###Mikwl
+2024-05-14T07:45:30.361Z - User connected Mikwl mike@gmail.com
+2024-05-14T07:45:30.361Z - Inside SOCKET.ROOMID:  room66430a67208a3f78806e2e56
+2024-05-14T07:45:30.362Z - Redis ROOMID:  eotPZVQ4ic
+2024-05-14T07:45:30.363Z - Old User eotPZVQ4ic
+2024-05-14T07:45:32.457Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T07:45:37.114Z - User disconnected Zvmu8w-CSuXm8HywAABx
+2024-05-14T07:45:37.171Z - user left room [object Object]
+2024-05-14T07:45:38.177Z - user left room [object Object]
+2024-05-14T07:45:38.198Z - User disconnected 9lcpY5mFvHzRnmCeAAAj
+2024-05-14T07:45:38.201Z - User disconnected xM4qZHJ84TEPsDuNAAAl
+2024-05-14T07:45:38.214Z - user left room [object Object]
+2024-05-14T07:45:38.220Z - User disconnected b6elvUkkKsjFuCBuAAAn
+2024-05-14T07:45:38.224Z - User disconnected q5v2uHYnTRSfoFoaAAAp
+2024-05-14T07:45:38.237Z - User disconnected hfwDL34w95fFA3wCAAAv
+2024-05-14T07:45:38.238Z - User disconnected 824KkaGlA336HGxBAAAt
+2024-05-14T07:45:38.243Z - user left room [object Object]
+2024-05-14T07:45:38.254Z - User disconnected ZPUY47wH9tO7miFTAAAr
+2024-05-14T07:45:38.258Z - User disconnected _fNmIgaYkdjnFBnwAAA1
+2024-05-14T07:45:38.260Z - User disconnected NLQ1DE2UQvrNTwb3AAAz
+2024-05-14T07:45:38.261Z - User disconnected xbLvwXxy9RfXEhbvAAAx
+2024-05-14T07:45:38.265Z - User disconnected rK5SsY78O3KZYUURAAA3
+2024-05-14T07:45:38.269Z - User disconnected rnY-I72F59vodn1WAAA9
+2024-05-14T07:45:38.276Z - User disconnected pMnp4L6jNmfoBPzvAAA7
+2024-05-14T07:45:38.282Z - User disconnected rl2hlX4qyn8v8wk6AAA5
+2024-05-14T07:45:38.285Z - User disconnected QIsl3AlPc0CZCbeOAAA_
+2024-05-14T07:45:38.290Z - user left room [object Object]
+2024-05-14T07:45:38.292Z - User disconnected LMOfa_dE7nSIYGkmAABD
+2024-05-14T07:45:38.299Z - user left room [object Object]
+2024-05-14T07:45:38.303Z - User disconnected YlJnpb9idxEcFlvWAABB
+2024-05-14T07:45:38.304Z - user left room [object Object]
+2024-05-14T07:45:38.312Z - User disconnected 9lZDnEJD3RrJOTs8AABF
+2024-05-14T07:45:38.373Z - User disconnected fyZ0Ss0rLjlNJGVuAABH
+2024-05-14T07:45:38.422Z - User disconnected W6Cpm_0WbjNEU9PZAABJ
+2024-05-14T07:45:38.424Z - User disconnected lo_TG_8qbKaEQh7CAABL
+2024-05-14T07:45:38.425Z - User disconnected xs8q5EZZJc8HgsyLAABP
+2024-05-14T07:45:38.426Z - User disconnected TUx7HSobSuCr0E2aAABN
+2024-05-14T07:45:38.427Z - User disconnected 0xkezZxkhZNsQ-QrAABR
+2024-05-14T07:45:38.428Z - User disconnected RAe8fFlG1cuZxv-aAABT
+2024-05-14T07:45:38.429Z - User disconnected RovfRCWFLnVodpF_AABV
+2024-05-14T07:45:38.431Z - User disconnected w4ou41tZIXXMAQQwAABX
+2024-05-14T07:45:38.432Z - User disconnected LETt1K572JqFu9mQAABZ
+2024-05-14T07:45:38.433Z - User disconnected luGDuwy4a15eGTVRAABb
+2024-05-14T07:45:38.434Z - User disconnected nF8Fyzp86Hbhbp-jAABd
+2024-05-14T07:45:38.434Z - User disconnected 7oWD5oscc5EFxsQ5AABf
+2024-05-14T07:45:38.435Z - User disconnected 7UiHLt3zQ8H47q9TAABh
+2024-05-14T07:45:38.435Z - User disconnected mULJYvwbQlvAs5_iAABj
+2024-05-14T07:45:38.436Z - User disconnected p9PVfF3LgFwz2yqZAABl
+2024-05-14T07:45:38.437Z - User disconnected LeSoazNWwsq-_rKCAABp
+2024-05-14T07:45:38.459Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T07:45:38.475Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T07:45:39.337Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T07:45:39.339Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T07:45:43.682Z - user left room [object Object]
+2024-05-14T07:45:43.684Z - User disconnected IE9FcZDQWlNMFGn-AABt
+2024-05-14T07:48:07.739Z - loginUser dpunkrgamez@gmail.com Deep
+2024-05-14T07:48:07.796Z - Chat [object Object]
+2024-05-14T07:48:07.796Z - USER login-key 66431737208a3f78806e2e57
+2024-05-14T07:48:07.799Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzMTczNzIwOGEzZjc4ODA2ZTJlNTciLCJpYXQiOjE3MTU2NzI4ODcsImV4cCI6MTcxNTcxNjA4N30.7cSyh7azaKxggOUIRFP9Dh7lwwdqEXC1KvLWVkeQL-E
+2024-05-14T07:48:07.837Z - Decoded Token:  [object Object]
+2024-05-14T07:48:07.839Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-14T07:48:07.848Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-14T07:48:07.849Z - Inside SOCKET.ROOMID:  room66431737208a3f78806e2e57
+2024-05-14T07:48:07.850Z - Redis ROOMID:  
+2024-05-14T07:48:07.851Z - New User Omz767RUIs
+2024-05-14T07:48:07.852Z - Rooms:  [object Map]
+2024-05-14T07:48:24.761Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-14T07:48:24.762Z - before mongo
+2024-05-14T07:48:24.762Z - after mongo
+2024-05-14T07:48:24.807Z - User [object Object]
+2024-05-14T07:48:25.017Z - admin auth [object Object]
+2024-05-14T07:48:32.760Z - Message:  Omz767RUIs Hi there Dipankar text 2024-05-14T07:48:32.759Z iamdpunkr@gmail.com
+2024-05-14T07:48:37.928Z - Message:  Omz767RUIs Hello Deep text 2024-05-14T07:48:37.916Z dpunkrgamez@gmail.com
+2024-05-14T07:48:56.409Z - Message:  Omz767RUIs 
+Yeah Dipankar text 2024-05-14T07:48:56.408Z iamdpunkr@gmail.com
+2024-05-14T07:49:00.490Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T07:49:10.262Z - User disconnected -rbdvcjSdmc4HqieAABz
+2024-05-14T07:49:10.310Z - user left room [object Object]
+2024-05-14T08:35:44.946Z - User disconnected CGF_M6fhrLh7ageJAABv
+2024-05-14T10:59:25.284Z - User disconnected XDFF_YwA9aTOtuEOAAB1
+2024-05-14T10:59:26.097Z - admin auth [object Object]
+2024-05-14T10:59:50.213Z - loginUser dpunkrgamez@gmail.com Deep
+2024-05-14T10:59:50.273Z - Chat [object Object]
+2024-05-14T10:59:50.273Z - USER login-key 66434426208a3f78806e2e58
+2024-05-14T10:59:50.278Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNDQyNjIwOGEzZjc4ODA2ZTJlNTgiLCJpYXQiOjE3MTU2ODQzOTAsImV4cCI6MTcxNTcyNzU5MH0.jf6-Qd2CF7kVP9BvyX17cv9Hh5DhfcHANbI5m_aDQUs
+2024-05-14T10:59:50.313Z - Decoded Token:  [object Object]
+2024-05-14T10:59:50.318Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-14T10:59:50.332Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-14T10:59:50.332Z - Inside SOCKET.ROOMID:  room66434426208a3f78806e2e58
+2024-05-14T10:59:50.333Z - Redis ROOMID:  
+2024-05-14T10:59:50.334Z - New User aUJRftbwZk
+2024-05-14T10:59:50.336Z - Rooms:  [object Map]
+2024-05-14T11:00:11.876Z - Message:  aUJRftbwZk Hi there Dipankar text 2024-05-14T11:00:11.875Z iamdpunkr@gmail.com
+2024-05-14T11:00:15.747Z - Message:  aUJRftbwZk Hello Deep text 2024-05-14T11:00:15.746Z dpunkrgamez@gmail.com
+2024-05-14T11:00:21.491Z - File uploaded: [object Object]
+2024-05-14T11:00:21.491Z - File URL:  Screenshot (10)-1715684421460.png
+2024-05-14T11:00:40.409Z - user left room [object Object]
+2024-05-14T11:00:53.155Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T11:00:59.659Z - user left room [object Object]
+2024-05-14T11:00:59.661Z - User disconnected g59AIZxahpgcCMhBAAB7
+2024-05-14T11:23:01.494Z - loginUser mikel@gmail.com Mikel
+2024-05-14T11:23:01.555Z - Chat [object Object]
+2024-05-14T11:23:01.555Z - USER login-key 66434995208a3f78806e2e59
+2024-05-14T11:23:01.558Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNDk5NTIwOGEzZjc4ODA2ZTJlNTkiLCJpYXQiOjE3MTU2ODU3ODEsImV4cCI6MTcxNTcyODk4MX0.V_wzUZwOuIjeHFd17lHDHAO39iqvtvc8Hjmx5m49gAs
+2024-05-14T11:23:01.603Z - Decoded Token:  [object Object]
+2024-05-14T11:23:01.606Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:23:01.610Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:23:01.610Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:23:01.611Z - Redis ROOMID:  
+2024-05-14T11:23:01.611Z - New User 1ZaQ7xUpjp
+2024-05-14T11:23:01.612Z - Rooms:  [object Map]
+2024-05-14T11:23:43.299Z - Message:  1ZaQ7xUpjp Hello
+ Dipankar text 2024-05-14T11:23:43.298Z iamdpunkr@gmail.com
+2024-05-14T11:23:45.650Z - user left room [object Object]
+2024-05-14T11:24:26.238Z - Decoded Token:  [object Object]
+2024-05-14T11:24:26.239Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:24:26.249Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:24:26.250Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:24:26.253Z - Redis ROOMID:  1ZaQ7xUpjp
+2024-05-14T11:24:26.254Z - Old User 1ZaQ7xUpjp
+2024-05-14T11:24:44.755Z - Decoded Token:  [object Object]
+2024-05-14T11:24:44.758Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:24:44.764Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:24:44.764Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:24:44.766Z - Redis ROOMID:  1ZaQ7xUpjp
+2024-05-14T11:24:44.766Z - Old User 1ZaQ7xUpjp
+2024-05-14T11:24:47.613Z - Decoded Token:  [object Object]
+2024-05-14T11:24:47.615Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:24:47.620Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:24:47.621Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:24:47.623Z - Redis ROOMID:  1ZaQ7xUpjp
+2024-05-14T11:24:47.624Z - Old User 1ZaQ7xUpjp
+2024-05-14T11:24:53.563Z - Decoded Token:  [object Object]
+2024-05-14T11:24:53.564Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:24:53.571Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:24:53.572Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:24:53.575Z - Redis ROOMID:  1ZaQ7xUpjp
+2024-05-14T11:24:53.577Z - Old User 1ZaQ7xUpjp
+2024-05-14T11:24:56.608Z - Decoded Token:  [object Object]
+2024-05-14T11:24:56.610Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:24:56.622Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:24:56.623Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:24:56.625Z - Redis ROOMID:  1ZaQ7xUpjp
+2024-05-14T11:24:56.625Z - Old User 1ZaQ7xUpjp
+2024-05-14T11:25:00.382Z - Decoded Token:  [object Object]
+2024-05-14T11:25:00.385Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:25:00.391Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:25:00.392Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:25:00.394Z - Redis ROOMID:  1ZaQ7xUpjp
+2024-05-14T11:25:00.395Z - Old User 1ZaQ7xUpjp
+2024-05-14T11:25:12.537Z - Decoded Token:  [object Object]
+2024-05-14T11:25:12.539Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T11:25:12.549Z - User connected Mikel mikel@gmail.com
+2024-05-14T11:25:12.550Z - Inside SOCKET.ROOMID:  room66434995208a3f78806e2e59
+2024-05-14T11:25:12.551Z - Redis ROOMID:  1ZaQ7xUpjp
+2024-05-14T11:25:12.552Z - Old User 1ZaQ7xUpjp
+2024-05-14T11:25:21.533Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T11:25:44.094Z - user left room [object Object]
+2024-05-14T11:25:44.100Z - User disconnected GBQe02gDd1PW3ZXAAACL
+2024-05-14T11:46:03.161Z - loginUser dpunkrgamez@gmail.com Dpunkr
+2024-05-14T11:46:03.217Z - Chat [object Object]
+2024-05-14T11:46:03.218Z - USER login-key 66434efb208a3f78806e2e5a
+2024-05-14T11:46:03.224Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNGVmYjIwOGEzZjc4ODA2ZTJlNWEiLCJpYXQiOjE3MTU2ODcxNjMsImV4cCI6MTcxNTczMDM2M30.d-m58sfmGzFb7yT8sK_WlC_5FZaN_EUzMJA48CevdFE
+2024-05-14T11:46:03.258Z - Decoded Token:  [object Object]
+2024-05-14T11:46:03.261Z - Middleware User Token:  dpunkrgamez@gmail.com###Dpunkr
+2024-05-14T11:46:03.267Z - User connected Dpunkr dpunkrgamez@gmail.com
+2024-05-14T11:46:03.268Z - Inside SOCKET.ROOMID:  room66434efb208a3f78806e2e5a
+2024-05-14T11:46:03.269Z - Redis ROOMID:  
+2024-05-14T11:46:03.269Z - New User 5ojVnUmrvc
+2024-05-14T11:46:03.273Z - Rooms:  [object Map]
+2024-05-14T11:46:23.538Z - Message:  5ojVnUmrvc 
+Hello there Dipankar text 2024-05-14T11:46:23.539Z iamdpunkr@gmail.com
+2024-05-14T11:46:27.690Z - Message:  5ojVnUmrvc Yes Dpunkr text 2024-05-14T11:46:27.689Z dpunkrgamez@gmail.com
+2024-05-14T11:46:32.826Z - user left room [object Object]
+2024-05-14T11:47:44.225Z - user left room [object Object]
+2024-05-14T11:47:44.238Z - User disconnected WobD3tdadtiDh1IHAACN
+2024-05-14T12:05:18.095Z - loginUser jpy@gmail.com JAppy
+2024-05-14T12:05:18.156Z - Chat [object Object]
+2024-05-14T12:05:18.157Z - USER login-key 6643537e208a3f78806e2e5b
+2024-05-14T12:05:18.160Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNTM3ZTIwOGEzZjc4ODA2ZTJlNWIiLCJpYXQiOjE3MTU2ODgzMTgsImV4cCI6MTcxNTczMTUxOH0.Ej__cqJAnusuT-n9xh6tlqI4tngHRf8Ug1NsweXn3VI
+2024-05-14T12:05:18.202Z - Decoded Token:  [object Object]
+2024-05-14T12:05:18.207Z - Middleware User Token:  jpy@gmail.com###JAppy
+2024-05-14T12:05:18.216Z - User connected JAppy jpy@gmail.com
+2024-05-14T12:05:18.216Z - Inside SOCKET.ROOMID:  room6643537e208a3f78806e2e5b
+2024-05-14T12:05:18.218Z - Redis ROOMID:  
+2024-05-14T12:05:18.218Z - New User 7NV4Nwtcx8
+2024-05-14T12:05:18.220Z - Rooms:  [object Map]
+2024-05-14T12:05:50.322Z - Message:  7NV4Nwtcx8 
+Hi there Dipankar text 2024-05-14T12:05:50.322Z iamdpunkr@gmail.com
+2024-05-14T12:05:54.316Z - Message:  7NV4Nwtcx8 hello JAppy text 2024-05-14T12:05:54.312Z jpy@gmail.com
+2024-05-14T12:05:57.969Z - Message:  7NV4Nwtcx8 
+Hello agaon JAppy text 2024-05-14T12:05:57.968Z jpy@gmail.com
+2024-05-14T12:05:59.785Z - Message:  7NV4Nwtcx8 
+haello JAppy text 2024-05-14T12:05:59.784Z jpy@gmail.com
+2024-05-14T12:06:01.899Z - Message:  7NV4Nwtcx8 
+heools JAppy text 2024-05-14T12:06:01.896Z jpy@gmail.com
+2024-05-14T12:06:03.649Z - Message:  7NV4Nwtcx8 
+ehjer JAppy text 2024-05-14T12:06:03.648Z jpy@gmail.com
+2024-05-14T12:06:05.074Z - Message:  7NV4Nwtcx8 
+jjer JAppy text 2024-05-14T12:06:05.073Z jpy@gmail.com
+2024-05-14T12:06:06.913Z - Message:  7NV4Nwtcx8 
+ljler JAppy text 2024-05-14T12:06:06.913Z jpy@gmail.com
+2024-05-14T12:06:54.564Z - Decoded Token:  [object Object]
+2024-05-14T12:06:54.568Z - Middleware User Token:  jpy@gmail.com###JAppy
+2024-05-14T12:06:54.575Z - User connected JAppy jpy@gmail.com
+2024-05-14T12:06:54.576Z - Inside SOCKET.ROOMID:  room6643537e208a3f78806e2e5b
+2024-05-14T12:06:54.577Z - Redis ROOMID:  7NV4Nwtcx8
+2024-05-14T12:06:54.577Z - Old User 7NV4Nwtcx8
+2024-05-14T12:07:08.769Z - Message:  7NV4Nwtcx8 sdfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+ JAppy text 2024-05-14T12:07:08.768Z jpy@gmail.com
+2024-05-14T12:07:13.905Z - Message:  7NV4Nwtcx8 
+fsf JAppy text 2024-05-14T12:07:13.904Z jpy@gmail.com
+2024-05-14T12:07:14.857Z - Message:  7NV4Nwtcx8 
+sfsdf JAppy text 2024-05-14T12:07:14.856Z jpy@gmail.com
+2024-05-14T12:07:15.841Z - Message:  7NV4Nwtcx8 
+sfsdf JAppy text 2024-05-14T12:07:15.840Z jpy@gmail.com
+2024-05-14T12:07:17.001Z - Message:  7NV4Nwtcx8 
+sfdaf JAppy text 2024-05-14T12:07:17.000Z jpy@gmail.com
+2024-05-14T12:07:18.744Z - Message:  7NV4Nwtcx8 
+sfd JAppy text 2024-05-14T12:07:18.744Z jpy@gmail.com
+2024-05-14T12:07:22.057Z - Message:  7NV4Nwtcx8 
+safdddddddddddddddddddddddddddddddddddddddddddddddddddddddd JAppy text 2024-05-14T12:07:22.056Z jpy@gmail.com
+2024-05-14T12:07:33.225Z - Message:  7NV4Nwtcx8 
+affffffffffffffffffffffffffffffffffffffffffffffffffffffffffff JAppy text 2024-05-14T12:07:33.224Z jpy@gmail.com
+2024-05-14T12:08:10.394Z - Message:  7NV4Nwtcx8 fsdhfklsdhlkfsldkfj;lasjdfjsldfjalf;lsdjfl;ajf;lsdjfl;sjfl;sjdf;.lgdf;lgdf JAppy text 2024-05-14T12:08:10.401Z jpy@gmail.com
+2024-05-14T12:08:14.189Z - Message:  7NV4Nwtcx8 
+jo JAppy text 2024-05-14T12:08:14.193Z jpy@gmail.com
+2024-05-14T12:08:15.778Z - Message:  7NV4Nwtcx8 
+jf JAppy text 2024-05-14T12:08:15.785Z jpy@gmail.com
+2024-05-14T12:08:17.546Z - Message:  7NV4Nwtcx8 
+sf JAppy text 2024-05-14T12:08:17.553Z jpy@gmail.com
+2024-05-14T12:08:21.146Z - Message:  7NV4Nwtcx8 
+s JAppy text 2024-05-14T12:08:21.153Z jpy@gmail.com
+2024-05-14T12:08:30.170Z - Message:  7NV4Nwtcx8 
+df JAppy text 2024-05-14T12:08:30.177Z jpy@gmail.com
+2024-05-14T12:08:35.868Z - Message:  7NV4Nwtcx8 
+heelo JAppy text 2024-05-14T12:08:35.873Z jpy@gmail.com
+2024-05-14T12:08:59.130Z - Message:  7NV4Nwtcx8 h JAppy text 2024-05-14T12:08:59.137Z jpy@gmail.com
+2024-05-14T12:09:01.404Z - Message:  7NV4Nwtcx8 
+k JAppy text 2024-05-14T12:09:01.409Z jpy@gmail.com
+2024-05-14T12:09:23.569Z - User disconnected Gffl53XY-Gvt2DOVAACR
+2024-05-14T12:09:23.624Z - user left room [object Object]
+2024-05-14T12:09:48.791Z - User disconnected B5h1vFoW9ctZ9LzLAACH
+2024-05-14T12:09:48.794Z - User disconnected iz-r6S3ZxPBZLmBOAACF
+2024-05-14T12:09:48.794Z - User disconnected Y3WZDMHxGE9MNLHLAAB_
+2024-05-14T12:09:48.795Z - User disconnected yVT7SYV7LICOM0DKAACJ
+2024-05-14T12:09:48.795Z - User disconnected a94GYF-_pM58BWUEAACB
+2024-05-14T12:09:48.796Z - User disconnected eUds_j9MssxXUvRUAACD
+2024-05-14T12:09:48.796Z - User disconnected Eshw4erMPrmOk7taAAB9
+2024-05-14T12:09:48.797Z - User disconnected _NcInN0XI-Zh3ruUAACP
+2024-05-14T12:09:59.909Z - loginUser mikel@gmail.com Mikel
+2024-05-14T12:09:59.956Z - Chat [object Object]
+2024-05-14T12:09:59.957Z - USER login-key 66435497208a3f78806e2e5c
+2024-05-14T12:09:59.961Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNTQ5NzIwOGEzZjc4ODA2ZTJlNWMiLCJpYXQiOjE3MTU2ODg1OTksImV4cCI6MTcxNTczMTc5OX0.husZQqJmqC_pIBCBHTnio4N1VW93LcPb74Oe6h6CGws
+2024-05-14T12:09:59.990Z - Decoded Token:  [object Object]
+2024-05-14T12:09:59.993Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T12:10:00.007Z - User connected Mikel mikel@gmail.com
+2024-05-14T12:10:00.009Z - Inside SOCKET.ROOMID:  room66435497208a3f78806e2e5c
+2024-05-14T12:10:00.012Z - Redis ROOMID:  
+2024-05-14T12:10:00.013Z - New User WYIvYTyDXk
+2024-05-14T12:10:00.014Z - Rooms:  [object Map]
+2024-05-14T12:10:08.069Z - Message:  WYIvYTyDXk helo
+ Dipankar text 2024-05-14T12:10:08.066Z iamdpunkr@gmail.com
+2024-05-14T12:10:13.825Z - Message:  WYIvYTyDXk Hello agaonm
+ Dipankar text 2024-05-14T12:10:13.825Z iamdpunkr@gmail.com
+2024-05-14T12:10:18.491Z - Message:  WYIvYTyDXk hello Mikel text 2024-05-14T12:10:18.490Z mikel@gmail.com
+2024-05-14T12:10:22.761Z - Message:  WYIvYTyDXk 
+Hello agao Mikel text 2024-05-14T12:10:22.760Z mikel@gmail.com
+2024-05-14T12:10:29.939Z - Message:  WYIvYTyDXk 
+sdfsdfsdfsdsfsfsdfsdfffffffffffffffffffffffffff Mikel text 2024-05-14T12:10:29.944Z mikel@gmail.com
+2024-05-14T12:10:35.203Z - Message:  WYIvYTyDXk 
+dsffaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa Mikel text 2024-05-14T12:10:35.208Z mikel@gmail.com
+2024-05-14T12:10:37.347Z - Message:  WYIvYTyDXk 
+sfsdf Mikel text 2024-05-14T12:10:37.352Z mikel@gmail.com
+2024-05-14T12:14:09.332Z - Message:  WYIvYTyDXk 
+sdfsf
+ Mikel text 2024-05-14T12:14:09.330Z mikel@gmail.com
+2024-05-14T12:14:13.932Z - Message:  WYIvYTyDXk Hello
+ Mikel text 2024-05-14T12:14:13.930Z mikel@gmail.com
+2024-05-14T12:14:20.265Z - Message:  WYIvYTyDXk WHats up
+ Mikel text 2024-05-14T12:14:20.264Z mikel@gmail.com
+2024-05-14T12:14:48.225Z - Message:  WYIvYTyDXk Hello thre Mikel text 2024-05-14T12:14:48.224Z mikel@gmail.com
+2024-05-14T12:14:59.651Z - Message:  WYIvYTyDXk 
+sdfsdf
+ Mikel text 2024-05-14T12:14:59.649Z mikel@gmail.com
+2024-05-14T12:15:01.481Z - Message:  WYIvYTyDXk fsdf
+ Mikel text 2024-05-14T12:15:01.480Z mikel@gmail.com
+2024-05-14T12:15:04.249Z - Message:  WYIvYTyDXk 
+sfsdf
+ Dipankar text 2024-05-14T12:15:04.250Z iamdpunkr@gmail.com
+2024-05-14T12:15:06.265Z - Message:  WYIvYTyDXk sfsd
+ Dipankar text 2024-05-14T12:15:06.265Z iamdpunkr@gmail.com
+2024-05-14T12:15:25.295Z - Message:  WYIvYTyDXk sfsdf
+ Mikel text 2024-05-14T12:15:25.301Z mikel@gmail.com
+2024-05-14T12:15:30.058Z - Message:  WYIvYTyDXk Thanks
+ Dipankar text 2024-05-14T12:15:30.067Z iamdpunkr@gmail.com
+2024-05-14T12:46:26.285Z - FILEURL:  http://localhost:5005/temp/
+2024-05-14T12:46:26.303Z - Server is running on port 5005
+2024-05-14T12:46:26.359Z - Decoded Token:  [object Object]
+2024-05-14T12:46:26.369Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T12:46:26.379Z - User connected Mikel mikel@gmail.com
+2024-05-14T12:46:26.380Z - Inside SOCKET.ROOMID:  room66435497208a3f78806e2e5c
+2024-05-14T12:46:26.383Z - Redis ROOMID:  WYIvYTyDXk
+2024-05-14T12:46:26.384Z - Old User WYIvYTyDXk
+2024-05-14T12:46:26.628Z - Decoded Token:  [object Object]
+2024-05-14T12:46:26.631Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T12:46:27.104Z - connected
+2024-05-14T12:46:27.109Z - MongoDB connected
+2024-05-14T12:46:36.412Z - user left room [object Object]
+2024-05-14T12:46:36.418Z - User disconnected kiR7xiLO_9aA1kcwAAAB
+2024-05-14T12:47:34.430Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-14T12:47:34.431Z - before mongo
+2024-05-14T12:47:34.431Z - after mongo
+2024-05-14T12:47:37.478Z - User [object Object]
+2024-05-14T12:47:37.689Z - admin auth [object Object]
+2024-05-14T12:47:49.080Z - loginUser dpunkrgamez@gmail.com Deep
+2024-05-14T12:47:49.140Z - Chat [object Object]
+2024-05-14T12:47:49.147Z - USER login-key 66435d75d1a3733efeb3fd23
+2024-05-14T12:47:49.153Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNWQ3NWQxYTM3MzNlZmViM2ZkMjMiLCJpYXQiOjE3MTU2OTA4NjksImV4cCI6MTcxNTczNDA2OX0.C-lIuHdB0G1S_ag4OAc4xZL2GoS5jG2a9_8itGvpPzQ
+2024-05-14T12:47:49.187Z - Decoded Token:  [object Object]
+2024-05-14T12:47:49.190Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-14T12:47:49.219Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-14T12:47:49.220Z - Inside SOCKET.ROOMID:  room66435d75d1a3733efeb3fd23
+2024-05-14T12:47:49.221Z - Redis ROOMID:  
+2024-05-14T12:47:49.222Z - New User 43ZO6squAU
+2024-05-14T12:47:49.224Z - Rooms:  [object Map]
+2024-05-14T12:47:59.087Z - Message:  43ZO6squAU Hello
+ Dipankar text 2024-05-14T12:47:59.096Z iamdpunkr@gmail.com
+2024-05-14T12:48:05.917Z - Message:  43ZO6squAU Hi
+ Deep text 2024-05-14T12:48:05.927Z dpunkrgamez@gmail.com
+2024-05-14T12:48:09.888Z - Message:  43ZO6squAU Hey
+ Dipankar text 2024-05-14T12:48:09.898Z iamdpunkr@gmail.com
+2024-05-14T12:48:16.598Z - Message:  43ZO6squAU WHats up>
+ Deep text 2024-05-14T12:48:16.608Z dpunkrgamez@gmail.com
+2024-05-14T12:48:24.215Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T12:48:48.508Z - User disconnected otzLWxqPUmknFlN4AAAJ
+2024-05-14T12:48:48.511Z - User disconnected NUQvoqx4dGlPUs2qAAAF
+2024-05-14T12:48:54.380Z - Decoded Token:  [object Object]
+2024-05-14T12:48:54.382Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-14T12:48:54.393Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-14T12:48:54.394Z - Inside SOCKET.ROOMID:  room66435d75d1a3733efeb3fd23
+2024-05-14T12:48:54.396Z - Redis ROOMID:  43ZO6squAU
+2024-05-14T12:48:54.396Z - Old User 43ZO6squAU
+2024-05-14T12:49:04.684Z - user left room [object Object]
+2024-05-14T12:49:06.786Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T12:49:11.422Z - user left room [object Object]
+2024-05-14T12:49:11.425Z - User disconnected 6j6_kl7qv5qrRs1AAAAL
+2024-05-14T12:52:17.409Z - FILEURL:  http://localhost:5005/temp/
+2024-05-14T12:52:17.430Z - Server is running on port 5005
+2024-05-14T12:52:19.188Z - connected
+2024-05-14T12:52:19.194Z - MongoDB connected
+2024-05-14T12:54:33.587Z - admin auth [object Object]
+2024-05-14T12:54:56.019Z - loginUser mikel@gmail.com Mikel
+2024-05-14T12:54:56.075Z - Chat [object Object]
+2024-05-14T12:54:56.076Z - USER login-key 66435f201c0d9d4ceac4a536
+2024-05-14T12:54:56.079Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNWYyMDFjMGQ5ZDRjZWFjNGE1MzYiLCJpYXQiOjE3MTU2OTEyOTYsImV4cCI6MTcxNTczNDQ5Nn0.qMgXu-SZn0xy6Cvp3W8jFgDHyPB4xaFI5DMXeh4CGcM
+2024-05-14T12:54:56.113Z - Decoded Token:  [object Object]
+2024-05-14T12:54:56.116Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-14T12:54:56.127Z - User connected Mikel mikel@gmail.com
+2024-05-14T12:54:56.127Z - Inside SOCKET.ROOMID:  room66435f201c0d9d4ceac4a536
+2024-05-14T12:54:56.128Z - Redis ROOMID:  
+2024-05-14T12:54:56.129Z - New User yk8XyzSo8p
+2024-05-14T12:54:56.130Z - Rooms:  [object Map]
+2024-05-14T12:55:03.308Z - Message:  yk8XyzSo8p Hi ther emike
+ Dipankar text 2024-05-14T12:55:03.306Z iamdpunkr@gmail.com
+2024-05-14T12:55:05.890Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T12:55:53.741Z - User disconnected KszvGipGFFHeJjNJAAAF
+2024-05-14T12:55:53.785Z - user left room [object Object]
+2024-05-14T12:56:12.751Z - loginUser dpunkrgamez@gmail.com Deep
+2024-05-14T12:56:12.799Z - Chat [object Object]
+2024-05-14T12:56:12.799Z - USER login-key 66435f6c1c0d9d4ceac4a537
+2024-05-14T12:56:12.802Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNWY2YzFjMGQ5ZDRjZWFjNGE1MzciLCJpYXQiOjE3MTU2OTEzNzIsImV4cCI6MTcxNTczNDU3Mn0.hdZluXA4FGNVnRqVhLuURrkCyh7eb07KJ5SAZboWSPQ
+2024-05-14T12:56:12.826Z - Decoded Token:  [object Object]
+2024-05-14T12:56:12.829Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-14T12:56:12.835Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-14T12:56:12.836Z - Inside SOCKET.ROOMID:  room66435f6c1c0d9d4ceac4a537
+2024-05-14T12:56:12.838Z - Redis ROOMID:  
+2024-05-14T12:56:12.838Z - New User V1FI3FAJhJ
+2024-05-14T12:56:12.839Z - Rooms:  [object Map]
+2024-05-14T12:56:22.059Z - Message:  V1FI3FAJhJ Hi there Deep
+ Dipankar text 2024-05-14T12:56:22.058Z iamdpunkr@gmail.com
+2024-05-14T12:56:32.869Z - Message:  V1FI3FAJhJ Lets check the transcript Deep text 2024-05-14T12:56:32.868Z dpunkrgamez@gmail.com
+2024-05-14T12:56:47.252Z - Message:  V1FI3FAJhJ SUrre, I am disconnecting you right now!
+ Dipankar text 2024-05-14T12:56:47.250Z iamdpunkr@gmail.com
+2024-05-14T12:56:51.254Z - user left room [object Object]
+2024-05-14T12:56:56.535Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T12:57:02.395Z - user left room [object Object]
+2024-05-14T12:57:02.398Z - User disconnected h06hiaN9BDjjQwAYAAAH
+2024-05-14T13:04:30.248Z - User disconnected tIKKGHEOzfIddjlUAAAD
+2024-05-14T13:04:30.612Z - admin auth [object Object]
+2024-05-14T13:05:00.529Z - loginUser dpunkrgamez@gmail.com Dpunkjr
+2024-05-14T13:05:00.587Z - Chat [object Object]
+2024-05-14T13:05:00.587Z - USER login-key 6643617c1c0d9d4ceac4a538
+2024-05-14T13:05:00.590Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNjE3YzFjMGQ5ZDRjZWFjNGE1MzgiLCJpYXQiOjE3MTU2OTE5MDAsImV4cCI6MTcxNTczNTEwMH0.pdR5whBt33jWG06w_9MXFyj5ywvKftd43AkOTzh_ZZM
+2024-05-14T13:05:00.618Z - Decoded Token:  [object Object]
+2024-05-14T13:05:00.623Z - Middleware User Token:  dpunkrgamez@gmail.com###Dpunkjr
+2024-05-14T13:05:00.631Z - User connected Dpunkjr dpunkrgamez@gmail.com
+2024-05-14T13:05:00.631Z - Inside SOCKET.ROOMID:  room6643617c1c0d9d4ceac4a538
+2024-05-14T13:05:00.633Z - Redis ROOMID:  
+2024-05-14T13:05:00.634Z - New User LcdhHavQtn
+2024-05-14T13:05:00.638Z - Rooms:  [object Map]
+2024-05-14T13:05:10.843Z - Message:  LcdhHavQtn Hi I m back
+ Dipankar text 2024-05-14T13:05:10.842Z iamdpunkr@gmail.com
+2024-05-14T13:05:16.912Z - Message:  LcdhHavQtn Lets have a chat
+ Dpunkjr text 2024-05-14T13:05:16.912Z dpunkrgamez@gmail.com
+2024-05-14T13:05:21.869Z - Message:  LcdhHavQtn yeah sure
+ Dipankar text 2024-05-14T13:05:21.867Z iamdpunkr@gmail.com
+2024-05-14T13:08:27.676Z - FILEURL:  http://localhost:5005/temp/
+2024-05-14T13:08:27.695Z - Server is running on port 5005
+2024-05-14T13:08:28.377Z - connected
+2024-05-14T13:08:28.382Z - MongoDB connected
+2024-05-14T13:08:28.816Z - Decoded Token:  [object Object]
+2024-05-14T13:08:28.822Z - Middleware User Token:  dpunkrgamez@gmail.com###Dpunkjr
+2024-05-14T13:08:34.447Z - user left room [object Object]
+2024-05-14T13:08:34.453Z - User disconnected kMQob98_69jRngMhAAAD
+2024-05-14T13:08:39.137Z - admin auth [object Object]
+2024-05-14T13:09:17.667Z - loginUser dpunkrgamez@gmail.com Dpunkr
+2024-05-14T13:09:17.716Z - Chat [object Object]
+2024-05-14T13:09:17.717Z - USER login-key 6643627d288c8930f5d6081f
+2024-05-14T13:09:17.720Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQzNjI3ZDI4OGM4OTMwZjVkNjA4MWYiLCJpYXQiOjE3MTU2OTIxNTcsImV4cCI6MTcxNTczNTM1N30.lITKepn5cQsA1xslGI5R-fz2xIRDjp12APZDSfeNsWg
+2024-05-14T13:09:17.750Z - Decoded Token:  [object Object]
+2024-05-14T13:09:17.753Z - Middleware User Token:  dpunkrgamez@gmail.com###Dpunkr
+2024-05-14T13:09:17.763Z - User connected Dpunkr dpunkrgamez@gmail.com
+2024-05-14T13:09:17.764Z - Inside SOCKET.ROOMID:  room6643627d288c8930f5d6081f
+2024-05-14T13:09:17.766Z - Redis ROOMID:  
+2024-05-14T13:09:17.767Z - New User mg4hHVkYSC
+2024-05-14T13:09:17.769Z - Rooms:  [object Map]
+2024-05-14T13:09:24.659Z - Message:  mg4hHVkYSC Hello Dpunkr
+ Dipankar text 2024-05-14T13:09:24.657Z iamdpunkr@gmail.com
+2024-05-14T13:10:12.767Z - Message:  mg4hHVkYSC Hell again
+ Dpunkr text 2024-05-14T13:10:12.768Z dpunkrgamez@gmail.com
+2024-05-14T13:10:18.445Z - user left room [object Object]
+2024-05-14T13:10:20.246Z - Transcript:  iamdpunkr@gmail.com gtsuqqxtghtficvs
+2024-05-14T13:10:52.755Z - User disconnected YERAawtCQMFyc-MDAAAH
+2024-05-14T13:24:10.011Z - User disconnected 3oL1jm2C_9vEVjIlAAAF
+2024-05-15T05:30:46.255Z - FILEURL:  http://localhost:5005/temp/
+2024-05-15T05:30:46.295Z - Server is running on port 5005
+2024-05-15T05:30:47.069Z - connected
+2024-05-15T05:30:47.082Z - MongoDB connected
+2024-05-15T06:21:38.592Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-15T06:21:38.593Z - before mongo
+2024-05-15T06:21:38.593Z - after mongo
+2024-05-15T06:21:38.644Z - User [object Object]
+2024-05-15T06:21:38.931Z - admin auth [object Object]
+2024-05-15T06:22:11.786Z - loginUser dpunkrgamez@gmail.com Deep
+2024-05-15T06:22:11.840Z - Chat [object Object]
+2024-05-15T06:22:11.840Z - USER login-key 664454939fdffd500ea53159
+2024-05-15T06:22:11.852Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ0NTQ5MzlmZGZmZDUwMGVhNTMxNTkiLCJpYXQiOjE3MTU3NTQxMzEsImV4cCI6MTcxNTc5NzMzMX0.t6X1DBhk_fbERAa4YY8k5r0mzCDwpD3dE4MaIp_-_KA
+2024-05-15T06:22:11.899Z - Decoded Token:  [object Object]
+2024-05-15T06:22:11.904Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-15T06:22:11.912Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-15T06:22:11.912Z - Inside SOCKET.ROOMID:  room664454939fdffd500ea53159
+2024-05-15T06:22:11.914Z - Redis ROOMID:  
+2024-05-15T06:22:11.914Z - New User Uny239VeSF
+2024-05-15T06:22:11.916Z - Rooms:  [object Map]
+2024-05-15T06:22:26.147Z - Message:  Uny239VeSF Hi there
+ Dipankar text 2024-05-15T06:22:26.147Z iamdpunkr@gmail.com
+2024-05-15T06:22:33.237Z - Message:  Uny239VeSF hello
+ Deep text 2024-05-15T06:22:33.235Z dpunkrgamez@gmail.com
+2024-05-15T06:26:03.333Z - Message:  Uny239VeSF Hello Dipankar text 2024-05-15T06:26:03.333Z iamdpunkr@gmail.com
+2024-05-15T06:26:23.572Z - Message:  Uny239VeSF hi again Deep text 2024-05-15T06:26:23.572Z dpunkrgamez@gmail.com
+2024-05-15T06:26:42.547Z - Message:  Uny239VeSF hello there
+ Dipankar text 2024-05-15T06:26:42.548Z iamdpunkr@gmail.com
+2024-05-15T06:29:38.124Z - Decoded Token:  [object Object]
+2024-05-15T06:29:38.126Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-15T06:29:38.130Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-15T06:29:38.130Z - Inside SOCKET.ROOMID:  room664454939fdffd500ea53159
+2024-05-15T06:29:38.132Z - Redis ROOMID:  Uny239VeSF
+2024-05-15T06:29:38.132Z - Old User Uny239VeSF
+2024-05-15T06:32:45.526Z - Decoded Token:  [object Object]
+2024-05-15T06:32:45.528Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-15T06:32:45.531Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-15T06:32:45.531Z - Inside SOCKET.ROOMID:  room664454939fdffd500ea53159
+2024-05-15T06:32:45.532Z - Redis ROOMID:  Uny239VeSF
+2024-05-15T06:32:45.532Z - Old User Uny239VeSF
+2024-05-15T06:39:24.114Z - User disconnected dEM-7ME1qAvgefuwAAAB
+2024-05-15T06:39:24.120Z - Decoded Token:  [object Object]
+2024-05-15T06:39:24.132Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-15T06:39:24.143Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-15T06:39:24.144Z - Inside SOCKET.ROOMID:  room664454939fdffd500ea53159
+2024-05-15T06:39:24.146Z - Redis ROOMID:  Uny239VeSF
+2024-05-15T06:39:24.146Z - Old User Uny239VeSF
+2024-05-15T06:39:24.180Z - admin auth [object Object]
+2024-05-15T06:40:41.272Z - User disconnected pni20BVVuV61F6ILAAAL
+2024-05-15T06:40:41.319Z - admin auth [object Object]
+2024-05-15T06:40:45.180Z - Message:  Uny239VeSF fdsfsd
+ Deep text 2024-05-15T06:40:45.178Z dpunkrgamez@gmail.com
+2024-05-15T06:40:54.782Z - Message:  Uny239VeSF sdfsdf
+sdfsdfsd
+sfsdf
+ Dipankar text 2024-05-15T06:40:54.782Z iamdpunkr@gmail.com
+2024-05-15T06:42:50.145Z - Decoded Token:  [object Object]
+2024-05-15T06:42:50.149Z - Middleware User Token:  dpunkrgamez@gmail.com###Deep
+2024-05-15T06:42:50.159Z - User connected Deep dpunkrgamez@gmail.com
+2024-05-15T06:42:50.160Z - Inside SOCKET.ROOMID:  room664454939fdffd500ea53159
+2024-05-15T06:42:50.162Z - Redis ROOMID:  Uny239VeSF
+2024-05-15T06:42:50.163Z - Old User Uny239VeSF
+2024-05-15T06:43:01.530Z - Message:  Uny239VeSF shiusdf
+hjsfs Deep text 2024-05-15T06:43:01.528Z dpunkrgamez@gmail.com
+2024-05-15T06:45:52.429Z - Message:  Uny239VeSF Hi there
+ssss Dipankar text 2024-05-15T06:45:52.430Z iamdpunkr@gmail.com
+2024-05-15T06:59:46.466Z - User disconnected cR376uJsX548knD_AAAN
+2024-05-15T06:59:46.516Z - admin auth [object Object]
+2024-05-15T06:59:52.921Z - File uploaded: [object Object]
+2024-05-15T06:59:52.922Z - File URL:  Screenshot (10)-1715756392915.png
+2024-05-15T07:03:01.720Z - File uploaded: [object Object]
+2024-05-15T07:03:01.720Z - File URL:  Screenshot (11)-1715756481232.png
+2024-05-15T07:05:57.656Z - File uploaded: [object Object]
+2024-05-15T07:05:57.657Z - File URL:  Screenshot (9)-1715756725377.png
+2024-05-15T07:08:23.024Z - File uploaded: [object Object]
+2024-05-15T07:08:23.025Z - File URL:  Screenshot (11)-1715756903016.png
+2024-05-15T07:08:37.023Z - File uploaded: [object Object]
+2024-05-15T07:08:37.025Z - File URL:  Screenshot (6)-1715756915891.png
+2024-05-15T07:09:38.204Z - File uploaded: [object Object]
+2024-05-15T07:09:38.205Z - File URL:  Screenshot (11)-1715756978197.png
+2024-05-15T07:09:55.130Z - File uploaded: [object Object]
+2024-05-15T07:09:55.131Z - File URL:  Screenshot (10)-1715756995125.png
+2024-05-15T07:10:03.591Z - User disconnected 5DCWsy_dLrl8Y88GAAAP
+2024-05-15T07:10:03.692Z - user left room [object Object]
+2024-05-15T07:10:07.033Z - User disconnected pcVE52ryupMdpdBUAAAK
+2024-05-15T07:10:07.036Z - User disconnected nPw_EjDrcFTOUQCVAAAD
+2024-05-15T07:10:07.037Z - User disconnected Qvu20E0M6AEn2OIxAAAH
+2024-05-15T07:10:07.038Z - User disconnected PG6XMTbjrPAVl4emAAAF
+2024-05-15T07:10:28.072Z - loginUser dpunkrgamez@gmail.com Mike
+2024-05-15T07:10:28.121Z - Chat [object Object]
+2024-05-15T07:10:28.121Z - USER login-key 66445fe49fdffd500ea5315a
+2024-05-15T07:10:28.124Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ0NWZlNDlmZGZmZDUwMGVhNTMxNWEiLCJpYXQiOjE3MTU3NTcwMjgsImV4cCI6MTcxNTgwMDIyOH0.q4_cDxl8aELvFaJGubWNhRfJabcMZspYqzC_QVBbmOE
+2024-05-15T07:10:28.148Z - Decoded Token:  [object Object]
+2024-05-15T07:10:28.152Z - Middleware User Token:  dpunkrgamez@gmail.com###Mike
+2024-05-15T07:10:28.155Z - User connected Mike dpunkrgamez@gmail.com
+2024-05-15T07:10:28.156Z - Inside SOCKET.ROOMID:  room66445fe49fdffd500ea5315a
+2024-05-15T07:10:28.156Z - Redis ROOMID:  
+2024-05-15T07:10:28.157Z - New User lJqF0r6NI5
+2024-05-15T07:10:28.157Z - Rooms:  [object Map]
+2024-05-15T07:10:40.223Z - Message:  lJqF0r6NI5 Heelo
+ Dipankar text 2024-05-15T07:10:40.222Z iamdpunkr@gmail.com
+2024-05-15T07:10:46.760Z - File uploaded: [object Object]
+2024-05-15T07:10:46.760Z - File URL:  Screenshot (11)-1715757046756.png
+2024-05-15T07:10:53.751Z - File uploaded: [object Object]
+2024-05-15T07:10:53.752Z - File URL:  Screenshot (11)-1715757052738.png
+2024-05-15T07:15:12.466Z - File uploaded: [object Object]
+2024-05-15T07:15:12.467Z - File URL:  29-1715757312460.jpg
+2024-05-15T07:22:40.138Z - Decoded Token:  [object Object]
+2024-05-15T07:22:40.140Z - Middleware User Token:  dpunkrgamez@gmail.com###Mike
+2024-05-15T07:22:40.147Z - User connected Mike dpunkrgamez@gmail.com
+2024-05-15T07:22:40.148Z - Inside SOCKET.ROOMID:  room66445fe49fdffd500ea5315a
+2024-05-15T07:22:40.150Z - Redis ROOMID:  lJqF0r6NI5
+2024-05-15T07:22:40.150Z - Old User lJqF0r6NI5
+2024-05-15T07:22:45.611Z - File uploaded: [object Object]
+2024-05-15T07:22:45.612Z - File URL:  Screenshot (10)-1715757765608.png
+2024-05-15T07:22:52.013Z - File uploaded: [object Object]
+2024-05-15T07:22:52.014Z - File URL:  Screenshot (6)-1715757771007.png
+2024-05-15T07:23:03.745Z - File uploaded: [object Object]
+2024-05-15T07:23:03.745Z - File URL:  Screenshot (6)-1715757783736.png
+2024-05-15T07:23:33.468Z - File uploaded: [object Object]
+2024-05-15T07:23:33.469Z - File URL:  Screenshot (6)-1715757807408.png
+2024-05-15T07:24:01.573Z - File uploaded: [object Object]
+2024-05-15T07:24:01.574Z - File URL:  29-1715757840588.jpg
+2024-05-15T07:24:16.065Z - File uploaded: [object Object]
+2024-05-15T07:24:16.066Z - File URL:  Screenshot (6)-1715757848801.png
+2024-05-15T07:24:21.123Z - File uploaded: [object Object]
+2024-05-15T07:24:21.123Z - File URL:  Screenshot (6)-1715757854050.png
+2024-05-15T07:24:34.573Z - File uploaded: [object Object]
+2024-05-15T07:24:34.574Z - File URL:  Screenshot (5)-1715757873573.png
+2024-05-15T07:30:59.739Z - Decoded Token:  [object Object]
+2024-05-15T07:30:59.740Z - Middleware User Token:  dpunkrgamez@gmail.com###Mike
+2024-05-15T07:31:00.366Z - User connected Mike dpunkrgamez@gmail.com
+2024-05-15T07:31:00.366Z - Inside SOCKET.ROOMID:  room66445fe49fdffd500ea5315a
+2024-05-15T07:31:00.368Z - Redis ROOMID:  lJqF0r6NI5
+2024-05-15T07:31:00.368Z - Old User lJqF0r6NI5
+2024-05-15T07:31:05.832Z - User disconnected vZ2-PzRUelNMBSTIAAAR
+2024-05-15T07:31:18.691Z - File uploaded: [object Object]
+2024-05-15T07:31:18.692Z - File URL:  Screenshot (6)-1715758272626.png
+2024-05-15T07:31:20.532Z - admin auth [object Object]
+2024-05-15T07:38:09.053Z - Message:  lJqF0r6NI5 Hi there!
+Hello
+ Dipankar text 2024-05-15T07:38:09.053Z iamdpunkr@gmail.com
+2024-05-15T07:38:35.249Z - Message:  lJqF0r6NI5 why its doble
+ Mike text 2024-05-15T07:38:35.217Z dpunkrgamez@gmail.com
+2024-05-15T07:38:50.289Z - Message:  lJqF0r6NI5 hi
+ Dipankar text 2024-05-15T07:38:50.289Z iamdpunkr@gmail.com
+2024-05-15T07:39:10.554Z - User disconnected CDma32MADIMR1mdrAAAX
+2024-05-15T07:39:20.495Z - User disconnected eLAAofkICsXvIZVqAAAV
+2024-05-15T07:39:20.498Z - User disconnected vLttG7xdOo_BBzlXAAAT
+2024-05-15T07:39:24.778Z - user left room [object Object]
+2024-05-15T07:39:42.428Z - loginUser jay@gmail.com Jay
+2024-05-15T07:39:42.473Z - Chat [object Object]
+2024-05-15T07:39:42.474Z - USER login-key 664466be9fdffd500ea5315b
+2024-05-15T07:39:42.479Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ0NjZiZTlmZGZmZDUwMGVhNTMxNWIiLCJpYXQiOjE3MTU3NTg3ODIsImV4cCI6MTcxNTgwMTk4Mn0.2aqlfnJ5N-0o0ocwLRG12zb0tTpX3tV_5lgWeQSBVvs
+2024-05-15T07:39:43.652Z - Decoded Token:  [object Object]
+2024-05-15T07:39:43.653Z - Middleware User Token:  jay@gmail.com###Jay
+2024-05-15T07:39:44.228Z - User connected Jay jay@gmail.com
+2024-05-15T07:39:44.229Z - Inside SOCKET.ROOMID:  room664466be9fdffd500ea5315b
+2024-05-15T07:39:44.230Z - Redis ROOMID:  
+2024-05-15T07:39:44.230Z - New User ehHY29fepc
+2024-05-15T07:39:44.232Z - Rooms:  [object Map]
+2024-05-15T07:39:54.398Z - Message:  ehHY29fepc Heelo
+ Dipankar text 2024-05-15T07:39:54.398Z iamdpunkr@gmail.com
+2024-05-15T07:40:07.188Z - Message:  ehHY29fepc Hello again
+hello ga
+ Jay text 2024-05-15T07:40:07.167Z jay@gmail.com
+2024-05-15T07:41:20.842Z - File uploaded: [object Object]
+2024-05-15T07:41:20.843Z - File URL:  Screenshot (9)-1715758880840.png
+2024-05-15T08:29:53.532Z - User disconnected PIwSh_f4afhWl4xVAAAd
+2024-05-15T08:45:46.570Z - User disconnected l8T9R17qFaG9PKCRAAAb
+2024-05-15T08:45:46.628Z - user left room [object Object]
+2024-05-15T08:45:47.121Z - logout validation completed
+2024-05-15T09:58:50.345Z - FILEURL:  http://localhost:5005/temp/
+2024-05-15T09:58:50.365Z - Server is running on port 5005
+2024-05-15T09:58:51.057Z - connected
+2024-05-15T09:58:51.058Z - MongoDB connected
+2024-05-15T10:31:40.830Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-15T10:31:40.830Z - before mongo
+2024-05-15T10:31:40.831Z - after mongo
+2024-05-15T10:31:41.260Z - User [object Object]
+2024-05-15T10:31:41.636Z - admin auth [object Object]
+2024-05-15T10:31:55.080Z - loginUser mikel@gmail.com Mikel
+2024-05-15T10:31:55.151Z - Chat [object Object]
+2024-05-15T10:31:55.152Z - USER login-key 66448f1bb99e0414bdb48b5b
+2024-05-15T10:31:55.160Z - USER: refreshTOken eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjQ0OGYxYmI5OWUwNDE0YmRiNDhiNWIiLCJpYXQiOjE3MTU3NjkxMTUsImV4cCI6MTcxNTgxMjMxNX0.sQEp6yVYtUfhoO9BzrucOsYv5sOmdB0pEnaX8qxyrrM
+2024-05-15T10:31:55.199Z - Decoded Token:  [object Object]
+2024-05-15T10:31:55.203Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-15T10:31:55.210Z - User connected Mikel mikel@gmail.com
+2024-05-15T10:31:55.210Z - Inside SOCKET.ROOMID:  room66448f1bb99e0414bdb48b5b
+2024-05-15T10:31:55.214Z - Redis ROOMID:  
+2024-05-15T10:31:55.215Z - New User oB74woPF1v
+2024-05-15T10:31:55.216Z - Rooms:  [object Map]
+2024-05-15T10:32:09.641Z - Message:  oB74woPF1v Hi there
+ Dipankar text 2024-05-15T10:32:09.640Z iamdpunkr@gmail.com
+2024-05-15T10:32:22.999Z - Message:  oB74woPF1v Hello AGain
+Hello Mikel text 2024-05-15T10:32:22.998Z mikel@gmail.com
+2024-05-15T10:32:32.715Z - User disconnected EN4AkGIATQbRfJ8RAAAD
+2024-05-15T10:32:33.091Z - Decoded Token:  [object Object]
+2024-05-15T10:32:33.093Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-15T10:32:33.103Z - User connected Mikel mikel@gmail.com
+2024-05-15T10:32:33.104Z - Inside SOCKET.ROOMID:  room66448f1bb99e0414bdb48b5b
+2024-05-15T10:32:33.107Z - Redis ROOMID:  oB74woPF1v
+2024-05-15T10:32:33.107Z - Old User oB74woPF1v
+2024-05-15T10:32:39.662Z - User disconnected wm2MQpDyKCDwn0RbAAAB
+2024-05-15T10:32:39.955Z - admin auth [object Object]
+2024-05-15T10:41:44.010Z - User disconnected NQCvVP9hltg2vg2qAAAH
+2024-05-15T10:41:54.860Z - admin auth [object Object]
+2024-05-15T10:42:41.264Z - User disconnected 5pO_CXxBJzsQH7gcAAAJ
+2024-05-15T10:42:41.542Z - admin auth [object Object]
+2024-05-15T10:43:28.817Z - FILEURL:  http://localhost:5005/temp/
+2024-05-15T10:43:28.840Z - Server is running on port 5005
+2024-05-15T10:43:29.519Z - connected
+2024-05-15T10:43:29.521Z - MongoDB connected
+2024-05-15T10:43:30.249Z - Decoded Token:  [object Object]
+2024-05-15T10:43:30.253Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-15T10:47:08.879Z - admin auth [object Object]
+2024-05-15T10:47:17.111Z - User disconnected plT3xG7Z6xRSwQf-AAAF
+2024-05-15T10:47:17.630Z - admin auth [object Object]
+2024-05-15T10:50:00.138Z - FILEURL:  http://localhost:5005/temp/
+2024-05-15T10:50:00.156Z - Server is running on port 5005
+2024-05-15T10:50:00.889Z - connected
+2024-05-15T10:50:00.892Z - MongoDB connected
+2024-05-15T10:50:02.283Z - Decoded Token:  [object Object]
+2024-05-15T10:50:02.287Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-15T10:50:07.645Z - admin auth [object Object]
+2024-05-15T10:50:12.711Z - User disconnected Hpn4wDvVH835oxY8AAAD
+2024-05-15T10:50:13.220Z - admin auth [object Object]
+2024-05-15T10:50:59.258Z - User disconnected _mpPHqwV7gU4QhQNAAAF
+2024-05-15T10:50:59.742Z - admin auth [object Object]
+2024-05-15T11:10:03.916Z - User disconnected FMKm6_ktnLHKBzThAAAH
+2024-05-15T11:10:03.986Z - logout validation completed
+2024-05-15T11:10:55.113Z - FILEURL:  http://localhost:5005/temp/
+2024-05-15T11:10:55.129Z - Server is running on port 5005
+2024-05-15T11:10:56.010Z - Decoded Token:  [object Object]
+2024-05-15T11:10:56.012Z - Middleware User Token:  mikel@gmail.com###Mikel
+2024-05-15T11:10:56.989Z - connected
+2024-05-15T11:10:56.991Z - MongoDB connected
+2024-05-15T11:11:20.233Z - loginAdmin iamdpunkr@gmail.com password
+2024-05-15T11:11:20.234Z - before mongo
+2024-05-15T11:11:20.234Z - after mongo
+2024-05-15T11:11:20.298Z - User [object Object]
+2024-05-15T11:11:20.564Z - admin auth [object Object]
+2024-05-15T11:11:36.477Z - User disconnected aWGt29sPJGNSVYKZAAAD
+2024-05-15T11:11:36.979Z - admin auth [object Object]
+2024-05-15T11:12:31.737Z - User disconnected fEtVM5eLZmxASTKhAAAF
+2024-05-15T11:12:31.785Z - admin auth [object Object]
+2024-05-15T11:13:28.588Z - Agent disconnected:  iamdpunkr@gmail.com Available Agents:  2
+2024-05-15T11:13:28.591Z - User disconnected l17x9uK0o3g4D1TgAAAH
+2024-05-15T11:13:28.647Z - admin auth [object Object]
+2024-05-15T11:13:36.688Z - Agent disconnected:  iamdpunkr@gmail.com Available Agents:  2
+2024-05-15T11:14:34.824Z - Agent disconnected:  iamdpunkr@gmail.com Available Agents:  1
+2024-05-15T11:14:34.826Z - User disconnected 08_h16idIKsi2d7VAAAJ
+2024-05-15T11:14:34.905Z - admin auth [object Object]

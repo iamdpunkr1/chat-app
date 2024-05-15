@@ -14,6 +14,7 @@ type ChatAreaProps = {
   uploadProgress?: number;
   isUploading?: boolean;
   email?: string;
+  border:boolean
 };
 
 type ChatMessageProps = {
@@ -21,6 +22,26 @@ type ChatMessageProps = {
   message: string;
   time: string;
   isUser?: boolean;
+};
+
+
+ // Function to get current timestamp in IST with separated date and time
+ const getISTTimestamp = ():{date:string, time:string} => {
+  const now = new Date();
+  const ISTOffset = 330; // IST offset in minutes
+  const utcTimestamp = now.getTime() + (now.getTimezoneOffset() * 60000); // Get UTC timestamp
+  const ISTTimestamp = new Date(utcTimestamp + (ISTOffset * 60000)); // Adjust for IST offset
+  const ISTDate = ISTTimestamp.getDate();
+  const ISTMonth = ISTTimestamp.getMonth() + 1; // Month is zero-indexed, so add 1
+  const ISTYear = ISTTimestamp.getFullYear();
+
+  // Pad single-digit day and month with leading zeros if necessary
+  const formattedDay = ISTDate < 10 ? '0' + ISTDate : ISTDate;
+  const formattedMonth = ISTMonth < 10 ? '0' + ISTMonth : ISTMonth;
+
+  const ISTDateFormatted = formattedDay +"/"+ formattedMonth +"/"+ ISTYear; // Concatenate in ddmmyyyy format
+  const ISTTime = ISTTimestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Get IST time
+  return { date: ISTDateFormatted, time: ISTTime };
 };
 
 const ChatMessage = ({ sender, message, time, isUser, type }: ChatMessageProps & { type: string }) => {
@@ -41,7 +62,7 @@ const ChatMessage = ({ sender, message, time, isUser, type }: ChatMessageProps &
       <p className="font-bold text-gray-500 text-xs self-start pb-1 ">{isUser ? 'You' : sender}</p>
       {type === 'text' ? (
         <div className=' w-full text-wrap break-words'>
-         <p className="text-left text-gray-700 text-sm ">{message}</p>
+         <p className="text-left text-gray-700 text-sm whitespace-pre-line">{message}</p>
         </div>
       ) : type === 'image' ? (
         <img
@@ -86,7 +107,8 @@ const ChatArea = ({
   // name,
   uploadProgress,
   isUploading,
-  email
+  email,
+  border
 }: ChatAreaProps) => {
   const chatEndRef = useRef<HTMLDivElement>(null);
   const fileRef = useRef<HTMLInputElement | null>(null);
@@ -141,9 +163,9 @@ const ChatArea = ({
     setShowModal(false);
   };
 
-  const handleSendFile = () => {
+  const handleSendFile =async () => {
     if (file) {
-      handleSendFileUser?.(file);
+      await handleSendFileUser?.(file);
       setShowModal(false);
       setFile(null);
       setFilePreview(null);
@@ -174,6 +196,8 @@ const ChatArea = ({
     }
   };
 
+  const {date, time} = getISTTimestamp();
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [chats]);
@@ -182,7 +206,7 @@ const ChatArea = ({
     <section className="relative">
       {/* maintain chats messages length */}
       <div
-        className={`overflow-y-auto overflow-x-clip  flex flex-col border-[2px] border-gray-300  h-[600px] rounded-md pt-4 ${isDragging ? 'bg-gray-200' : ''}`}
+        className={`overflow-y-auto overflow-x-clip  flex flex-col ${border && "border-[2px] border-gray-300"}  h-[500px] rounded-md pt-4 ${isDragging ? 'bg-gray-200' : ''}`}
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         onDragLeave={handleDragLeave}
@@ -201,9 +225,9 @@ const ChatArea = ({
                 return (
                   <p
                     key={index}
-                    className="px-4 py-2 text-gray-500 text-sm rounded-lg m-2 bg-gray-100 self-center text-center"
+                    className="px-4 py-2 font-semibold text-gray-500 text-sm rounded-lg m-2 bg-gray-100 self-center text-center"
                   >
-                    {chat.message}
+                    {chat.message+time+", "+date}
                   </p>
                 );
               case 'start':
@@ -234,7 +258,7 @@ const ChatArea = ({
       <div className="flex w-full mt-4 gap-2 items-center border-2 border-gray-300 py-2 rounded-md " >
        <textarea
             value={message}
-            onKeyDown={handleKeyPress}
+            onKeyUp={handleKeyPress}
             onChange={(e) => setMessage(e.target.value)}
             placeholder="Type here"
             className="input-md outline-none grow resize-none"

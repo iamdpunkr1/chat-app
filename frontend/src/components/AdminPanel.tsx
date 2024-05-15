@@ -7,7 +7,7 @@ import notifySound from "../assets/sound/notify2.wav";
 import { messageTypes } from "../types";
 import axios from 'axios';
 import { useAdmin } from "../context/AuthContext";
-import { port } from "../config";
+import { port, enter_key_send } from "../config";
 // import useRefreshToken from "../hooks/useRefreshToken";
 
 interface Room {
@@ -105,8 +105,9 @@ const AdminPanel = () => {
     socket.emit("room-message", {roomId: roomId, message, sender:adminUserName, type:"text", time, email:emailId});
     }
   } 
+  
   const handleKeyPress = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if(e.key === 'Enter'){
+    if(enter_key_send && e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
         // e.currentTarget.value = ""
         setMessage("");
@@ -167,15 +168,15 @@ const AdminPanel = () => {
   const sendTranscript = async () => {
     console.log("Sending Transcript")
     setLoading(true);
-    const room = users.find(user => user.roomId === roomId);
-    console.log("Room: ", room)
+    // const room = users.find(user => user.roomId === roomId);
+    // console.log("Room: ", room)
     try{
     const res = await fetch(port+"/api/send-transcript", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({emailId:`${emailId} , ${room?.userEmailId}`, transcript:chatMessages[roomId]})
+      body: JSON.stringify({emailId: emailId, transcript:chatMessages[roomId]})
     });
     const data = await res.json();
     console.log("Transcript sent: ",data);
@@ -348,6 +349,7 @@ const AdminPanel = () => {
 
     return () => {
       console.log("Admin Disconnected")
+      socket.emit("agent-disconnected", emailId);
       // socket.emit("leave-room", {roomID:roomId, type: "Agent", name:emailId});
       socket.disconnect();
       clearInterval(notificationIntervalRef.current || undefined);
@@ -463,7 +465,8 @@ const AdminPanel = () => {
               // name={adminUserName || ""}
               uploadProgress={uploadProgress}
               isUploading={isUploading}
-              email={emailId} />
+              email={emailId}
+              border={true} />
               
     </div>
     </div>

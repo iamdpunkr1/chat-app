@@ -41,6 +41,7 @@ function separateLocalDateAndTime(localDateTime: string): { date: string, time: 
   // const { date: localDate, time: localTime } = separateLocalDateAndTime(localDateTime);
   // console.log("Local Date:", localDate);
   // console.log("Local Time:", localTime);
-  
+   // Function to get current timestamp in IST with separated date and time
+
 
   export { getUniversalDateTime, convertToCurrentTimeZone, separateDateAndTime, separateLocalDateAndTime };

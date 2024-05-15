@@ -17,6 +17,7 @@ configDotenv({
 import mongo from "./db/index";
 import { getUniversalDateTime, separateDateAndTime } from "./utils/timeStamps";
 import path from "path";
+import { time } from "console";
 // import { ObjectId } from "mongodb";
 
 
@@ -34,6 +35,7 @@ type RoomType = {
 }
 
 const rooms = new Map();
+let availableAgents:number = 0;
 
 const agentInRoom = (roomId: string) => {
   const room = rooms.get(roomId);
@@ -59,7 +61,7 @@ console.log = function() {
   process.stdout.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
 };
 
-const PORT = ["https://www.alegralabs.com", "https://alegralabs.com"]
+const PORT = ["https://www.alegralabs.com", "https://alegralabs.com", "http://localhost:5173"]
 const FILEURL = process.env.FILE_URL;
 console.log("FILEURL: ", FILEURL);
 
@@ -139,7 +141,11 @@ app.post("/api/send-transcript", async (req, res) => {
           case "text":  
           return `(${message.time}.) ${message.sender} :  ${message.message}\n`;
           case "notify":
-            return `(${message.time}.) *** ${message.message} ***\n`;
+                  if(message.message.includes("joined")){
+                    return `(${message.time}.) *** ${message.sender} joined the Chat ***\n`;
+                  }else{
+                    return `(${message.time}.) *** ${message.sender} left the Chat ***\n`;
+                  }
           default:
             return `(${message.time}.) ${message.sender} :  Uploaded a file ${message.message}\n`;
             
@@ -184,7 +190,7 @@ app.post('/api/upload', upload.single('file'),async (req, res) => {
 
     console.log("File URL: ", fileUrl)
     // Emit the file URL to other users in the same room
-    const {roomId, sender, type, time} = req.body; // Assuming roomId is sent from the client
+    const {roomId, sender, type, time, email} = req.body; // Assuming roomId is sent from the client
     // const universalDateTime = getUniversalDateTime();
     // await redis.append(roomId, `${JSON.stringify( { roomId, message: FILEURL+fileUrl, type, sender, time })}###`)
     if(roomId === "") return res.status(400).json({ success: false, error: 'Room ID is invalid' }  ); 
@@ -193,7 +199,7 @@ app.post('/api/upload', upload.single('file'),async (req, res) => {
      return res.status(402).json({ success: false, error: 'Upload failed!, Agent not available' });
     }
 
-    io.to(roomId).emit("recieve-message", { roomId, message: FILEURL+fileUrl, type, sender, time });
+    io.to(roomId).emit("recieve-message", { roomId, message: FILEURL+fileUrl, type, sender, time, email });
     return res.status(200).json({ success: true, url: fileUrl });
  
   } catch (error) {
@@ -250,7 +256,7 @@ io.use(async(socket:CustomSocket, next) => {
           return next(new Error("Authentication error"));
         }
 
-
+        availableAgents++;
         return next();
     }catch(err){
       return next(new Error("Authentication error"));
@@ -399,13 +405,13 @@ io.on("connection", (socket: CustomSocket) => {
         rooms.set(roomId, {...room, agentName: name, agentEmailId});
         socket.join(roomId);
         const universalDateTime = getUniversalDateTime();
-        const { date, time } = separateDateAndTime(universalDateTime);
+        // const { date, time } = separateDateAndTime(universalDateTime);
         const {Chats} = mongo;
         await Chats.findOneAndUpdate(
           { userEmail: room.userEmailId },
-          { $set: { agentEmailId, agentName: name, agentJoinedTime: `${date} , ${time}`} }
+          { $set: { agentEmailId, agentName: name, agentJoinedTime: `${universalDateTime}`} }
         );
-        io.to(roomId).emit("agent-joined", {type:"notify", message:name+" has joined the chat", sender:name});
+        io.to(roomId).emit("agent-joined", {roomId,type:"notify", message:name+" has joined the chat at ", sender:name, time:universalDateTime, email:agentEmailId});
         socket.broadcast.to(roomId).emit("queue-status", "");
 
          io.emit("fetch-users", Array.from(rooms.values()));
@@ -429,8 +435,8 @@ io.on("connection", (socket: CustomSocket) => {
   
 
   //Agent leave room
-  socket.on("leave-room",async ( data:{roomId:string, type:string, name:string }) => {
-    const {roomId, type, name} = data;
+  socket.on("leave-room",async ( data:{roomId:string, type:string, name:string, email:string }) => {
+    const {roomId, type, name, email} = data;
     socket.leave(roomId);
     const room = rooms.get(roomId);
 
@@ -453,7 +459,7 @@ io.on("connection", (socket: CustomSocket) => {
 
     
     console.log("user left room",data)
-    socket.broadcast.to(roomId).emit("user-left", {roomId, message: `${name} has left the chat`, sender:name, type:'notify'});
+    socket.broadcast.to(roomId).emit("user-left", {roomId, message: `${name} has left the chat at `, sender:name, type:'notify', time:getUniversalDateTime(), email:email});
     io.emit("fetch-users", Array.from(rooms.values()));
   });
 
@@ -477,6 +483,12 @@ io.on("connection", (socket: CustomSocket) => {
     await redis.append(msg.roomId, `${JSON.stringify(msg)}###`);
     await redis.expire(msg.roomId, 60 * 60);
   });
+
+  socket.on("agent-disconnected",  (data) => {
+    availableAgents--;
+    console.log("Agent disconnected: ", data, "Available Agents: ", availableAgents);
+    
+  })
 
   //disconnect event
   socket.on("disconnect", () => {

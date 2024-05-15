@@ -3,8 +3,8 @@ import { useEffect, useMemo, useRef, useState} from "react";
 import {io } from 'socket.io-client';
 import axios from 'axios';
 import ChatArea from "./ChatArea"
-import useSendTranscript from "../hooks/useSendTranscript";
-import { port, send_Transcript } from "../config";
+// import useSendTranscript from "../hooks/useSendTranscript";
+import { port, send_Transcript, enter_key_send } from "../config";
 import { useUser } from "../context/AuthContext";
 
 // Function to get the universal date and time
@@ -50,7 +50,7 @@ const ChatboxChatArea = () => {
     }
   }), []);
 
-  const { sendTranscript } = useSendTranscript();
+  // const { sendTranscript } = useSendTranscript();
 
 const [message, setMessage] = useState<string>("");
 const [chatMessages, setChatMessages] = useState<messageTypes[]>([]);
@@ -61,7 +61,12 @@ const [queueStatus, setQueueStatus] = useState<string>("");
 const [error, setError] = useState<string>("");
 // Create a ref to store the roomID
 const roomIdRef = useRef<string>("");
-
+const [showModal, setShowModal] = useState<boolean>(false);
+// const [loading, setLoading] = useState<boolean>(false);
+const [isChecked, setIsChecked] = useState<boolean>(true);
+const [agentLeftModal, setAgentLeftModal] = useState<boolean>(false);
+const [uploadProgress, setUploadProgress] = useState<number>(0);
+const [isUploading, setIsUploading] = useState<boolean>(false);
 
 const setMessages = (data: messageTypes) => {
   const { time:ISTtime } = getISTTimestamp();
@@ -72,8 +77,6 @@ const setMessages = (data: messageTypes) => {
 }
   
 
-
-
 const sendMessage = (message:string) => {
     console.log("Sending Message", roomID);
     const universalDateTime = getUniversalDateTime();
@@ -82,7 +85,7 @@ const sendMessage = (message:string) => {
   }
 
 const handleKeyPress = (e:  React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if(e.key === 'Enter'){
+    if(enter_key_send && e.key === 'Enter'){
         sendMessage(e.currentTarget.value)
         setMessage("");
     }else{
@@ -91,12 +94,40 @@ const handleKeyPress = (e:  React.KeyboardEvent<HTMLTextAreaElement>) => {
 }
 
 
+const sendTranscript = async () => {
+  console.log("Sending Transcript")
+  // setLoading(true);
+  // const room = users.find(user => user.roomId === roomId);
+  // console.log("Room: ", room)
+  try{
+  const res = await fetch(port+"/api/send-transcript", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({emailId: emailId, transcript:chatMessages})
+  });
+  const data = await res.json();
+  console.log("Transcript sent: ",data);
 
+  alert("Transcript sent successfully");
+  
+}catch(err){
+  console.log("Error while sending transcript: ",err);
+  alert("Error while sending transcript");
+}finally{
+  // setLoading(false);
+}
+  
+}
 
-const handleLogout =async  (roomID:string) => {
-  console.log("Logging out", roomID, chatMessages)
-  if(send_Transcript) sendTranscript(emailId || "", chatMessages);
-   socket.emit("leave-room", {roomId:roomID, type: "User", name });
+const handleLogout =async  (roomID:string, transcriptStatus:boolean) => {
+  console.log("Ending Chat", roomID, isChecked);
+  
+  if(send_Transcript && transcriptStatus){
+    await sendTranscript();
+  } 
+   socket.emit("leave-room", {roomId:roomID, type: "User", name, email:emailId });
    socket.disconnect();
    roomIdRef.current = "";
    try{
@@ -126,6 +157,7 @@ const handleSendFileUser = async (file:File) => {
     return;
   }
   console.log("Sending File: ", file);
+  setIsUploading(true);
   let fileType;
   if (file.type.includes("image/")) {
     fileType = "image";
@@ -153,12 +185,18 @@ const handleSendFileUser = async (file:File) => {
         "Content-Type": "multipart/form-data;",
         
       },
+      onUploadProgress: (data) => {
+        setUploadProgress(Math.round((data.loaded / (data.total || 100)) * 100));
+      },
     });
     // const data = await res.data();
     console.log("File Uploaded: ", res.data);
 
   }catch(err){
     console.log("Error while uploading file: ", err);
+  }finally{
+    setUploadProgress(0);
+    setIsUploading(false);
   }
   
 };
@@ -236,12 +274,16 @@ useEffect(() => {
 
     socket.on("agent-joined", (data: messageTypes) => {
       setMessages(data);
+      socket.emit("save-message", data)
     });
 
     socket.on("user-left", (data:messageTypes) => {
       setMessages(data);
+      // socket.emit("save-message", data) 
       const timeoutId=setTimeout(() => {
-        handleLogout(roomIdRef.current);
+        // handleLogout(roomIdRef.current);
+        setAgentLeftModal(true);
+
       }, 1000);
       return () => clearTimeout(timeoutId);
     });
@@ -252,7 +294,7 @@ useEffect(() => {
 
     return () => {
         //  socket.disconnect()
-        handleLogout(roomIdRef.current);
+        // handleLogout(roomIdRef.current);
         }
     },[]);
 
@@ -261,6 +303,10 @@ useEffect(() => {
     <div>
             {error && <p className="text-left py-4 px-4 text-red-500 text-md">{error}</p>}
             {queueStatus && <p className="text-left py-4 px-4 text-gray-500 text-md">{queueStatus}</p>} 
+            <button onClick={() => setShowModal(true)} className="btn btn-outline btn-sm my-2">
+              End Chat
+            </button>
+
             <ChatArea  message={message}
                        setMessage={setMessage}
                        chats={chatMessages}
@@ -268,8 +314,88 @@ useEffect(() => {
                        handleKeyPress={handleKeyPress}
                        username={username}
                        handleSendFileUser={handleSendFileUser}
+                       uploadProgress={uploadProgress}
+                       isUploading={isUploading}
                       //  name={name || ""}
-                       email={emailId} />
+                       email={emailId}
+                       border={false} />
+
+
+              {showModal && (
+                      <div
+                        className= {`z-10 absolute inset-0 overflow-y-auto flex items-center justify-center`}
+                        style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}
+                        // onClick={() => setShowModal(false)}
+                      >
+                        <div className={` bg-white rounded-lg p-6`}>
+                          <h2 className="text-md font-semibold text-center py-4">
+                            Are you sure you want to end the chat?
+                          </h2>
+
+                          <div className="form-control w-6/12 mx-auto">
+                            <label className="cursor-pointer label">
+                              <span className="label-text">Send Transcript</span>
+                              <input type="checkbox"  checked={isChecked}
+                                      onChange={()=> setIsChecked(!isChecked)} className="checkbox  checkbox-xs checkbox-blue-500" />
+                            </label>
+                          </div>
+
+                          <div className="flex justify-around mt-4 py-4">
+                            <button
+                              onClick={() => setShowModal(false)}
+                              className="px-4 btn btn-outline btn-sm"
+                            >
+                              No
+                            </button>
+                            <button
+                              onClick={() => handleLogout(roomIdRef.current, isChecked)}
+                              className="px-4 btn bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-blue-500 btn-sm"
+                            >
+                              Yes
+                            </button>
+                          </div>
+                          {/* <img src={message} alt="Full Image" className="max-w-full max-h-[80vh]" /> */}
+                        </div>
+                      </div>
+                    )}
+
+                {agentLeftModal && (
+                      <div
+                        className= {`z-10 absolute inset-0 overflow-y-auto flex items-center justify-center`}
+                        style={{ backgroundColor: 'rgba(0,0,0,0.2)' }}
+                        // onClick={() => setShowModal(false)}
+                      >
+                        <div className={` bg-white rounded-lg p-6 mx-4`}>
+                          <h2 className="text-md font-semibold text-center py-4">
+                            Agent has ended the chat. Do you wish to get the chat transcript?
+                          </h2>
+
+                        
+                          <div className="flex justify-around mt-4 py-4">
+                            <button
+                              onClick={() => { 
+                                setIsChecked(false);
+                                handleLogout(roomIdRef.current, false);
+                                setAgentLeftModal(false);
+                              }}
+                              className="btn btn-outline btn-sm px-4"
+                            >
+                              No
+                            </button>
+                            <button
+                              onClick={() => {
+                                setIsChecked(true);
+                                handleLogout(roomIdRef.current, true);
+                                }}
+                              className=" px-4 btn bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-blue-500 btn-sm"
+                            >
+                              Yes
+                            </button>
+                          </div>
+                          {/* <img src={message} alt="Full Image" className="max-w-full max-h-[80vh]" /> */}
+                        </div>
+                      </div>
+                    )}
     </div>
   )
 }

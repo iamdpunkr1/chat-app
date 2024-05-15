@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import ChatboxLogin from './ChatboxLogin';
-import { chatIcon, chatTitle } from '../config';
+import { chatIcon, chatTitle, chatDescription } from '../config';
 import ChatboxChatArea from './ChatboxChatArea';
 import { useUser } from '../context/AuthContext';
 
 
 
 const ChatBox: React.FC = () => {
-  const { user, setUser } = useUser();
-  const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(user? true : false);
+  const { user } = useUser();
+  const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(user ? true : false);
 
 
   const toggleChatbox = () => {
-    if(isChatboxOpen && user){
-      setUser(null);
-    } 
+    // if(isChatboxOpen && user){
+    //   setUser(null);
+    // } 
     setIsChatboxOpen(!isChatboxOpen);
   };
 
@@ -49,14 +49,16 @@ const ChatBox: React.FC = () => {
        : (
         <div id="chat-container" className="fixed bottom-5 right-4 w-96">
           <div className="bg-white shadow-md rounded-lg max-w-lg w-full">
-            <div className="p-4 border-b bg-blue-500 text-white rounded-t-lg flex justify-between items-center">
-              <div className='flex gap-2 items-center'>
+            <div className={` ${user? "py-4" : "py-8"} px-4 border-b  bg-blue-500 text-white rounded-t-lg flex justify-between `}>
+              <div className={` ${user? "flex items-center gap-2" : ""} pl-4 space-y-2`}>
               {chatIcon(25)}
-               <p className="text-lg font-semibold pb-1">{chatTitle}</p>
+               <p className="text-xl font-semibold text-left">{chatTitle}</p>
+              {!user && <p className="text-sm font-normal text-left">{chatDescription}</p>
+              }
               </div>
               <button
                 id="close-chat"
-                className="text-gray-300 hover:text-gray-400 focus:outline-none focus:text-gray-400"
+                className="self-start text-white hover:text-red-500 focus:outline-none focus:text-red-500"
                 onClick={toggleChatbox}
               >
                 <svg
@@ -75,13 +77,16 @@ const ChatBox: React.FC = () => {
                 </svg>
               </button>
             </div>
-            {
-              user ? (
-                 <ChatboxChatArea />
-              ) : (
-                <ChatboxLogin />
-              )
-            }
+
+            <div className={`min-h-[500px] ${user ? "bg-white" : "bg-gray-100"} `}> 
+              {
+                user ? (
+                  <ChatboxChatArea />
+                ) : (
+                  <ChatboxLogin />
+                )
+              }
+            </div>
 
           </div>
         </div>

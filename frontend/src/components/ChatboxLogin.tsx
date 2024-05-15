@@ -59,7 +59,7 @@ const ChatboxLogin = () => {
     }
 
     return (
-        <div className="py-8 border-b">
+        <div className="py-6 relative -top-4 w-11/12 mx-auto bg-white rounded-md">
             <form className="card-body" onSubmit={handleSubmit}>
                 <label className="label pb-0">
                     <span className="label-text">Email</span>
@@ -87,7 +87,7 @@ const ChatboxLogin = () => {
 
                 {error && <p className="text-red-600">{error}</p>}
                 {/* Display email error message */}
-                <button type="submit" className={`btn bg-blue-500 text-white hover:text-black mb-3 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
+                <button type="submit" className={`btn bg-blue-500 text-white hover:text-black mb-3 mt-4 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`} disabled={loading}>
                     {loading ? <div className="loader ease-linear rounded-full border-2 border-t-2 border-gray-200 h-6 w-6"></div> : 'Login'}
                 </button>
                 {/* <p className='text-center font-semibold text-sm'>
