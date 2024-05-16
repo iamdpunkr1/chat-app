@@ -203,7 +203,7 @@ const AdminPanel = () => {
 
   useEffect(() => {
     // console.log("Admin Panel: ", emailId)
-
+    socket.emit("agent-connected", emailId);
    
     socket.on("connect", () => {
      console.log("Admin Connected to SOCKET with id: ", socket.id)

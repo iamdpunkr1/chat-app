@@ -291,9 +291,16 @@ io.on("connection", (socket: CustomSocket) => {
     // Function to update queue status and inform user about their position in the queue
   const updateQueueStatus = () => {
       // Recalculate position in queue for all users
+      
       userQueue.forEach((roomId, index) => {
+
+        if(availableAgents === 0){
+          io.to(roomId).emit("queue-status", "No agents available at the moment. Please wait for an agent to join the chat");
+
+        }else{
         const positionInQueue = index + 1;
         io.to(roomId).emit("queue-status", `You are at position ${positionInQueue} in the queue. An agent will join you soon.`);
+       }
       });
     };
 
@@ -484,15 +491,25 @@ io.on("connection", (socket: CustomSocket) => {
     await redis.expire(msg.roomId, 60 * 60);
   });
 
-  socket.on("agent-disconnected",  (data) => {
-    availableAgents--;
-    console.log("Agent disconnected: ", data, "Available Agents: ", availableAgents);
+  // socket.on("agent-disconnected",  (data) => {
+  //   availableAgents--;
+  //   console.log("Agent disconnected: ", data, "Available Agents: ", availableAgents);
     
-  })
+  // })
+  socket.on("agent-connected", (data) => {
+    updateQueueStatus();
+    console.log("Agent connected: ", data, "Available Agents: ", availableAgents);
+  });
 
   //disconnect event
   socket.on("disconnect", () => {
     console.log("User disconnected", socket.id);
+    if(socket.handshake.auth.code === process.env.SOCKET_AUTH_CODE){
+      availableAgents--;
+      updateQueueStatus();
+    }
+    // const obj= JSON.stringify(socket.handshake.auth)
+    console.log("Available Agents: ", availableAgents);
 
   });
 

@@ -67,6 +67,7 @@ const [isChecked, setIsChecked] = useState<boolean>(true);
 const [agentLeftModal, setAgentLeftModal] = useState<boolean>(false);
 const [uploadProgress, setUploadProgress] = useState<number>(0);
 const [isUploading, setIsUploading] = useState<boolean>(false);
+const [logoutLoading, setLogoutLoading] = useState<boolean>(false);
 
 const setMessages = (data: messageTypes) => {
   const { time:ISTtime } = getISTTimestamp();
@@ -131,6 +132,7 @@ const handleLogout =async  (roomID:string, transcriptStatus:boolean) => {
    socket.disconnect();
    roomIdRef.current = "";
    try{
+    setLogoutLoading(true);
     const res:any = await axios.get(port+"/api/logout",
     {
       withCredentials: true,
@@ -141,6 +143,7 @@ const handleLogout =async  (roomID:string, transcriptStatus:boolean) => {
   }catch(err){
     console.log(err)
   }finally {
+    setLogoutLoading(false);
     setUser(null);
   }
   
@@ -213,6 +216,24 @@ useEffect(() => {
                             .map(msg => {
                               const parsedMsg = JSON.parse(msg);
                               const localTime = convertToCurrentTimeZone(parsedMsg.time);
+                              // if(parsedMsg.type === "notify" && parsedMsg.email === emailId){ 
+                                
+                              //   if(parsedMsg.message.includes("joined")){
+                              //   return{
+                              //     type: parsedMsg.type,
+                              //     sender: parsedMsg.sender,
+                              //     message: "You have joined this chat ",
+                              //     time: localTime,
+                              //     email: parsedMsg.email
+                              //   }}else if(parsedMsg.message.includes("left")) {
+                              //     return{
+                              //       type: parsedMsg.type,
+                              //       sender: parsedMsg.sender,
+                              //       message: "You have left this chat",
+                              //       time: localTime,
+                              //       email: parsedMsg.email
+                              //   }
+                              // }
                               return {
                                 type: parsedMsg.type,
                                 sender: parsedMsg.sender,
@@ -274,7 +295,7 @@ useEffect(() => {
 
     socket.on("agent-joined", (data: messageTypes) => {
       setMessages(data);
-      socket.emit("save-message", data)
+      // socket.emit("save-message", data)
     });
 
     socket.on("user-left", (data:messageTypes) => {
@@ -344,14 +365,16 @@ useEffect(() => {
                             <button
                               onClick={() => setShowModal(false)}
                               className="px-4 btn btn-outline btn-sm"
+                              disabled={logoutLoading}
                             >
                               No
                             </button>
                             <button
                               onClick={() => handleLogout(roomIdRef.current, isChecked)}
                               className="px-4 btn bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-blue-500 btn-sm"
+                              disabled={logoutLoading}
                             >
-                              Yes
+                              {logoutLoading ? 'ending...' : 'Yes'}
                             </button>
                           </div>
                           {/* <img src={message} alt="Full Image" className="max-w-full max-h-[80vh]" /> */}
@@ -379,6 +402,7 @@ useEffect(() => {
                                 setAgentLeftModal(false);
                               }}
                               className="btn btn-outline btn-sm px-4"
+                              disabled={logoutLoading}
                             >
                               No
                             </button>
@@ -388,8 +412,9 @@ useEffect(() => {
                                 handleLogout(roomIdRef.current, true);
                                 }}
                               className=" px-4 btn bg-blue-500 text-white hover:text-blue-500 hover:bg-white hover:border-blue-500 btn-sm"
-                            >
-                              Yes
+                              disabled={logoutLoading}
+                              >
+                             {logoutLoading ? 'ending...' : 'Yes'}
                             </button>
                           </div>
                           {/* <img src={message} alt="Full Image" className="max-w-full max-h-[80vh]" /> */}
