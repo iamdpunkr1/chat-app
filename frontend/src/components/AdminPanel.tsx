@@ -181,7 +181,6 @@ const AdminPanel = () => {
     const data = await res.json();
     console.log("Transcript sent: ",data);
  
-    alert("Transcript sent successfully");
     
   }catch(err){
     console.log("Error while sending transcript: ",err);
@@ -227,13 +226,13 @@ const AdminPanel = () => {
     socket.on("notifyAgent", () => {
       // setIsAgentJoined(false);
          console.log("New User Joined. Playing Notification Sound")
-         startNotificationSound();
+        //  startNotificationSound();
 
     })
 
     socket.on("agent-joined", (message: string) => {
         console.log("Agent Joined: ", message);
-        stopNotificationSound(); 
+        // stopNotificationSound(); 
 
     })
 
@@ -265,7 +264,7 @@ const AdminPanel = () => {
       let nonConnectedUser = false;
       setUsers(rooms);
       if(rooms.length>0){
-        console.log("Users [USEFFECT] : ", rooms)
+        console.log("Users : ", rooms)
         rooms.forEach(user => {
           if(emailId===user.agentEmailId){
             socket.emit("join-room", {roomId:user.roomId, agentEmailId:emailId, name:adminUserName});
@@ -276,10 +275,14 @@ const AdminPanel = () => {
         })
       }
 
-      if(!nonConnectedUser){
-        // setError("No User Available")
+      if(nonConnectedUser){
+        startNotificationSound();
+        setPlayStatus(true);
+      }else{
         stopNotificationSound();
+        setPlayStatus(false);
       }
+
 
     })
 
@@ -396,11 +399,11 @@ const AdminPanel = () => {
   
     users.forEach((user) => {
       if (emailId === user.agentEmailId) {
+        console.log("Leaving Room: ", user.roomId);
         socket.emit("leave-room", { roomId: user.roomId, type: "Agent", name: adminUserName });
       }
     });
   
-    socket.disconnect();
   
     try {
       const res: any = await axios.get(port + "/api/logout", {
@@ -411,6 +414,7 @@ const AdminPanel = () => {
     } catch (err) {
       console.log(err);
     } finally {
+      socket.disconnect();
       setAdmin(null);
       setLoggingOut(false); // Set loggingOut to false after the logout process is completed
     }
@@ -424,7 +428,7 @@ const AdminPanel = () => {
           {/* <button onClick={()=> play()} className="btn btn-outline">Play</button>
           <button onClick={()=> stop()} className="btn btn-outline">Stop</button> */}
           <button disabled={loading || roomId === ""} className="btn btn-outline btn-primary btn-sm" onClick={() => { if (chatMessages[roomId]) sendTranscript() }}>
-            {loading ? <span className="loading loading-infinity text-primary"></span> : "Send Transcript"}
+            {loading ? <span className="loading loading-infinity text-primary"></span> : "Send Chat Transcript"}
           </button>
           <button disabled={loading || roomId === ""} className="btn btn-outline btn-primary btn-sm" onClick={handleDisonnect}>
             {disconnectLoading ? <span className="loading loading-infinity text-primary"></span> : "Disconnect"}

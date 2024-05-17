@@ -465,8 +465,9 @@ io.on("connection", (socket: CustomSocket) => {
     }
 
     
-    console.log("user left room",data)
-    socket.broadcast.to(roomId).emit("user-left", {roomId, message: `${name} has left the chat at `, sender:name, type:'notify', time:getUniversalDateTime(), email:email});
+    console.log("user left room",JSON.stringify(data))
+    io.to(roomId).emit("user-left", {roomId, message: `${name} has left the chat at `, sender:name, type:'notify', time:getUniversalDateTime(), email:email});
+    // io.to(roomId).emit("user-left", {roomId, message: `${name} has left the chat at `, sender:name, type:'notify', time:getUniversalDateTime(), email:email}); 
     io.emit("fetch-users", Array.from(rooms.values()));
   });
 
@@ -476,13 +477,13 @@ io.on("connection", (socket: CustomSocket) => {
   socket.on("room-message", async (msg: { roomId: string; message: string, sender:string, type:string, time:string, email:string }) => {
     // console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type, msg.time, msg.email);
     // console.log("Socket Id: ", socket.id);
-    if(agentInRoom(msg.roomId)){
+    // if(agentInRoom(msg.roomId)){
       console.log("Message: ", msg.roomId, msg.message, msg.sender, msg.type, msg.time, msg.email);
       // const universalDateTime = getUniversalDateTime();
       // const msgData = {...msg, time:universalDateTime};
       // await redis.append(msg.roomId, `${JSON.stringify(msgData)}###`)
       io.to(msg.roomId).emit("recieve-message",msg);
-    }
+    // }
   });
 
   //save message to redis

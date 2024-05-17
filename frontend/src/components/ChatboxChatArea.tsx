@@ -63,7 +63,7 @@ const [error, setError] = useState<string>("");
 const roomIdRef = useRef<string>("");
 const [showModal, setShowModal] = useState<boolean>(false);
 // const [loading, setLoading] = useState<boolean>(false);
-const [isChecked, setIsChecked] = useState<boolean>(true);
+const [isChecked, setIsChecked] = useState<boolean>(false);
 const [agentLeftModal, setAgentLeftModal] = useState<boolean>(false);
 const [uploadProgress, setUploadProgress] = useState<number>(0);
 const [isUploading, setIsUploading] = useState<boolean>(false);
@@ -111,20 +111,15 @@ const sendTranscript = async () => {
   const data = await res.json();
   console.log("Transcript sent: ",data);
 
-  alert("Transcript sent successfully");
-  
 }catch(err){
-  console.log("Error while sending transcript: ",err);
-  alert("Error while sending transcript");
-}finally{
-  // setLoading(false);
+  console.log("Error while sending transcript: ",err); 
 }
   
 }
 
 const handleLogout =async  (roomID:string, transcriptStatus:boolean) => {
   console.log("Ending Chat", roomID, isChecked);
-  
+  setLogoutLoading(true);
   if(send_Transcript && transcriptStatus){
     await sendTranscript();
   } 
@@ -132,7 +127,7 @@ const handleLogout =async  (roomID:string, transcriptStatus:boolean) => {
    socket.disconnect();
    roomIdRef.current = "";
    try{
-    setLogoutLoading(true);
+    
     const res:any = await axios.get(port+"/api/logout",
     {
       withCredentials: true,
@@ -353,9 +348,9 @@ useEffect(() => {
                             Are you sure you want to end the chat?
                           </h2>
 
-                          <div className="form-control w-6/12 mx-auto">
+                          <div className="form-control w-7/12 mx-auto">
                             <label className="cursor-pointer label">
-                              <span className="label-text">Send Transcript</span>
+                              <span className="label-text">Send Chat Transcript</span>
                               <input type="checkbox"  checked={isChecked}
                                       onChange={()=> setIsChecked(!isChecked)} className="checkbox  checkbox-xs checkbox-blue-500" />
                             </label>
