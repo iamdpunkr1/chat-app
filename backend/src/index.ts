@@ -519,7 +519,7 @@ io.on("connection", (socket: CustomSocket) => {
 
 
 
-server.listen(5005, () => {
+server.listen( process.env.PORT, () => {
   console.log("Server is running on port 5005");
 });
 
