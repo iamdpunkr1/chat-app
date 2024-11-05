@@ -9,6 +9,6 @@ export const fileTypes ="image/jpeg, image/png, image/jpg, image/gif, .pdf, .doc
 export const fileSize =  20 * 1024 * 1024; // 20MB
 export const send_Transcript = true;
 export const enter_key_send = false; 
-export const port = "https://www.alegralabs.com:5003";
-export const base_uri = "/dipankar/frontend/chatbot/";
+export const port = "http://localhost:5005" //"https://www.alegralabs.com:5003";
+// export const base_uri = "/dipankar/frontend/chatbot/";
 

@@ -8,9 +8,16 @@ import ChatBox from './components/ChatBox';
 import { logo, title } from './config';
 import { AdminProvider, UserProvider } from './context/AuthContext';
 import PersistLogin from './components/PersistLogin';
-
+// import  ChatLib  from "./chatLib";
+// import { useEffect } from 'react';
 
 function App() {
+  // useEffect(() => {
+  //   const chatLib = new ChatLib({
+
+  //   });
+  //   chatLib.init();
+  // } ,[])
 
   return (
     <AdminProvider>
@@ -23,8 +30,8 @@ function App() {
             </h1>
           </div>
 
-          <Router basename='/dipankar/frontend/chatbot/'>
-          {/* <Router> */}
+          {/* <Router basename='/dipankar/frontend/chatbot/'> */}
+          <Router>
                 <Routes>
                   <Route path="/" element={<PersistLogin type="user" />}>
                     <Route index element={<ChatBox />} />

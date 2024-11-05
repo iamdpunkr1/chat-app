@@ -1,4 +1,4 @@
-import express, { Application, Request, Response } from "express";
+import express, { Application } from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import jwt from "jsonwebtoken";
@@ -14,16 +14,17 @@ configDotenv({
     path: "./.env"
 });
 
-import mongo from "./db/index";
+import mysql from "./db/index";
 import { getUniversalDateTime, separateDateAndTime } from "./utils/timeStamps";
 import path from "path";
-
+import { time } from "console";
 // import { ObjectId } from "mongodb";
 
 
 // Extend the Socket interface to include roomId property
 interface CustomSocket extends Socket {
   roomId?: string;
+  userId?: string;
 }
 
 type RoomType = {
@@ -31,7 +32,8 @@ type RoomType = {
   userName: string,
   agentName: string,
   userEmailId: string,
-  agentEmailId:string
+  agentEmailId:string,
+  userId:string | number
 }
 
 const rooms = new Map();
@@ -46,12 +48,12 @@ const agentInRoom = (roomId: string) => {
 }
 
 
-mongo.init().then(() => {
-    console.log('MongoDB connected');
+// Initialize MySQL connection
+mysql.init().then(() => {
+  console.log('MySQL connected');
 }).catch((error) => {
-    console.log('MongoDB connection error:', error);
+  console.log('MySQL connection error:', error);
 });
-
 
 
 const logStream = fs.createWriteStream(path.join(__dirname, 'logs.txt'), { flags: 'a' });
@@ -61,7 +63,7 @@ console.log = function() {
   process.stdout.write(`${new Date().toISOString()} - ${Array.from(arguments).join(' ')}\n`);
 };
 
-const PORT = ["https://www.alegralabs.com", "https://alegralabs.com", "http://localhost:5173","http://127.0.0.1:5500"]
+const PORT = ["https://www.alegralabs.com", "https://alegralabs.com", "http://localhost:5173"]
 const FILEURL = process.env.FILE_URL;
 console.log("FILEURL: ", FILEURL);
 
@@ -71,7 +73,7 @@ const app: Application = express();
 app.use(
   cors({
     origin: PORT,
-    credentials: true,
+    credentials: true
   })
 );
 
@@ -93,69 +95,38 @@ app.get("/", (req, res) => {
   return res.status(200).json({ message: "Welcome to Chat-App server" });
 });
 
-// Secret for signing JWT tokens
-const REFRESH_TOKEN_SECRET = 'your_refresh_token_secret';
+app.get('/api/logs',async (req, res) => {
+  const logFilePath = path.join(__dirname, 'logs.txt');
 
-// Dummy user for login example
-const dummyUser = {
-    id: 1,
-    username: 'Ricardo',
-    password: 'password123'
-};
-
-// Simulating a token storage (in-memory for simplicity)
-let refreshTokens: string[] = [];
-
-// Login API
-app.post('/login', (req: Request, res: Response) => {
-    const { username, password } = req.body;
-    
-    // Simulate user authentication
-    if (username === dummyUser.username && password === dummyUser.password) {
-        // Create a refresh token
-        const refreshToken = jwt.sign({ id: dummyUser.id }, REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
-
-        // Save refresh token to in-memory store (or database in real-world apps)
-        refreshTokens.push(refreshToken);
-
-        // Set the refresh token as an HTTP-only cookie
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: false, // Use 'true' in production (for HTTPS)
-            sameSite: 'strict',
-            maxAge: 24 * 60 * 60 * 1000 // 1 day
-        });
-
-        // Send success response
-        res.status(200).json({ message: 'Login successful' });
-    } else {
-        res.status(401).json({ message: 'Invalid credentials' });
-    }
-});
-
-// Validate refresh token and check login status
-app.get('/auth-check', (req: Request, res: Response) => {
-    const refreshToken = req.cookies.refreshToken;
-    console.log("Refresh Token: ", refreshToken)  
-    if (!refreshToken) {
-        return res.status(401).json({ loggedIn: false });
+  fs.readFile(logFilePath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Error reading log file:', err);
+      return res.status(500).send('Error reading log file');
     }
 
-    // Verify the refresh token
-    jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err: any, user: any) => {
-        if (err) {
-            return res.status(403).json({ loggedIn: false });
-        }
+    const logLines = data.trim().split('\n').map(line => `<pre>${line}</pre>`).join('');
 
-        // If the token is valid, the user is logged in
-        res.status(200).json({ loggedIn: true, userId: user.id });
-    });
+    const html = `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>Logs</title>
+        </head>
+        <body>
+          <h1>Logs</h1>
+          ${logLines}
+        </body>
+      </html>
+    `;
+
+    res.send(html);
+  });
 });
 
 app.post("/api/user/login", loginUser);
 app.post("/api/admin/login", loginAdmin);
 app.post("/api/admin/register", register);
-app.get("/api/logout",logoutUser);
+app.get("/api/logout",logoutUser)
 app.post("/api/refresh-token", refreshAccessToken);
 app.post("/api/send-transcript", async (req, res) => {
   const { emailId, transcript } = req.body;
@@ -258,7 +229,7 @@ function generateRandomRoomName(length:number) {
 const server: HTTPServer = createServer(app);
 const io: SocketIOServer = new SocketIOServer(server, {
   cors: {
-    origin: "*",
+    origin: PORT,
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -269,7 +240,7 @@ const io: SocketIOServer = new SocketIOServer(server, {
 let userQueue: string[] = [];
 
 io.use(async(socket:CustomSocket, next) => {
-  console.log("Socket Connection: ", JSON.stringify(socket.handshake));
+ 
   const {token, code} = socket.handshake.auth;
 
   if(!token || !code){
@@ -280,8 +251,11 @@ io.use(async(socket:CustomSocket, next) => {
     try{
       const decodedToken:any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     
-      const {Users} = mongo;
-        const user = await Users.findOne({email:decodedToken.email});
+      const user = await mysql.findOne(
+        'Users',
+        'email = ?',
+        [decodedToken.email]
+    );
         console.log("admin auth", user)
         if (!user) {
           return next(new Error("Authentication error"));
@@ -296,10 +270,10 @@ io.use(async(socket:CustomSocket, next) => {
   }else {
     try{
       const decodedToken:any = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-      console.log("Decoded Token: ", decodedToken);
+      console.log("Decoded Token: ", JSON.stringify(decodedToken));
       
       
-      const getToken = await redis.get(decodedToken?._id);
+      const getToken = await redis.get(decodedToken?.id);
       console.log("Middleware User Token: ", getToken)
       if(!getToken){
         return  next(new Error("Authentication error"));
@@ -307,7 +281,8 @@ io.use(async(socket:CustomSocket, next) => {
 
       //i want to attach the room id to the socket so that it 
       //can be used to create
-      socket.roomId  = "room"+decodedToken?._id;
+      socket.roomId  = "room"+decodedToken?.id;
+      socket.userId = decodedToken?.id;
       // console.log("SOCKET.ROOMID: ", socket.roomId)
       return next();
 
@@ -370,18 +345,7 @@ io.on("connection", (socket: CustomSocket) => {
   //user connect event & adding user to rooms
   socket.on("user-connect", async (userEmailId: string, name: string) => {
     console.log("User connected", name, userEmailId);
-    // let existingRoom: { roomId: string; userName: string; userEmailId: string; agentName: string; agentEmailId: string } | undefined;
-  
-    // Check if the user's email already exists in a room
-    // rooms.forEach((room) => {
-    //   if (room.userEmailId === userEmailId) {
-    //     existingRoom = room;
-      
-    //   }
-    // });
-    // console.log("existing room", existingRoom)
 
-    // console.log(rooms)
     console.log("Inside SOCKET.ROOMID: ", socket.roomId)
 
     const roomId = await redis.get(socket.roomId)
@@ -405,6 +369,7 @@ io.on("connection", (socket: CustomSocket) => {
         userEmailId,
         agentName: "",
         agentEmailId: "",
+        userId: socket.userId
       });
 
       await redis.set(socket.roomId, roomName,  "EX", 2 * 60 * 60)
@@ -437,18 +402,25 @@ io.on("connection", (socket: CustomSocket) => {
   //join room by admin
   socket.on("join-room",async (data:{roomId:string, agentEmailId:string, name:string}) => {
     const {roomId, agentEmailId, name} = data;
+    console.log("agentEmailId: ", agentEmailId);
     const room = rooms.get(roomId);
     if(room){
       if(room.agentName === "" || room.agentEmailId === ""){
         rooms.set(roomId, {...room, agentName: name, agentEmailId});
         socket.join(roomId);
         const universalDateTime = getUniversalDateTime();
-        // const { date, time } = separateDateAndTime(universalDateTime);
-        const {Chats} = mongo;
-        await Chats.findOneAndUpdate(
-          { userEmail: room.userEmailId },
-          { $set: { agentEmailId, agentName: name, agentJoinedTime: `${universalDateTime}`} }
-        );
+        const { date, time } = separateDateAndTime(universalDateTime);
+        console.log("Agent joined room", room.userId, agentEmailId);
+        await mysql.findOneAndUpdate(
+          'Chats',
+          'id = ?',
+          [room.userId],
+          {
+              agentEmailId:agentEmailId,
+              agentName: name,
+              agentJoinedTime: `${date} , ${time}`
+          }
+      );
         io.to(roomId).emit("agent-joined", {roomId,type:"notify", message:name+" has joined the chat at ", sender:name, time:universalDateTime, email:agentEmailId});
         socket.broadcast.to(roomId).emit("queue-status", "");
 
@@ -481,11 +453,14 @@ io.on("connection", (socket: CustomSocket) => {
     if(room){
         rooms.delete(roomId);
         const chatHistory = await redis.get(roomId); 
-        const {Chats} = mongo;
-        await Chats.findOneAndUpdate(
-          { userEmail: room.userEmailId },
-          { $set: { chatHistory } }
-        );
+        await mysql.findOneAndUpdate(
+          'Chats',
+          'id = ?',
+          [room.userId],
+          {
+              chatHistory
+          }
+      );
         await redis.del(roomId);
       }
 

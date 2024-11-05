@@ -5,7 +5,6 @@ import ChatboxChatArea from './ChatboxChatArea';
 import { useUser } from '../context/AuthContext';
 
 
-
 const ChatBox: React.FC = () => {
   const { user } = useUser();
   const [isChatboxOpen, setIsChatboxOpen] = useState<boolean>(user ? true : false);

@@ -211,24 +211,6 @@ useEffect(() => {
                             .map(msg => {
                               const parsedMsg = JSON.parse(msg);
                               const localTime = convertToCurrentTimeZone(parsedMsg.time);
-                              // if(parsedMsg.type === "notify" && parsedMsg.email === emailId){ 
-                                
-                              //   if(parsedMsg.message.includes("joined")){
-                              //   return{
-                              //     type: parsedMsg.type,
-                              //     sender: parsedMsg.sender,
-                              //     message: "You have joined this chat ",
-                              //     time: localTime,
-                              //     email: parsedMsg.email
-                              //   }}else if(parsedMsg.message.includes("left")) {
-                              //     return{
-                              //       type: parsedMsg.type,
-                              //       sender: parsedMsg.sender,
-                              //       message: "You have left this chat",
-                              //       time: localTime,
-                              //       email: parsedMsg.email
-                              //   }
-                              // }
                               return {
                                 type: parsedMsg.type,
                                 sender: parsedMsg.sender,

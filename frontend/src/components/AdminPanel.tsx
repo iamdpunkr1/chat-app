@@ -390,6 +390,7 @@ const AdminPanel = () => {
   
 
   const handleJoinRoom = (roomId:string) => {
+    console.log("agentEmailId: ", emailId)
     socket.emit("join-room", {roomId, agentEmailId:emailId, name:adminUserName});
       setRoomId(roomId);
   }

@@ -28,7 +28,7 @@ const generateAccessToken = function(){
   const generateRefreshToken = function(){
     return jwt.sign(
         {
-            _id: this._id,
+            _id: this._id, 
             
         },
         process.env.REFRESH_TOKEN_SECRET,
@@ -51,7 +51,8 @@ const generateAccessToken = function(){
       httpOnly: true,
       expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       // secure:true,
-      // maxAge: 24 * 60 * 60 * 1000 
+      maxAge: 24 * 60 * 60 * 1000,
+      // sameSite: "lax",
   }
   
   const register = asyncHandler( async (req: Request, res: Response) => {
@@ -145,10 +146,10 @@ const generateAccessToken = function(){
   });
   
   
-  const logoutUser = asyncHandler(async(req, res) => {
-    
+  const logoutUser = asyncHandler(async (req, res) => {
+    console.log("logoutUser");
     const cookies = req.cookies;
-  
+    console.log("cookies", cookies);
       if (!cookies?.refreshToken) {
         return res.status(204).json("User already logged out");
         }
@@ -164,7 +165,13 @@ const generateAccessToken = function(){
   
     if (!foundUser) {
       return res.status(200)
-      .clearCookie("refreshToken", options)
+      .clearCookie("refreshToken", {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+        maxAge: 24 * 60 * 60 * 1000,
+        sameSite:"none",
+        secure:true
+      })
       .json({message:"User logged Out"});
     }
   
@@ -226,13 +233,21 @@ const generateAccessToken = function(){
     const value = `${email}###${username}`;
     await redis.set(key, value, "EX", 60 * 60);
     console.log("USER: refreshTOken", refreshToken)
-    return res.status(200).cookie("refreshToken", refreshToken, options).json({ email, username, message: "User Logged in successfully", accessToken:token });
+    return res.status(200).cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+      maxAge: 24 * 60 * 60 * 1000,
+      sameSite:"none",
+      secure:true
+    }).json({ email, username, message: "User Logged in successfully", accessToken:token });
   });
 
 
   const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     const { type } = req.body;
+    console.log("type", type);
+    console.log("incomingRefreshToken: ", incomingRefreshToken);
     // console.log("refresh token", incomingRefreshToken)
     if (!incomingRefreshToken) {
         throw new ApiError(401,"Unauthorized request")
@@ -277,7 +292,13 @@ const generateAccessToken = function(){
 
         const [email, username] = token.split("###");
         const accessToken = generateAccessToken.call({ _id: key, email, username });
-        return res.status(200).cookie("refreshToken", incomingRefreshToken, options).json({ emailId:email, username, message: "User Logged in successfully", accessToken });
+        return res.status(200).cookie("refreshToken", incomingRefreshToken, {
+          httpOnly: true,
+          expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
+          maxAge: 24 * 60 * 60 * 1000,
+          sameSite:"none",
+          secure:true
+        }).json({ emailId:email, username, message: "User Logged in successfully", accessToken });
 
       }
 
